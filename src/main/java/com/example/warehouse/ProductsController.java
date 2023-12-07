@@ -24,7 +24,7 @@ import java.util.*;
 
 
 public class ProductsController extends MainMenuController implements Initializable {
-
+    String[] UNITS = {"ΤΕΜ", "ΚΙΛ", "ΛΙΤ", "ΔΟΧ"};
     @FXML
     TableView <item> itemsTable;
     @FXML
@@ -202,7 +202,7 @@ public class ProductsController extends MainMenuController implements Initializa
         // Ορίζετε τιμές στα πεδία με βάση τα δεδομένα του επιλεγμένου προϊόντος
         nameField.setText(selectedProduct.getName());
         priceField.setText(String.valueOf(selectedProduct.getPrice()));
-        unitField.getItems().addAll("ΚΙΛ", "ΤΕΜ", "ΛΙΤ", "ΔΟΧ");
+        unitField.getItems().addAll(UNITS);
         unitField.setValue(selectedProduct.getUnit());
 
         // Προσθήκη κουμπιών στον διάλογο
@@ -227,7 +227,7 @@ public class ProductsController extends MainMenuController implements Initializa
             dialog.setTitle("Εισαγωγή Προϊόντος");
 
             ComboBox<String> categoryComboBox = (ComboBox<String>) loader.getNamespace().get("tfUnit");
-            categoryComboBox.getItems().addAll("ΚΙΛ", "ΤΕΜ", "ΛΙΤ", "ΔΟΧ");
+            categoryComboBox.getItems().addAll(UNITS);
             categoryComboBox.getSelectionModel().selectFirst();
 
             // Ορίζετε τα κουμπιά "OK" και "Cancel"
