@@ -1,28 +1,28 @@
 package com.example.warehouse;
 
-public class supplier {
+public class Supplier {
     int code;
     String name;
     String phone;
     float turnover;
 
-    public supplier() {
+    public Supplier() {
     }
 
-    public supplier(int code, String name, String phone, float turnover) {
+    public Supplier(int code, String name, String phone, float turnover) {
         this.code = code;
         this.name = name;
         this.phone = phone;
         this.turnover = turnover;
     }
 
-    public supplier(int code, String name, String phone) {
+    public Supplier(int code, String name, String phone) {
         this.code = code;
         this.name = name;
         this.phone = phone;
     }
 
-    public supplier(String name, String phone) {
+    public Supplier(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }

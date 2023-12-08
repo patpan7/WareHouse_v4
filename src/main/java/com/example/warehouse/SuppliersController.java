@@ -25,35 +25,35 @@ import java.util.*;
 public class SuppliersController extends MainMenuController implements Initializable {
 
     @FXML
-    TableView<supplier> supplierTable;
+    TableView<Supplier> supplierTable;
     @FXML
     TextField filterField;
 
-    ObservableList<supplier> observableList;
+    ObservableList<Supplier> observableList;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        TableColumn<supplier, String> codeColumn = new TableColumn<>("Κωδικός");
+        TableColumn<Supplier, String> codeColumn = new TableColumn<>("Κωδικός");
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
 
-        TableColumn<supplier, String> nameColumn = new TableColumn<>("Όνομα");
+        TableColumn<Supplier, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<supplier, String> phoneColumn = new TableColumn<>("Τηλέφωνο");
+        TableColumn<Supplier, String> phoneColumn = new TableColumn<>("Τηλέφωνο");
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
-        TableColumn<supplier, Float> turnoverColumn = new TableColumn<>("Τζίρος");
+        TableColumn<Supplier, Float> turnoverColumn = new TableColumn<>("Τζίρος");
         turnoverColumn.setCellValueFactory(new PropertyValueFactory<>("turnover"));
 
         // Προσθήκη των κολόνων στο TableView
         supplierTable.getColumns().addAll(codeColumn, nameColumn, phoneColumn, turnoverColumn);
         tableInit();
         supplierTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        FilteredList<supplier> filteredData = new FilteredList<>(observableList, b -> true);
+        FilteredList<Supplier> filteredData = new FilteredList<>(observableList, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(supplier -> {
+            filteredData.setPredicate(Supplier -> {
                 // If filter text is empty, display all persons.
 
                 if (newValue == null || newValue.isEmpty()) {
@@ -73,12 +73,12 @@ public class SuppliersController extends MainMenuController implements Initializ
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValToSearch.toLowerCase();
 
-                if (supplier.getName().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+                if (Supplier.getName().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
                     return true; // Filter matches first name.
-                } else if (String.valueOf(supplier.getCode()).indexOf(lowerCaseFilter) != -1) {
+                } else if (String.valueOf(Supplier.getCode()).indexOf(lowerCaseFilter) != -1) {
                     return true; // Filter matches last name.
                 }
-                else if (supplier.getPhone().toLowerCase().indexOf(lowerCaseFilter)!=-1)
+                else if (Supplier.getPhone().toLowerCase().indexOf(lowerCaseFilter)!=-1)
                     return true;
                 else
                     return false; // Does not match.
@@ -86,7 +86,7 @@ public class SuppliersController extends MainMenuController implements Initializ
         });
 
         // 3. Wrap the FilteredList in a SortedList.
-        SortedList<supplier> sortedData = new SortedList<>(filteredData);
+        SortedList<Supplier> sortedData = new SortedList<>(filteredData);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         // 	  Otherwise, sorting the TableView would have no effect.
@@ -99,7 +99,7 @@ public class SuppliersController extends MainMenuController implements Initializ
         supplierTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Έλεγχος για δύο κλικ
                 // Πάρτε τα δεδομένα από την επιλεγμένη γραμμή
-                supplier selectedProduct = supplierTable.getSelectionModel().getSelectedItem();
+                Supplier selectedProduct = supplierTable.getSelectionModel().getSelectedItem();
 
 
                 // Έλεγχος αν υπάρχει επιλεγμένο προϊόν
@@ -117,15 +117,15 @@ public class SuppliersController extends MainMenuController implements Initializ
     }
 
     private void tableInit() {
-        List<supplier> items1 = fetchDataFromMySQL();
+        List<Supplier> items1 = fetchDataFromMySQL();
         // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
         observableList = FXCollections.observableArrayList(items1);
         supplierTable.setItems(observableList);
     }
 
-    private List<supplier> fetchDataFromMySQL() {
+    private List<Supplier> fetchDataFromMySQL() {
         String API_URL = "http://localhost/wharehouse/suppliersGetAll.php";
-        List<supplier> suppliers = new ArrayList<>();
+        List<Supplier> Suppliers = new ArrayList<>();
         try {
             URL url = new URL(API_URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -158,8 +158,8 @@ public class SuppliersController extends MainMenuController implements Initializ
                         String phone = itemNode.get("phone").asText();
                         float turnover = Float.parseFloat(itemNode.get("turnover").asText());
 
-                        supplier supplier = new supplier(code, name, phone,turnover);
-                        suppliers.add(supplier);
+                        Supplier supplier = new Supplier(code, name, phone,turnover);
+                        Suppliers.add(supplier);
                     }
                 } else {
                     String failMessage = jsonNode.get("message").asText();
@@ -174,11 +174,11 @@ public class SuppliersController extends MainMenuController implements Initializ
             e.printStackTrace();
         }
 
-        return suppliers;
+        return Suppliers;
 
     }
 
-    private void openEditDialog(supplier selectedProduct) throws IOException {
+    private void openEditDialog(Supplier selectedProduct) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("newSupplier.fxml"));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.getDialogPane().setContent(loader.load());
@@ -264,7 +264,7 @@ public class SuppliersController extends MainMenuController implements Initializ
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            supplier supplierData = new supplier(name,phone);
+            Supplier supplierData = new Supplier(name,phone);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(supplierData);
@@ -301,7 +301,7 @@ public class SuppliersController extends MainMenuController implements Initializ
 
     @FXML
     private void handleEditOption (ActionEvent event) throws IOException {
-        supplier selectedSupplier = supplierTable.getSelectionModel().getSelectedItem();
+        Supplier selectedSupplier = supplierTable.getSelectionModel().getSelectedItem();
 
         if(selectedSupplier == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -331,7 +331,7 @@ public class SuppliersController extends MainMenuController implements Initializ
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            supplier supplierData = new supplier(code,name,phone);
+            Supplier supplierData = new Supplier(code,name,phone);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(supplierData);

@@ -12,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Region;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,29 +26,29 @@ import java.util.*;
 public class ProductsController extends MainMenuController implements Initializable {
     String[] UNITS = {"ΤΕΜ", "ΚΙΛ", "ΛΙΤ", "ΔΟΧ"};
     @FXML
-    TableView <item> itemsTable;
+    TableView <Item> itemsTable;
     @FXML
     TextField filterField;
 
-    ObservableList<item> observableList;
+    ObservableList<Item> observableList;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        TableColumn<item, String> codeColumn = new TableColumn<>("Κωδικός");
+        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
 
-        TableColumn<item, String> nameColumn = new TableColumn<>("Όνομα");
+        TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        TableColumn<item, String> unitColumn = new TableColumn<>("Μονάδα");
+        TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
-        TableColumn<item, Float> priceColumn = new TableColumn<>("Τιμή");
+        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Προσθήκη των κολόνων στο TableView
@@ -57,11 +56,11 @@ public class ProductsController extends MainMenuController implements Initializa
         tableInit();
         itemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<item> filteredData = new FilteredList<>(observableList, b -> true);
+        FilteredList<Item> filteredData = new FilteredList<>(observableList, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(item -> {
+            filteredData.setPredicate(Item -> {
                 // If filter text is empty, display all persons.
 
                 if (newValue == null || newValue.isEmpty()) {
@@ -81,12 +80,12 @@ public class ProductsController extends MainMenuController implements Initializa
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValToSearch.toLowerCase();
 
-                if (item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+                if (Item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
                     return true; // Filter matches first name.
-                } else if (String.valueOf(item.getCode()).indexOf(lowerCaseFilter) != -1) {
+                } else if (String.valueOf(Item.getCode()).indexOf(lowerCaseFilter) != -1) {
                     return true; // Filter matches last name.
                 }
-                else if (item.getUnit().toLowerCase().indexOf(lowerCaseFilter)!=-1)
+                else if (Item.getUnit().toLowerCase().indexOf(lowerCaseFilter)!=-1)
                     return true;
                 else
                     return false; // Does not match.
@@ -94,7 +93,7 @@ public class ProductsController extends MainMenuController implements Initializa
         });
 
         // 3. Wrap the FilteredList in a SortedList.
-        SortedList<item> sortedData = new SortedList<>(filteredData);
+        SortedList<Item> sortedData = new SortedList<>(filteredData);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         // 	  Otherwise, sorting the TableView would have no effect.
@@ -107,7 +106,7 @@ public class ProductsController extends MainMenuController implements Initializa
         itemsTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Έλεγχος για δύο κλικ
                 // Πάρτε τα δεδομένα από την επιλεγμένη γραμμή
-                item selectedProduct = itemsTable.getSelectionModel().getSelectedItem();
+                Item selectedProduct = itemsTable.getSelectionModel().getSelectedItem();
 
 
                 // Έλεγχος αν υπάρχει επιλεγμένο προϊόν
@@ -124,15 +123,15 @@ public class ProductsController extends MainMenuController implements Initializa
     }
 
     private void tableInit() {
-        List<item> items1 = fetchDataFromMySQL();
+        List<Item> items1 = fetchDataFromMySQL();
         // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
         observableList = FXCollections.observableArrayList(items1);
         itemsTable.setItems(observableList);
     }
 
-    private List<item> fetchDataFromMySQL() {
+    private List<Item> fetchDataFromMySQL() {
         String API_URL = "http://localhost/wharehouse/itemsGetAll.php";
-            List<item> items = new ArrayList<>();
+            List<Item> Items = new ArrayList<>();
             try {
                 URL url = new URL(API_URL);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -166,8 +165,8 @@ public class ProductsController extends MainMenuController implements Initializa
                             String unit = itemNode.get("unit").asText();
                             float price = Float.parseFloat(itemNode.get("price").asText());
 
-                            item item = new item(code, name, quantity, unit, price);
-                            items.add(item);
+                            Item item = new Item(code, name, quantity, unit, price);
+                            Items.add(item);
                         }
                     } else {
                         String failMessage = jsonNode.get("message").asText();
@@ -182,11 +181,11 @@ public class ProductsController extends MainMenuController implements Initializa
                 e.printStackTrace();
             }
 
-            return items;
+            return Items;
 
         }
 
-    private void openEditDialog(item selectedProduct) throws IOException {
+    private void openEditDialog(Item selectedProduct) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("newItem.fxml"));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.getDialogPane().setContent(loader.load());
@@ -282,7 +281,7 @@ public class ProductsController extends MainMenuController implements Initializa
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            item itemData = new item(name,unit,price);
+            Item itemData = new Item(name,unit,price);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);
@@ -319,7 +318,7 @@ public class ProductsController extends MainMenuController implements Initializa
 
     @FXML
     private void handleEditOption (ActionEvent event) throws IOException {
-        item selectedItem = itemsTable.getSelectionModel().getSelectedItem();
+        Item selectedItem = itemsTable.getSelectionModel().getSelectedItem();
 
         if(selectedItem == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -349,7 +348,7 @@ public class ProductsController extends MainMenuController implements Initializa
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            item itemData = new item(code,name,unit,price);
+            Item itemData = new Item(code,name,unit,price);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);

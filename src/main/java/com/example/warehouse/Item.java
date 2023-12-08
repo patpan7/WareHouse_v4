@@ -1,16 +1,16 @@
 package com.example.warehouse;
 
-public class item {
+public class Item {
     int code;
     String name;
     float quantity;
     String unit;
     float price;
 
-    public item() {
+    public Item() {
     }
 
-    public item(int code, String name, float quantity, String unit, float price) {
+    public Item(int code, String name, float quantity, String unit, float price) {
         this.code = code;
         this.name = name;
         this.quantity = quantity;
@@ -18,21 +18,21 @@ public class item {
         this.price = price;
     }
 
-    public item(int code, String name, String unit, float price) {
+    public Item(int code, String name, String unit, float price) {
         this.code = code;
         this.name = name;
         this.unit = unit;
         this.price = price;
     }
 
-    public item(int code, String name, float quantity, String unit) {
+    public Item(int code, String name, float quantity, String unit) {
         this.code = code;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
     }
 
-    public item(String name, String unit, Float price) {
+    public Item(String name, String unit, Float price) {
         this.name = name;
         this.unit = unit;
         this.price = price;
