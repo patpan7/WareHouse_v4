@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class ProductsController extends MainMenuController implements Initializa
         // Προσθήκη των κολόνων στο TableView
         itemsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
         tableInit();
-
+        itemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<item> filteredData = new FilteredList<>(observableList, b -> true);
 
@@ -245,8 +246,19 @@ public class ProductsController extends MainMenuController implements Initializa
                 Float price = Float.parseFloat(tfPrice.getText());
                 String unit = categoryComboBox.getValue();
 
-                addNewRequest(name, price, unit);
-                tableInit();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Επιβεβαίωση εισαγωγής:");
+                alert.setContentText("Όνομα: " + name+", Τιμή: "+price+", Μον.Μέτρησης: "+unit);
+                Optional<ButtonType> result2 = alert.showAndWait();
+
+                if (result2.isEmpty())
+                    return;
+                else if (result2.get() == ButtonType.OK) {
+                    addNewRequest(name, price, unit);
+                    tableInit();
+                }
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -303,6 +315,22 @@ public class ProductsController extends MainMenuController implements Initializa
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void handleEditOption (ActionEvent event) throws IOException {
+        item selectedItem = itemsTable.getSelectionModel().getSelectedItem();
+
+        if(selectedItem == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Προσοχή");
+            alert.setContentText("Δεν έχει επιλεγέι είδος!");
+            Optional<ButtonType> result = alert.showAndWait();
+            return;
+        }
+
+        openEditDialog(selectedItem);
+
     }
 
     private void updateRequest(int code, String name, Float price, String unit) {

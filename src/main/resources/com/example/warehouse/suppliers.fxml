@@ -2,7 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -72,8 +74,15 @@
                         </Button>
                     </children>
                 </HBox>
-                <TableView fx:id="supplierTable" prefHeight="698.0" prefWidth="1200.0">
-                </TableView>
+                <TableView fx:id="supplierTable" prefHeight="698.0" prefWidth="1200.0" stylesheets="@external.css">
+                    <contextMenu>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#handleEditOption" text="Επεξεργασία" />
+                                <MenuItem mnemonicParsing="false" onAction="#supplierAddNew" text="Προσθήκη" />
+                            </items>
+                        </ContextMenu>
+                    </contextMenu></TableView>
             </children>
         </VBox>
     </center>

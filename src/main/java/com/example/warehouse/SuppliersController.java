@@ -48,7 +48,7 @@ public class SuppliersController extends MainMenuController implements Initializ
         // Προσθήκη των κολόνων στο TableView
         supplierTable.getColumns().addAll(codeColumn, nameColumn, phoneColumn, turnoverColumn);
         tableInit();
-
+        supplierTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         FilteredList<supplier> filteredData = new FilteredList<>(observableList, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
@@ -230,8 +230,17 @@ public class SuppliersController extends MainMenuController implements Initializ
                 String name = tfName.getText();
                 String phone = tfPhone.getText();
 
-                addNewRequest(name, phone);
-                tableInit();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Επιβεβαίωση εισαγωγής:");
+                alert.setContentText("Όνομα: " + name+", Τηλέφωνο: "+phone);
+                Optional<ButtonType> result2 = alert.showAndWait();
+
+                if (result2.isEmpty())
+                    return;
+                else if (result2.get() == ButtonType.OK) {
+                    addNewRequest(name, phone);
+                    tableInit();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -288,6 +297,22 @@ public class SuppliersController extends MainMenuController implements Initializ
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void handleEditOption (ActionEvent event) throws IOException {
+        supplier selectedSupplier = supplierTable.getSelectionModel().getSelectedItem();
+
+        if(selectedSupplier == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Προσοχή");
+            alert.setContentText("Δεν έχει επιλεγεί προμηθευτής!");
+            Optional<ButtonType> result = alert.showAndWait();
+            return;
+        }
+
+        openEditDialog(selectedSupplier);
+
     }
 
     private void updateRequest(int code, String name, String phone) {
