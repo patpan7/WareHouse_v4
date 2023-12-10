@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.print.PrinterJob;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -14,16 +13,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import org.controlsfx.control.textfield.TextFields;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
 public class NewOrderController extends MainMenuController implements Initializable {
 
     @FXML
@@ -146,14 +144,35 @@ public class NewOrderController extends MainMenuController implements Initializa
         if (!tfName.getText().equals("") || !tfQuantity.getText().equals("") || !tfUnit.getText().equals("")) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             ObservableList<Item> items = orderTable.getItems();
-            selectedItem.setQuantity(Float.parseFloat(tfQuantity.getText()));
-            // Προσθέστε το νέο αντικείμενο στη λίστα
-            items.add(selectedItem);
-            tfName.setText("");
-            tfName.requestFocus();
-            tfQuantity.setText("");
-            tfUnit.setText("");
+            if (!items.contains(selectedItem)) {
+                selectedItem.setQuantity(Float.parseFloat(tfQuantity.getText()));
 
+                // Προσθέστε το νέο αντικείμενο στη λίστα
+                items.add(selectedItem);
+
+                tfName.setText("");
+                tfName.requestFocus();
+                tfQuantity.setText("");
+                tfUnit.setText("");
+            } else {
+                // Το selectedItem υπάρχει ήδη στη λίστα
+                // Βρείτε το υπάρχον αντικείμενο στη λίστα
+                Item existingItem = items.stream()
+                        .filter(item -> item.equals(selectedItem))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existingItem != null) {
+                    // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
+                    items.remove(existingItem);
+                    existingItem.setQuantity(existingItem.getQuantity() + Float.parseFloat(tfQuantity.getText()));
+                    items.add(existingItem);
+                    tfName.setText("");
+                    tfName.requestFocus();
+                    tfQuantity.setText("");
+                    tfUnit.setText("");
+                }
+            }
         }
     }
 
@@ -189,12 +208,49 @@ public class NewOrderController extends MainMenuController implements Initializa
     }
 
     public void saveAction (ActionEvent event) {
-        //PrintUtil.printTableView(orderTable, "Report Title");
-        PrinterJob printerJob = PrinterJob.createPrinterJob();
-        if (printerJob != null && printerJob.showPrintDialog(orderTable.getScene().getWindow())) {
-            printerJob.printPage(orderTable);
-            printerJob.endJob();
+        try {
+            // Χρησιμοποιήστε τον HTMLConverter για να δημιουργήσετε το PDF από τον HTML
+            File outputFile = new File("tableview_to_pdf_example.pdf");
+            FileOutputStream outputStream = new FileOutputStream(outputFile);
+            ConverterProperties converterProperties = new ConverterProperties();
+            HtmlConverter.convertToPdf(generateHtmlFromTableView(orderTable), outputStream, converterProperties);
+
+            System.out.println("PDF created successfully: " + outputFile.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String generateHtmlFromTableView(TableView<?> tableView) {
+        // Δημιουργία HTML από το TableView
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<html><body>");
+        htmlBuilder.append("<table style=\"border: 1px solid black;\n" +
+                "border-collapse: collapse;" +
+                "font-size: 16pt;\">");
+
+        // Προσθήκη των επικεφαλίδων
+        htmlBuilder.append("<tr style=\"border:1px solid black;\">");
+        for (TableColumn<?, ?> column : tableView.getColumns()) {
+            htmlBuilder.append("<th style=\"border:1px solid black;\">").append(column.getText()).append("</th>");
+        }
+        htmlBuilder.append("<th style=\"border:1px solid black;\">").append("Ληφθείσα Ποσότητα</th>");
+        htmlBuilder.append("</tr>");
+        int i = 0;
+        // Προσθήκη των δεδομένων
+        for (Object item : tableView.getItems()) {
+
+            htmlBuilder.append("<tr style=\"border:1px solid black;\">");
+            for (TableColumn<?, ?> column : tableView.getColumns()) {
+                Object cellValue = column.getCellData(i);
+                htmlBuilder.append("<td style=\"border:1px solid black;\">").append(cellValue != null ? cellValue.toString() : "").append("</td>");
+            }
+            htmlBuilder.append("<td style=\"border:1px solid black;\"></td>");
+            i++;
+            htmlBuilder.append("</tr>");
         }
 
+        htmlBuilder.append("</table></body></html>");
+        return htmlBuilder.toString();
     }
 }
