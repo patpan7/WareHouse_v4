@@ -2,22 +2,27 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import com.itextpdf.html2pdf.ConverterProperties;
@@ -32,11 +37,14 @@ public class NewOrderController extends MainMenuController implements Initializa
     TextField tfQuantity;
     @FXML
     TableView <Item> orderTable;
+    @FXML
+    DatePicker orderDate;
+    List<Item> items1;
 
     Item selectedItem;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<Item> items1 = fetchDataFromMySQL();
+        items1 = fetchDataFromMySQL();
         // Δημιουργία ObservableList από τη λίστα αντικειμένων
         List<String> itemNames = items1.stream()
                 .map(Item::getName)
@@ -48,13 +56,23 @@ public class NewOrderController extends MainMenuController implements Initializa
         tfName.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 // Αναζήτηση στη λίστα ειδών
-                for (Item item : items1) {
-                    if (item.getName().equalsIgnoreCase(tfName.getText())) {
-                        tfUnit.setText(item.getUnit());
-                        selectedItem = item;
-                    }
-                }
-                tfQuantity.requestFocus();
+                autocomplete();
+            }
+        });
+
+        tfUnit.setOnMouseClicked(event -> {
+            if (tfQuantity.isFocused()) {
+                autocomplete();
+            } else {
+                System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
+            }
+        });
+
+        tfQuantity.setOnMouseClicked(event -> {
+            if (tfQuantity.isFocused()) {
+                autocomplete();
+            } else {
+                System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
             }
         });
 
@@ -65,8 +83,8 @@ public class NewOrderController extends MainMenuController implements Initializa
             }
         });
 
-        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
-        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
+//        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
+//        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -81,9 +99,21 @@ public class NewOrderController extends MainMenuController implements Initializa
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Προσθήκη των κολόνων στο TableView
-        orderTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
+        //orderTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
+        orderTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn);
         orderTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        orderDate.setValue(LocalDate.now());
+    }
+
+    void autocomplete(){
+        for (Item item : items1) {
+            if (item.getName().equalsIgnoreCase(tfName.getText())) {
+                tfUnit.setText(item.getUnit());
+                selectedItem = item;
+            }
+        }
+        tfQuantity.requestFocus();
     }
 
     private List<Item> fetchDataFromMySQL() {
@@ -141,8 +171,9 @@ public class NewOrderController extends MainMenuController implements Initializa
     }
 
     public void addRow() {
-        if (!tfName.getText().equals("") || !tfQuantity.getText().equals("") || !tfUnit.getText().equals("")) {
+        if (!tfName.getText().equals("") && !tfQuantity.getText().equals("") && !tfUnit.getText().equals("")) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
+            autocomplete();
             ObservableList<Item> items = orderTable.getItems();
             if (!items.contains(selectedItem)) {
                 selectedItem.setQuantity(Float.parseFloat(tfQuantity.getText()));
@@ -209,22 +240,50 @@ public class NewOrderController extends MainMenuController implements Initializa
 
     public void saveAction (ActionEvent event) {
         try {
-            // Χρησιμοποιήστε τον HTMLConverter για να δημιουργήσετε το PDF από τον HTML
-            File outputFile = new File("tableview_to_pdf_example.pdf");
-            FileOutputStream outputStream = new FileOutputStream(outputFile);
-            ConverterProperties converterProperties = new ConverterProperties();
-            HtmlConverter.convertToPdf(generateHtmlFromTableView(orderTable), outputStream, converterProperties);
+            if (orderTable.getItems().size()>=1) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                fileChooser.setInitialFileName("Παραγγελία "+ dtf.format(orderDate.getValue()));
+                // Επιλέξτε τον τύπο αρχείου που θέλετε να αποθηκεύσετε (π.χ., PDF)
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+                fileChooser.getExtensionFilters().add(extFilter);
 
-            System.out.println("PDF created successfully: " + outputFile.getAbsolutePath());
+                // Πάρτε το επιλεγμένο αρχείο
+                File file = fileChooser.showSaveDialog(null);
+
+                if (file != null) {
+                    // Χρησιμοποιήστε τον HTMLConverter για να δημιουργήσετε το PDF από τον HTML
+                    //File outputFile = new File("tableview_to_pdf_example.pdf");
+                    File outputFile = file;
+                    FileOutputStream outputStream = new FileOutputStream(outputFile);
+                    ConverterProperties converterProperties = new ConverterProperties();
+                    HtmlConverter.convertToPdf(generateHtmlFromTableView(orderTable), outputStream, converterProperties);
+
+                    System.out.println("PDF created successfully: " + outputFile.getAbsolutePath());
+                }
+                dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String date = dtf.format(orderDate.getValue());
+                System.out.println(date);
+                ObservableList<Item> items = orderTable.getItems();
+                addNewRequest(items, date);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("");
+                alert.setContentText("Η παραγγελία είναι άδεια!");
+                Optional<ButtonType> result2 = alert.showAndWait();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private String generateHtmlFromTableView(TableView<?> tableView) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         // Δημιουργία HTML από το TableView
         StringBuilder htmlBuilder = new StringBuilder();
         htmlBuilder.append("<html><body>");
+        htmlBuilder.append("<h1><center>Παραγγελία "+dtf.format(orderDate.getValue())+"<P>");
         htmlBuilder.append("<table style=\"border: 1px solid black;\n" +
                 "border-collapse: collapse;" +
                 "font-size: 16pt;\">");
@@ -252,5 +311,73 @@ public class NewOrderController extends MainMenuController implements Initializa
 
         htmlBuilder.append("</table></body></html>");
         return htmlBuilder.toString();
+    }
+
+    private void addNewRequest(ObservableList<Item> tableView, String date) {
+        String apiUrl = "http://localhost/wharehouse/orderAdd.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            // Προσθήκη της λίστας με τα είδη στο JSON
+            jsonRequest.putPOJO("orderTable", tableView);
+
+            // Προσθήκη της ημερομηνίας στο JSON
+            jsonRequest.put("date", date); // Προσαρμόστε την ημερομηνία όπως χρειάζεται
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+                if (responseCode == 200){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        orderTable.getItems().clear();
+                        orderTable.refresh();
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,3 +1,12 @@
+* {
+	-fx-primary-color: #007acc;
+	-fx-secondary-color: #4B6EAF;
+	-fx-light-grey-color: #d1d1d1;
+
+	-fx-focus-color: -fx-secondary-color;
+}
+
+//------------------TableViews----------------
 //Style of entire tableView
 .table-view{
     /*-fx-background-color: transparent;*/
@@ -14,11 +23,6 @@
 .table-view .column-header {
      -fx-background-color: transparent;
 }
-
-//Style of each column header's background in the tableView
-//.table-view .column-header-background{
-//    -fx-background-color: linear-gradient(#131313 0.0%, #424141 100.0%);
-//}
 
  //Style of each column header's label  in the tableView
 .table-view .column-header-background .label{
@@ -59,17 +63,134 @@
 
 //Style of each entire row in the table view
 .table-row-cell:selected {
-   /* -fx-border-color:transparent firebrick transparent firebrick  ;
-    -fx-border-width:2.0; */
+    -fx-background-color:-fx-primary-color;
+    -fx-text-fill: white;
 }
 
 
 //Style of each entire row in the table view when is hovered
 .table-row-cell:hover {
-    -fx-background-color:orange;
+    -fx-background-color:-fx-primary-color;
 }
 
 //Style of each entire row in the table view when is getting focused
 //.table-row-cell:focused {
 //    -fx-background-color:purple;
 //}
+
+//------------------DatePickers----------------
+.date-picker .arrow-button {
+	-fx-background-color: -fx-primary-color;
+	-fx-background-radius: 0;
+}
+.date-picker .arrow-button:hover {
+	-fx-background-color: -fx-secondary-color;
+}
+.date-picker .arrow-button .arrow {
+	-fx-background-color: white;
+}
+.date-picker .cell {
+	-fx-background-color: white;
+	-fx-font-size: 16px;
+}
+.date-picker .cell:hover {
+	-fx-background-color: -fx-light-grey-color;
+}
+.date-picker .cell:focused {
+	-fx-background-color: -fx-light-grey-color;
+}
+.date-picker .selected {
+	-fx-background-color: -fx-primary-color;
+	-fx-text-fill: white;
+}
+.date-picker .selected:focused {
+	-fx-background-color: -fx-primary-color;
+	-fx-text-fill: white;
+}
+.date-picker-popup  {
+	-fx-border-color: transparent;
+}
+.date-picker-popup .month-year-pane {
+	-fx-background-color: -fx-primary-color;
+}
+.date-picker-popup .month-year-pane .label {
+	-fx-text-fill: white;
+	-fx-font-size: 16px;
+}
+.date-picker-popup .week-number-cell {
+	-fx-text-fill: -fx-secondary-color;
+}
+.date-picker-popup .spinner .button .left-arrow,
+.date-picker-popup .spinner .button .right-arrow {
+	-fx-background-color: white;
+}
+//------------------TextFields----------------
+.text-field {
+    -fx-background-color: #a9a9a9 ,  white ,  white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+    -fx-font-size: 24px;
+}
+
+.text-field:focused {
+    -fx-background-color: #a9a9a9 , white , white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+    -fx-font-size: 24px;
+}
+
+//------------------ComboBox----------------
+.combo-box {
+-fx-background-color: #a9a9a9 , white , white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+    -fx-font-size: 24px;
+}
+
+//------------------Buttons----------------
+.click-button {
+    -fx-background-radius: 50;
+    -fx-font-family: CrackMan;
+    -fx-font-size: 26;
+    -fx-border-color: #146B3A;
+    -fx-border-radius: 50;
+    -fx-border-width: 1;
+    -fx-text-fill: black;
+}
+
+.click-button:hover {
+    -fx-background-color: #EA4630;
+    -fx-background-radius: 50;
+    -fx-font-family: CrackMan;
+    -fx-font-size: 26;
+    -fx-border-color: #146B3A;
+    -fx-border-radius: 50;
+    -fx-border-width: 1;
+    -fx-text-fill: white;
+}
+
+.click-button:pressed {
+    -fx-background-color: #BB2528;
+    -fx-background-radius: 50;
+    -fx-font-family: CrackMan;
+    -fx-font-size: 26;
+    -fx-border-color: #165B33;
+    -fx-border-radius: 50;
+    -fx-border-width: 1;
+    -fx-text-fill: white;
+    -fx-rotate: 2;
+}
+
+
+
+//------------------Labels----------------
+.header-label{
+-fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.normal-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
