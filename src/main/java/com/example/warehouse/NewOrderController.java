@@ -151,8 +151,9 @@ public class NewOrderController extends MainMenuController implements Initializa
                         float quantity = Float.parseFloat(itemNode.get("quantity").asText());
                         String unit = itemNode.get("unit").asText();
                         float price = Float.parseFloat(itemNode.get("price").asText());
+                        int category_code = itemNode.get("category_code").asInt();
 
-                        Item item = new Item(code, name, quantity, unit, price);
+                        Item item = new Item(code, name, quantity, unit, price,category_code);
                         Items.add(item);
                     }
                 } else {

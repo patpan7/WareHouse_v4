@@ -11,9 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -24,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -120,5 +119,31 @@ public class OrdersController extends MainMenuController implements Initializabl
     }
 
 
+    public void handleEditOption(ActionEvent actionEvent) throws IOException {
+        Order selectedItem = ordersTable.getSelectionModel().getSelectedItem();
 
+        if(selectedItem == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Προσοχή");
+            alert.setContentText("Δεν έχει επιλεγέι είδος!");
+            Optional<ButtonType> result = alert.showAndWait();
+            return;
+        }
+
+        openEditDialog(actionEvent, selectedItem);
+    }
+
+    private void openEditDialog(ActionEvent event, Order selectedItem) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("editOrder.fxml"));
+        root = loader.load();
+        // Ανάκτηση του controller που δημιουργήθηκε από τον FXMLLoader
+        EditOrderController editOrderController = loader.getController();
+
+        // Κλήση μιας μεθόδου στον controller για να περάσετε τα δεδομένα
+        editOrderController.setData(selectedItem);
+        // Εμφάνιση του νέου παραθύρου
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 }

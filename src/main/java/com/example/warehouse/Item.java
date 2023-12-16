@@ -6,36 +6,33 @@ public class Item {
     float quantity;
     String unit;
     float price;
+    int category_code;
 
     public Item() {
     }
 
-    public Item(int code, String name, float quantity, String unit, float price) {
+    public Item(int code, String name, float quantity, String unit, float price, int category_code) {
         this.code = code;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
         this.price = price;
+        this.category_code = category_code;
     }
 
-    public Item(int code, String name, String unit, float price) {
+    public Item(int code, String name, String unit, float price, int category_code) {
         this.code = code;
         this.name = name;
         this.unit = unit;
         this.price = price;
+        this.category_code = category_code;
     }
 
-    public Item(int code, String name, float quantity, String unit) {
-        this.code = code;
-        this.name = name;
-        this.quantity = quantity;
-        this.unit = unit;
-    }
-
-    public Item(String name, String unit, Float price) {
+    public Item(String name, String unit, Float price, int category_code) {
         this.name = name;
         this.unit = unit;
         this.price = price;
+        this.category_code = category_code;
     }
 
     public int getCode() {
@@ -58,6 +55,8 @@ public class Item {
         return price;
     }
 
+    public int getCategory_code() {return category_code;}
+
 
     public void setCode(int code) {
         this.code = code;
@@ -79,4 +78,7 @@ public class Item {
         this.price = price;
     }
 
+    public void setCategory_code(int category_code) {
+        this.category_code = category_code;
+    }
 }

@@ -80,7 +80,7 @@
                     <contextMenu>
                         <ContextMenu>
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Επεξεργασία" />
+                                <MenuItem mnemonicParsing="false" onAction="#handleEditOption" text="Επεξεργασία" />
                             </items>
                         </ContextMenu>
                     </contextMenu></TableView>

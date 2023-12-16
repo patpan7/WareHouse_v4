@@ -21,6 +21,7 @@
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
            </rowConstraints>
 
            <Label styleClass="normal-label" text="Όνομα:">
@@ -61,6 +62,15 @@
                <Insets />
             </GridPane.margin></Label>
          <ComboBox fx:id="tfUnit" prefHeight="51.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <Label styleClass="normal-label" text="Κατηγορία:" GridPane.rowIndex="3">
+            <font>
+               <Font size="24.0" />
+            </font>
+            <padding>
+               <Insets right="20.0" />
+            </padding>
+         </Label>
+         <ComboBox fx:id="tfCategory" prefHeight="51.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
        </GridPane>
    </graphic>
