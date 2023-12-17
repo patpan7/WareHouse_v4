@@ -172,7 +172,6 @@ public class ProductsController extends MainMenuController implements Initializa
         observableListCat = FXCollections.observableArrayList(categories);
         categoryFiled.setItems(observableListCat);
 
-
         categoryFiled.setCellFactory(param -> new ListCell<Category>() {
             @Override
             protected void updateItem(Category item, boolean empty) {

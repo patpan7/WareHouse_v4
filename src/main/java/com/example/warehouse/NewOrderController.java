@@ -3,6 +3,8 @@ package com.example.warehouse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,15 +20,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
-import com.itextpdf.html2pdf.ConverterProperties;
-import com.itextpdf.html2pdf.HtmlConverter;
+
 public class NewOrderController extends MainMenuController implements Initializable {
 
     @FXML
@@ -40,8 +37,8 @@ public class NewOrderController extends MainMenuController implements Initializa
     @FXML
     DatePicker orderDate;
     List<Item> items1;
-
     Item selectedItem;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         items1 = fetchDataFromMySQL();
@@ -51,7 +48,7 @@ public class NewOrderController extends MainMenuController implements Initializa
                 .collect(Collectors.toList());
 
         // Ενεργοποίηση αυτόματης συμπλήρωσης στο TextField με βάση το όνομα του είδους
-        TextFields.bindAutoCompletion(tfName, itemNames);
+        TextFields.bindAutoCompletion(tfName, items1);
 
         tfName.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -59,6 +56,7 @@ public class NewOrderController extends MainMenuController implements Initializa
                 autocomplete();
             }
         });
+
 
         tfUnit.setOnMouseClicked(event -> {
             if (tfQuantity.isFocused()) {
@@ -172,7 +170,7 @@ public class NewOrderController extends MainMenuController implements Initializa
     }
 
     public void addRow() {
-        if (!tfName.getText().equals("") && !tfQuantity.getText().equals("") && !tfUnit.getText().equals("")) {
+        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty()) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
             ObservableList<Item> items = orderTable.getItems();
@@ -228,7 +226,7 @@ public class NewOrderController extends MainMenuController implements Initializa
 
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
-            tfName.setText(selectedProduct.getName());
+            //tfName.setText(selectedProduct.getName());
             tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
             tfUnit.setText(selectedProduct.getUnit());
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
@@ -380,5 +378,38 @@ public class NewOrderController extends MainMenuController implements Initializa
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static final Map<Character, Character> ENGLISH_TO_GREEK = new HashMap<>();
+
+    static {
+        ENGLISH_TO_GREEK.put('\u0041', '\u0391');  // uppercase A
+        ENGLISH_TO_GREEK.put('\u0042', '\u0392');  // uppercase B
+        ENGLISH_TO_GREEK.put('\u0043', '\u03A8');  // uppercase C
+        ENGLISH_TO_GREEK.put('\u0044', '\u0394');  // uppercase D
+        ENGLISH_TO_GREEK.put('\u0045', '\u0395');  // uppercase E
+        ENGLISH_TO_GREEK.put('\u0046', '\u03A6');  // uppercase F
+        ENGLISH_TO_GREEK.put('\u0047', '\u0393');  // uppercase G
+        ENGLISH_TO_GREEK.put('\u0048', '\u0397');  // uppercase H
+        ENGLISH_TO_GREEK.put('\u0049', '\u0399');  // uppercase I
+        ENGLISH_TO_GREEK.put('\u004A', '\u039E');  // uppercase J
+        ENGLISH_TO_GREEK.put('\u004B', '\u039A');  // uppercase K
+        ENGLISH_TO_GREEK.put('\u004C', '\u039B');  // uppercase L
+        ENGLISH_TO_GREEK.put('\u004D', '\u039C');  // uppercase M
+        ENGLISH_TO_GREEK.put('\u004E', '\u039D');  // uppercase N
+        ENGLISH_TO_GREEK.put('\u004F', '\u039F');  // uppercase O
+        ENGLISH_TO_GREEK.put('\u0050', '\u03A0');  // uppercase P
+        //ENGLISH_TO_GREEK.put('\u0051', '\u0391');  // uppercase Q
+        ENGLISH_TO_GREEK.put('\u0052', '\u03A1');  // uppercase R
+        ENGLISH_TO_GREEK.put('\u0053', '\u03A3');  // uppercase S
+        ENGLISH_TO_GREEK.put('\u0054', '\u03A4');  // uppercase T
+        ENGLISH_TO_GREEK.put('\u0055', '\u0398');  // uppercase U
+        ENGLISH_TO_GREEK.put('\u0056', '\u03A9');  // uppercase V
+        ENGLISH_TO_GREEK.put('\u0057', '\u03A3');  // uppercase W
+        ENGLISH_TO_GREEK.put('\u0058', '\u03A7');  // uppercase X
+        ENGLISH_TO_GREEK.put('\u0059', '\u03A5');  // uppercase Y
+        ENGLISH_TO_GREEK.put('\u005A', '\u0396');  // uppercase Z
+
+        // ...
     }
 }

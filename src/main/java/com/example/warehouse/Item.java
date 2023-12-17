@@ -81,4 +81,9 @@ public class Item {
     public void setCategory_code(int category_code) {
         this.category_code = category_code;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
