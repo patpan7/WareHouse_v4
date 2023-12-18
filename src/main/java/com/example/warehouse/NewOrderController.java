@@ -5,17 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -27,6 +24,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class NewOrderController extends MainMenuController implements Initializable {
 
@@ -52,12 +50,12 @@ public class NewOrderController extends MainMenuController implements Initializa
         TextFields.bindAutoCompletion(tfName, request -> {
             String filter = request.getUserText().toUpperCase();
             char[] chars = filter.toCharArray();
-            for (int i = 0; i < chars.length; i++) {
+            IntStream.range(0, chars.length).forEach(i -> {
                 Character repl = ENGLISH_TO_GREEK.get(chars[i]);
                 if (repl != null) {
                     chars[i] = repl;
-                }
-            }
+                } else return;
+            });
             String newValToSearch = new String(chars);
             List<Item> filteredList = items1.stream()
                     .filter(item -> item.getName().toUpperCase().contains(newValToSearch))
@@ -66,29 +64,10 @@ public class NewOrderController extends MainMenuController implements Initializa
             return filteredList;
         }).setPrefWidth(300);
 
-        tfName.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                // Έλεγχος αν το μήκος του κειμένου είναι μεγαλύτερο από το μήκος του TextField
-                if (tfName.getText().length() > tfName.getPrefColumnCount()) {
-                    // Προσαρμογή του μεγέθους της γραμματοσειράς
-                    tfName.setStyle("-fx-font-size: 14;"); // Ορίστε το επιθυμητό μέγεθος της γραμματοσειράς
-                    tfName.positionCaret(0);
-                } else {
-                    // Επαναφορά του μεγέθους της γραμματοσειράς στην προκαθορισμένη τιμή
-                    tfName.setStyle(""); // Επαναφορά στο default μέγεθος της γραμματοσειράς
-                }
-            }
-        });
+        tfName.textProperty().addListener(this::changed);
 
         // Προσθήκη ακροατή κειμένου
-        tfName.addEventHandler(KeyEvent.KEY_TYPED, event -> {
-            // Έλεγχος της θέσης του κέρσορα
-            if (tfName.getText().length() > tfName.getPrefColumnCount()) {
-                // Ορισμός της θέσης του κέρσορα στην αρχή
-                tfName.positionCaret(0);
-            }
-        });
+        tfName.addEventHandler(KeyEvent.KEY_TYPED, this::handle);
 
         tfName.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -121,8 +100,10 @@ public class NewOrderController extends MainMenuController implements Initializa
             }
         });
 
-//        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
-//        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
+/*
+        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
+        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
+*/
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -142,12 +123,6 @@ public class NewOrderController extends MainMenuController implements Initializa
         orderTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         orderDate.setValue(LocalDate.now());
-    }
-
-    private double computeTextWidth(String text, Font font) {
-        javafx.scene.text.Text textNode = new javafx.scene.text.Text(text);
-        textNode.setFont(font);
-        return textNode.getLayoutBounds().getWidth();
     }
 
     void autocomplete(){
@@ -283,9 +258,9 @@ public class NewOrderController extends MainMenuController implements Initializa
         }
     }
 
-    public void saveAction (ActionEvent event) {
+    public void saveAction () {
         try {
-            if (orderTable.getItems().size()>=1) {
+            if (!orderTable.getItems().isEmpty()) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -299,7 +274,6 @@ public class NewOrderController extends MainMenuController implements Initializa
 
                 if (file != null) {
                     // Χρησιμοποιήστε τον HTMLConverter για να δημιουργήσετε το PDF από τον HTML
-                    //File outputFile = new File("tableview_to_pdf_example.pdf");
                     File outputFile = file;
                     FileOutputStream outputStream = new FileOutputStream(outputFile);
                     ConverterProperties converterProperties = new ConverterProperties();
@@ -342,7 +316,7 @@ public class NewOrderController extends MainMenuController implements Initializa
         htmlBuilder.append("</tr>");
         int i = 0;
         // Προσθήκη των δεδομένων
-        for (Object item : tableView.getItems()) {
+        for (Object ignored : tableView.getItems()) {
 
             htmlBuilder.append("<tr style=\"border:1px solid black;\">");
             for (TableColumn<?, ?> column : tableView.getColumns()) {
@@ -457,5 +431,25 @@ public class NewOrderController extends MainMenuController implements Initializa
         ENGLISH_TO_GREEK.put('\u005A', '\u0396');  // uppercase Z
 
         // ...
+    }
+
+    private void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        // Έλεγχος αν το μήκος του κειμένου είναι μεγαλύτερο από το μήκος του TextField
+        if (tfName.getText().length() > tfName.getPrefColumnCount()) {
+            // Προσαρμογή του μεγέθους της γραμματοσειράς
+            tfName.setStyle("-fx-font-size: 14;"); // Ορίστε το επιθυμητό μέγεθος της γραμματοσειράς
+            tfName.positionCaret(0);
+        } else {
+            // Επαναφορά του μεγέθους της γραμματοσειράς στην προκαθορισμένη τιμή
+            tfName.setStyle(""); // Επαναφορά στο default μέγεθος της γραμματοσειράς
+        }
+    }
+
+    private void handle(KeyEvent event) {
+        // Έλεγχος της θέσης του κέρσορα
+        if (tfName.getText().length() > tfName.getPrefColumnCount()) {
+            // Ορισμός της θέσης του κέρσορα στην αρχή
+            tfName.positionCaret(0);
+        }
     }
 }
