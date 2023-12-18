@@ -47,7 +47,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <DatePicker fx:id="orderDate" />
+            <DatePicker fx:id="orderDate" disable="true" />
             <Button mnemonicParsing="false" onAction="#saveAction" styleClass="click-button" text="Αποθήκευση">
                <font>
                   <Font size="24.0" />
