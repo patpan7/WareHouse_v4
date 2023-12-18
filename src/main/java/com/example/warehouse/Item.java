@@ -7,6 +7,7 @@ public class Item {
     String unit;
     float price;
     int category_code;
+    String cat;
 
     public Item() {
     }
@@ -62,7 +63,7 @@ public class Item {
         this.code = code;
     }
 
-    public void setName(String item) {
+    public void setName(String name) {
         this.name = name;
     }
 

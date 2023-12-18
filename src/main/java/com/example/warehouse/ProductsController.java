@@ -130,16 +130,6 @@ public class ProductsController extends MainMenuController implements Initializa
         });
 
         categoryInit();
-//        categoryFiled.setOnAction(e -> {
-//            Category selectedCat = categoryFiled.getSelectionModel().getSelectedItem();
-//            if (selectedCat != null) {
-//                System.out.println("Selected Code: " + selectedCat.getCode());
-//                System.out.println("Selected Name: " + selectedCat.getName());
-//            } else {
-//                System.out.println("Selected Code: ");
-//            }
-//        });
-
         categoryFiled.valueProperty().addListener((observable, oldValue, newValue) -> {
             updateFilteredItems(newValue);
         });
@@ -556,8 +546,9 @@ public class ProductsController extends MainMenuController implements Initializa
                 if (result2.isEmpty())
                     return;
                 else if (result2.get() == ButtonType.OK) {
+
                     addNewCategoryRequest(name);
-                    //tableInit();
+                    categoryInit();
                     // Ενημέρωση του φίλτρου με βάση την επιλεγμένη κατηγορία
                     Category selectedCategory = categoryFiled.getValue();
                     updateFilteredItems(selectedCategory);

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -39,16 +43,52 @@ public class NewOrderController extends MainMenuController implements Initializa
     List<Item> items1;
     Item selectedItem;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         items1 = fetchDataFromMySQL();
-        // Δημιουργία ObservableList από τη λίστα αντικειμένων
-        List<String> itemNames = items1.stream()
-                .map(Item::getName)
-                .collect(Collectors.toList());
 
         // Ενεργοποίηση αυτόματης συμπλήρωσης στο TextField με βάση το όνομα του είδους
-        TextFields.bindAutoCompletion(tfName, items1);
+        TextFields.bindAutoCompletion(tfName, request -> {
+            String filter = request.getUserText().toUpperCase();
+            char[] chars = filter.toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                Character repl = ENGLISH_TO_GREEK.get(chars[i]);
+                if (repl != null) {
+                    chars[i] = repl;
+                }
+            }
+            String newValToSearch = new String(chars);
+            List<Item> filteredList = items1.stream()
+                    .filter(item -> item.getName().toUpperCase().contains(newValToSearch))
+                    .collect(Collectors.toList());
+
+            return filteredList;
+        }).setPrefWidth(300);
+
+        tfName.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // Έλεγχος αν το μήκος του κειμένου είναι μεγαλύτερο από το μήκος του TextField
+                if (tfName.getText().length() > tfName.getPrefColumnCount()) {
+                    // Προσαρμογή του μεγέθους της γραμματοσειράς
+                    tfName.setStyle("-fx-font-size: 14;"); // Ορίστε το επιθυμητό μέγεθος της γραμματοσειράς
+                    tfName.positionCaret(0);
+                } else {
+                    // Επαναφορά του μεγέθους της γραμματοσειράς στην προκαθορισμένη τιμή
+                    tfName.setStyle(""); // Επαναφορά στο default μέγεθος της γραμματοσειράς
+                }
+            }
+        });
+
+        // Προσθήκη ακροατή κειμένου
+        tfName.addEventHandler(KeyEvent.KEY_TYPED, event -> {
+            // Έλεγχος της θέσης του κέρσορα
+            if (tfName.getText().length() > tfName.getPrefColumnCount()) {
+                // Ορισμός της θέσης του κέρσορα στην αρχή
+                tfName.positionCaret(0);
+            }
+        });
 
         tfName.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -102,6 +142,12 @@ public class NewOrderController extends MainMenuController implements Initializa
         orderTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         orderDate.setValue(LocalDate.now());
+    }
+
+    private double computeTextWidth(String text, Font font) {
+        javafx.scene.text.Text textNode = new javafx.scene.text.Text(text);
+        textNode.setFont(font);
+        return textNode.getLayoutBounds().getWidth();
     }
 
     void autocomplete(){
