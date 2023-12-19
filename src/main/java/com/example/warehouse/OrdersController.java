@@ -38,7 +38,6 @@ public class OrdersController extends MainMenuController implements Initializabl
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         TableColumn<Order, String> dateColumn = new TableColumn<>("Ημερομηνία");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
@@ -121,7 +120,7 @@ public class OrdersController extends MainMenuController implements Initializabl
 
     public void handleEditOption(ActionEvent actionEvent) throws IOException {
         Order selectedItem = ordersTable.getSelectionModel().getSelectedItem();
-
+        System.out.println(selectedItem.getDate());
         if(selectedItem == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Προσοχή");
@@ -134,16 +133,17 @@ public class OrdersController extends MainMenuController implements Initializabl
     }
 
     private void openEditDialog(ActionEvent event, Order selectedItem) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("editOrder.fxml"));
-        root = loader.load();
-        // Ανάκτηση του controller που δημιουργήθηκε από τον FXMLLoader
-        EditOrderController editOrderController = loader.getController();
+        root = FXMLLoader.load(getClass().getResource("editOrder.fxml"));
+        Scene newScene = new Scene(root);
 
-        // Κλήση μιας μεθόδου στον controller για να περάσετε τα δεδομένα
-        editOrderController.setData(selectedItem);
-        // Εμφάνιση του νέου παραθύρου
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
+        // Δημιουργία ενός κόμβου Node για το MenuItem
+        MenuItem menuItem = (MenuItem) event.getSource();
+        Node sourceNode = menuItem.getParentPopup().getOwnerNode();
+
+        // Παίρνουμε το παράθυρο από τον τρέχοντα κόμβο
+        Stage currentStage = (Stage) sourceNode.getScene().getWindow();
+
+        currentStage.setScene(newScene);
+        currentStage.show();
     }
 }

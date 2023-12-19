@@ -70,7 +70,7 @@ public class NewOrderController extends MainMenuController implements Initializa
         tfName.addEventHandler(KeyEvent.KEY_TYPED, this::handle);
 
         tfName.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
+            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
                 // Αναζήτηση στη λίστα ειδών
                 autocomplete();
             }
@@ -247,7 +247,7 @@ public class NewOrderController extends MainMenuController implements Initializa
 
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
-            //tfName.setText(selectedProduct.getName());
+            tfName.setText(selectedProduct.getName());
             tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
             tfUnit.setText(selectedProduct.getUnit());
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
