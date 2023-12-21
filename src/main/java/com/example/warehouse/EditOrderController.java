@@ -1,29 +1,132 @@
 package com.example.warehouse;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class EditOrderController extends MainMenuController implements Initializable {
 
     @FXML
     DatePicker orderDate;
-    String date;
 
+    Order selectedOrder;
+    private ObservableList<Item> observableListItem;
+    @FXML
+    TableView <Item> itemsTable;
+
+    public EditOrderController(Order selectedOrder) {
+        this.selectedOrder = selectedOrder;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(date);
-        orderDate.setValue(LocalDate.now());
+        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
+        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
+
+        TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
+        unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
+
+        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        // Προσθήκη των κολόνων στο TableView
+        itemsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
+        tableInit();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate localDate = LocalDate.parse(selectedOrder.getDate(), formatter);
+
+        orderDate.setValue(localDate);
     }
 
-    public void setData(Order selectedItem) {
-        date = selectedItem.getDate();
+    private void tableInit() {
+        List<Item> items1 = fetchDataFromMySQL();
+        // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
+        observableListItem = FXCollections.observableArrayList(items1);
+        itemsTable.setItems(observableListItem);
+    }
+
+
+    private List<Item> fetchDataFromMySQL() {
+        String API_URL = "http://localhost/wharehouse/itemsGetAllOrder.php";
+        List<Item> Items = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
+                        String name = itemNode.get("name").asText();
+                        float quantity = Float.parseFloat(itemNode.get("quantity").asText());
+                        String unit = itemNode.get("unit").asText();
+                        float price = Float.parseFloat(itemNode.get("price").asText());
+                        int category_code = itemNode.get("category_code").asInt();
+
+                        Item item = new Item(code, name, quantity, unit, price,category_code);
+                        Items.add(item);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Items;
+
     }
 
     public void saveAction(ActionEvent actionEvent) {

@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class OrdersController extends MainMenuController implements Initializable {
@@ -31,7 +33,6 @@ public class OrdersController extends MainMenuController implements Initializabl
     private Stage stage;
     private Scene scene;
     private Parent root;
-
     @FXML
     TableView <Order> ordersTable;
     ObservableList<Order> observableList;
@@ -48,7 +49,6 @@ public class OrdersController extends MainMenuController implements Initializabl
         ordersTable.getColumns().addAll(dateColumn,totalProductsColumn);
         tableInit();
         ordersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
     }
 
     private void tableInit() {
@@ -118,9 +118,9 @@ public class OrdersController extends MainMenuController implements Initializabl
     }
 
 
-    public void handleEditOption(ActionEvent actionEvent) throws IOException {
+    public void handleEditOption(ActionEvent event) throws IOException {
         Order selectedItem = ordersTable.getSelectionModel().getSelectedItem();
-        System.out.println(selectedItem.getDate());
+
         if(selectedItem == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Προσοχή");
@@ -129,21 +129,23 @@ public class OrdersController extends MainMenuController implements Initializabl
             return;
         }
 
-        openEditDialog(actionEvent, selectedItem);
+        openEditDialog(event, selectedItem);
     }
 
     private void openEditDialog(ActionEvent event, Order selectedItem) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("editOrder.fxml"));
-        Scene newScene = new Scene(root);
+        // Δημιουργία νέου FXMLLoader
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("editOrder.fxml"));
 
-        // Δημιουργία ενός κόμβου Node για το MenuItem
-        MenuItem menuItem = (MenuItem) event.getSource();
-        Node sourceNode = menuItem.getParentPopup().getOwnerNode();
+        // Προσθήκη προσαρμοσμένου κατασκευαστή
+        loader.setController(new EditOrderController(selectedItem));
 
-        // Παίρνουμε το παράθυρο από τον τρέχοντα κόμβο
-        Stage currentStage = (Stage) sourceNode.getScene().getWindow();
+        // Φόρτωση του FXML
+        Parent root = loader.load();
 
-        currentStage.setScene(newScene);
-        currentStage.show();
+        // Δημιουργία νέου παραθύρου
+        Stage stage = new Stage();
+        stage.setTitle("Λεπτομέρειες Παραγγελίας");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }
