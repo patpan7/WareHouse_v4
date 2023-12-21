@@ -18,6 +18,7 @@ public class EditOrderController extends MainMenuController implements Initializ
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println(date);
         orderDate.setValue(LocalDate.now());
     }
 
