@@ -2,32 +2,37 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EditOrderController extends MainMenuController implements Initializable {
 
     @FXML
     DatePicker orderDate;
+    @FXML
+    Button backButton;
 
     Order selectedOrder;
     private ObservableList<Item> observableListItem;
@@ -74,9 +79,9 @@ public class EditOrderController extends MainMenuController implements Initializ
 
     private List<Item> fetchDataFromMySQL() {
         String API_URL = "http://localhost/wharehouse/itemsGetAllOrder.php";
-        List<Item> Items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         try {
-            URL url = new URL(API_URL);
+            URL url = new URL(API_URL + "?date=" + selectedOrder.getDate());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -106,11 +111,9 @@ public class EditOrderController extends MainMenuController implements Initializ
                         String name = itemNode.get("name").asText();
                         float quantity = Float.parseFloat(itemNode.get("quantity").asText());
                         String unit = itemNode.get("unit").asText();
-                        float price = Float.parseFloat(itemNode.get("price").asText());
-                        int category_code = itemNode.get("category_code").asInt();
 
-                        Item item = new Item(code, name, quantity, unit, price,category_code);
-                        Items.add(item);
+                        Item item = new Item(code, name, quantity, unit);
+                        items.add(item);
                     }
                 } else {
                     String failMessage = jsonNode.get("message").asText();
@@ -124,12 +127,81 @@ public class EditOrderController extends MainMenuController implements Initializ
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return Items;
-
+        return items;
     }
 
     public void saveAction(ActionEvent actionEvent) {
+        try {
+            if (!itemsTable.getItems().isEmpty()) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                fileChooser.setInitialFileName("Παραγγελία "+ dtf.format(orderDate.getValue()));
+                // Επιλέξτε τον τύπο αρχείου που θέλετε να αποθηκεύσετε (π.χ., PDF)
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+                fileChooser.getExtensionFilters().add(extFilter);
 
+                // Πάρτε το επιλεγμένο αρχείο
+                File file = fileChooser.showSaveDialog(null);
+
+                if (file != null) {
+                    // Χρησιμοποιήστε τον HTMLConverter για να δημιουργήσετε το PDF από τον HTML
+                    File outputFile = file;
+                    FileOutputStream outputStream = new FileOutputStream(outputFile);
+                    ConverterProperties converterProperties = new ConverterProperties();
+                    HtmlConverter.convertToPdf(generateHtmlFromTableView(itemsTable), outputStream, converterProperties);
+
+                    System.out.println("PDF created successfully: " + outputFile.getAbsolutePath());
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("");
+                alert.setContentText("Η παραγγελία είναι άδεια!");
+                Optional<ButtonType> result2 = alert.showAndWait();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String generateHtmlFromTableView(TableView<?> tableView) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        // Δημιουργία HTML από το TableView
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append("<html><body>");
+        htmlBuilder.append("<h1><center>Παραγγελία "+dtf.format(orderDate.getValue())+"<P>");
+        htmlBuilder.append("<table style=\"border: 1px solid black;\n" +
+                "border-collapse: collapse;" +
+                "font-size: 16pt;\">");
+
+        // Προσθήκη των επικεφαλίδων
+        htmlBuilder.append("<tr style=\"border:1px solid black;\">");
+        for (TableColumn<?, ?> column : tableView.getColumns()) {
+            htmlBuilder.append("<th style=\"border:1px solid black;\">").append(column.getText()).append("</th>");
+        }
+        htmlBuilder.append("<th style=\"border:1px solid black;\">").append("Ληφθείσα Ποσότητα</th>");
+        htmlBuilder.append("</tr>");
+        int i = 0;
+        // Προσθήκη των δεδομένων
+        for (Object ignored : tableView.getItems()) {
+
+            htmlBuilder.append("<tr style=\"border:1px solid black;\">");
+            for (TableColumn<?, ?> column : tableView.getColumns()) {
+                Object cellValue = column.getCellData(i);
+                htmlBuilder.append("<td style=\"border:1px solid black;\">").append(cellValue != null ? cellValue.toString() : "").append("</td>");
+            }
+            htmlBuilder.append("<td style=\"border:1px solid black;\"></td>");
+            i++;
+            htmlBuilder.append("</tr>");
+        }
+
+        htmlBuilder.append("</table></body></html>");
+        return htmlBuilder.toString();
+    }
+
+    public void handlebackButton(ActionEvent event){
+        // Κλείσιμο του παραθύρου
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        stage.close();
     }
 }

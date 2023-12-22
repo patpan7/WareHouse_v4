@@ -19,12 +19,12 @@
             <Insets bottom="10.0" />
          </BorderPane.margin>
          <children>
-                <Label alignment="CENTER" layoutX="326.0" layoutY="17.0" styleClass="header-label" text="Warehouse v4 - Νέα Παραγγελία" AnchorPane.topAnchor="10.0">
+                <Label alignment="CENTER" layoutX="267.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Προβολή παραγγελίας" AnchorPane.topAnchor="10.0">
                     <font>
                         <Font size="38.0" />
                     </font>
                 </Label>
-                <Button layoutX="973.0" layoutY="11.0" mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                <Button fx:id="backButton" layoutX="973.0" layoutY="11.0" mnemonicParsing="false" onAction="#handlebackButton" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                     <graphic>
                         <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                             <image>

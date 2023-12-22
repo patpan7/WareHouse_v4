@@ -36,6 +36,13 @@ public class Item {
         this.category_code = category_code;
     }
 
+    public Item(int code, String name, float quantity, String unit) {
+        this.code = code;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
+
     public int getCode() {
         return code;
     }

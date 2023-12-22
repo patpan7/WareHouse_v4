@@ -49,6 +49,24 @@ public class OrdersController extends MainMenuController implements Initializabl
         ordersTable.getColumns().addAll(dateColumn,totalProductsColumn);
         tableInit();
         ordersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        ordersTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Έλεγχος για δύο κλικ
+                // Πάρτε τα δεδομένα από την επιλεγμένη γραμμή
+                Order selectedOrder = ordersTable.getSelectionModel().getSelectedItem();
+
+
+                // Έλεγχος αν υπάρχει επιλεγμένο προϊόν
+                if (selectedOrder != null) {
+                    // Ανοίξτε το dialog box για επεξεργασία
+                    try {
+                        openEditDialog(selectedOrder);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
     }
 
     private void tableInit() {
@@ -119,9 +137,9 @@ public class OrdersController extends MainMenuController implements Initializabl
 
 
     public void handleEditOption(ActionEvent event) throws IOException {
-        Order selectedItem = ordersTable.getSelectionModel().getSelectedItem();
+        Order selectedOrder = ordersTable.getSelectionModel().getSelectedItem();
 
-        if(selectedItem == null){
+        if(selectedOrder == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Προσοχή");
             alert.setContentText("Δεν έχει επιλεγέι είδος!");
@@ -129,10 +147,10 @@ public class OrdersController extends MainMenuController implements Initializabl
             return;
         }
 
-        openEditDialog(event, selectedItem);
+        openEditDialog(selectedOrder);
     }
 
-    private void openEditDialog(ActionEvent event, Order selectedItem) throws IOException {
+    private void openEditDialog(Order selectedItem) throws IOException {
         // Δημιουργία νέου FXMLLoader
         FXMLLoader loader = new FXMLLoader(getClass().getResource("editOrder.fxml"));
 
