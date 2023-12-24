@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProductsController extends MainMenuController implements Initializable {
     String[] UNITS = {"ΤΕΜ", "ΚΙΛ", "ΛΙΤ", "ΔΟΧ"};
+    String server;
     @FXML
     TableView <Item> itemsTable;
     @FXML
@@ -42,7 +43,7 @@ public class ProductsController extends MainMenuController implements Initializa
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        server = AppSettings.loadSetting("server");
         TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
 
@@ -190,7 +191,7 @@ public class ProductsController extends MainMenuController implements Initializa
     }
 
     private List<Item> fetchDataFromMySQL() {
-        String API_URL = "http://localhost/wharehouse/itemsGetAll.php";
+        String API_URL = "http://"+server+"/warehouse/itemsGetAll.php";
             List<Item> Items = new ArrayList<>();
             try {
                 URL url = new URL(API_URL);
@@ -247,7 +248,7 @@ public class ProductsController extends MainMenuController implements Initializa
         }
 
         private List<Category> fetchCatFromMySQL(){
-            String API_URL = "http://localhost/wharehouse/categoryGetAll.php";
+            String API_URL = "http://"+server+"/warehouse/categoryGetAll.php";
             List<Category> categories = new ArrayList<>();
             try {
                 URL url = new URL(API_URL);
@@ -467,7 +468,7 @@ public class ProductsController extends MainMenuController implements Initializa
     }
 
     private void addNewRequest(String name, Float price, String unit, int category_code) {
-        String apiUrl = "http://localhost/wharehouse/itemAdd.php";
+        String apiUrl = "http://"+server+"/warehouse/itemAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -563,7 +564,7 @@ public class ProductsController extends MainMenuController implements Initializa
     }
 
     private void addNewCategoryRequest(String name) {
-        String apiUrl = "http://localhost/wharehouse/categoryAdd.php";
+        String apiUrl = "http://"+server+"/warehouse/categoryAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -630,7 +631,7 @@ public class ProductsController extends MainMenuController implements Initializa
     }
 
     private void updateRequest(int code, String name, Float price, String unit, int category_code) {
-        String apiUrl = "http://localhost/wharehouse/itemUpdate.php";
+        String apiUrl = "http://"+server+"/warehouse/itemUpdate.php";
 
         try {
             URL url = new URL(apiUrl);

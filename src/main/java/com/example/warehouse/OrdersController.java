@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,10 +38,25 @@ public class OrdersController extends MainMenuController implements Initializabl
     private Parent root;
     @FXML
     TableView <Order> ordersTable;
+    @FXML
+    DatePicker dateFrom;
+    @FXML
+    DatePicker dateTo;
     ObservableList<Order> observableList;
+
+    String server;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        server = AppSettings.loadSetting("server");
+        // Πρώτη μέρα του τρέχοντος μήνα
+        LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
+        dateFrom.setValue(firstDayOfMonth);
+
+        // Σημερινή ημερομηνία
+        dateTo.setValue(LocalDate.now());
+
+
         TableColumn<Order, String> dateColumn = new TableColumn<>("Ημερομηνία");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
@@ -67,6 +85,15 @@ public class OrdersController extends MainMenuController implements Initializabl
                 }
             }
         });
+
+        dateFrom.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Εδώ μπορείτε να καλέσετε τη μέθοδο που θέλετε να εκτελεστεί
+            tableInit();
+        });
+        dateTo.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Εδώ μπορείτε να καλέσετε τη μέθοδο που θέλετε να εκτελεστεί
+            tableInit();
+        });
     }
 
     private void tableInit() {
@@ -77,10 +104,13 @@ public class OrdersController extends MainMenuController implements Initializabl
     }
 
     private List<Order> fetchDataFromMySQL() {
-        String API_URL = "http://localhost/wharehouse/ordersGetAll.php";
+        String API_URL = "http://"+server+"/warehouse/ordersGetAll.php";
         List<Order> orders = new ArrayList<>();
         try {
-            URL url = new URL(API_URL);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String dateFrom1 = dateFrom.getValue().format(formatter);
+            String dateTo1 = dateTo.getValue().format(formatter);
+            URL url = new URL(API_URL + "?dateFrom=" + dateFrom1 + "&dateTo=" + dateTo1);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 

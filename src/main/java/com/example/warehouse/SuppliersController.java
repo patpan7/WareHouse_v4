@@ -30,8 +30,11 @@ public class SuppliersController extends MainMenuController implements Initializ
     TextField filterField;
 
     ObservableList<Supplier> observableList;
+
+    String server;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        server = AppSettings.loadSetting("server");
 
         TableColumn<Supplier, String> codeColumn = new TableColumn<>("Κωδικός");
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -124,7 +127,7 @@ public class SuppliersController extends MainMenuController implements Initializ
     }
 
     private List<Supplier> fetchDataFromMySQL() {
-        String API_URL = "http://localhost/wharehouse/suppliersGetAll.php";
+        String API_URL = "http://"+server+"/warehouse/suppliersGetAll.php";
         List<Supplier> Suppliers = new ArrayList<>();
         try {
             URL url = new URL(API_URL);
@@ -249,7 +252,7 @@ public class SuppliersController extends MainMenuController implements Initializ
     }
 
     private void addNewRequest(String name, String phone) {
-        String apiUrl = "http://localhost/wharehouse/supplierAdd.php";
+        String apiUrl = "http://"+server+"/warehouse/supplierAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -316,7 +319,7 @@ public class SuppliersController extends MainMenuController implements Initializ
     }
 
     private void updateRequest(int code, String name, String phone) {
-        String apiUrl = "http://localhost/wharehouse/supplierUpdate.php";
+        String apiUrl = "http://"+server+"/warehouse/supplierUpdate.php";
 
         try {
             URL url = new URL(apiUrl);

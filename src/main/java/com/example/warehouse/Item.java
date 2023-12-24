@@ -7,6 +7,7 @@ public class Item {
     String unit;
     float price;
     int category_code;
+    Float sum;
     String cat;
 
     public Item() {
@@ -43,6 +44,17 @@ public class Item {
         this.unit = unit;
     }
 
+    public Item(int code, String name, float quantity, String unit, float price, int categoryCode, float sum) {
+        this.code = code;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = category_code;
+        this.sum = sum;
+        this.cat = cat;
+    }
+
     public int getCode() {
         return code;
     }
@@ -65,7 +77,9 @@ public class Item {
 
     public int getCategory_code() {return category_code;}
 
-
+    public float getSum() {
+        return sum;
+    }
     public void setCode(int code) {
         this.code = code;
     }
@@ -90,6 +104,9 @@ public class Item {
         this.category_code = category_code;
     }
 
+    public void setSum (float sum){
+        this.sum = sum;
+    }
     @Override
     public String toString() {
         return name;

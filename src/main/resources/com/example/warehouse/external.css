@@ -73,6 +73,11 @@
     -fx-background-color:-fx-primary-color;
 }
 
+.table-row-cell:empty {
+-fx-background-color: white;
+-fx-border-color: white;
+}
+
 //Style of each entire row in the table view when is getting focused
 //.table-row-cell:focused {
 //    -fx-background-color:purple;

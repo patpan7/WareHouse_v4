@@ -2,7 +2,6 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import javafx.collections.FXCollections;
@@ -18,8 +17,6 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,17 +30,19 @@ public class EditOrderController extends MainMenuController implements Initializ
     DatePicker orderDate;
     @FXML
     Button backButton;
-
-    Order selectedOrder;
-    private ObservableList<Item> observableListItem;
     @FXML
     TableView <Item> itemsTable;
+    private ObservableList<Item> observableListItem;
+    Order selectedOrder;
 
+    String server;
     public EditOrderController(Order selectedOrder) {
         this.selectedOrder = selectedOrder;
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        server = AppSettings.loadSetting("server");
+
         TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
 
@@ -78,7 +77,7 @@ public class EditOrderController extends MainMenuController implements Initializ
 
 
     private List<Item> fetchDataFromMySQL() {
-        String API_URL = "http://localhost/wharehouse/itemsGetAllOrder.php";
+        String API_URL = "http://"+server+"/warehouse/itemsGetAllOrder.php";
         List<Item> items = new ArrayList<>();
         try {
             URL url = new URL(API_URL + "?date=" + selectedOrder.getDate());

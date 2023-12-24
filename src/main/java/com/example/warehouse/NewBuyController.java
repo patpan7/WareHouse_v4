@@ -3,31 +3,41 @@ package com.example.warehouse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.itextpdf.html2pdf.ConverterProperties;
-import com.itextpdf.html2pdf.HtmlConverter;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.TextFields;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class NewOrderController extends MainMenuController implements Initializable {
+public class NewBuyController extends MainMenuController implements Initializable {
 
+    @FXML
+    ComboBox<Supplier> tfSupplier;
+    @FXML
+    DatePicker tfDate;
+    @FXML
+    TextField tfInvoice;
     @FXML
     TextField tfName;
     @FXML
@@ -35,20 +45,30 @@ public class NewOrderController extends MainMenuController implements Initializa
     @FXML
     TextField tfQuantity;
     @FXML
-    TableView <Item> orderTable;
+    TextField tfPrice;
     @FXML
-    DatePicker orderDate;
+    TextField tfSum;
+    @FXML
+    TableView<Item> orderTable;
+
+    List<Supplier> suppliers;
+    ObservableList<Supplier> observableListSup;
     List<Item> items1;
     Item selectedItem;
 
+    float totalSum = 0.0F;
     String server;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.loadSetting("server");
-        items1 = fetchDataFromMySQL();
 
+        supplierInit();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        tfDate.setValue(LocalDate.now());
+
+        items1 = fetchDataFromMySQL();
         // Ενεργοποίηση αυτόματης συμπλήρωσης στο TextField με βάση το όνομα του είδους
         TextFields.bindAutoCompletion(tfName, request -> {
             String filter = request.getUserText().toUpperCase();
@@ -88,8 +108,9 @@ public class NewOrderController extends MainMenuController implements Initializa
             }
         });
 
+        applyNumericDecimalFormatter(tfQuantity);
         tfQuantity.setOnMouseClicked(event -> {
-            if (tfQuantity.isFocused()) {
+            if (tfQuantity.getText().isEmpty()) {
                 autocomplete();
             } else {
                 System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
@@ -99,14 +120,25 @@ public class NewOrderController extends MainMenuController implements Initializa
         tfQuantity.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 // Αναζήτηση στη λίστα ειδών
+                autocomplete();
+            }
+        });
+
+        applyNumericDecimalFormatter(tfPrice);
+        tfPrice.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
+                // Αναζήτηση στη λίστα ειδών
                 addRow();
             }
         });
 
-/*
-        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
-        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
-*/
+        tfPrice.setOnMouseClicked(event -> {
+            if (tfPrice.getText().isEmpty()) {
+                autocomplete();
+            } else {
+                System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
+            }
+        });
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -120,22 +152,115 @@ public class NewOrderController extends MainMenuController implements Initializa
         TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+        TableColumn<Item, Float> totalColumn = new TableColumn<>("Σύνολο");
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
+
+
         // Προσθήκη των κολόνων στο TableView
-        //orderTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
-        orderTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn);
+        orderTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn, totalColumn);
         orderTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        orderDate.setValue(LocalDate.now());
     }
 
     void autocomplete(){
         for (Item item : items1) {
             if (item.getName().equalsIgnoreCase(tfName.getText())) {
                 tfUnit.setText(item.getUnit());
+                if (tfPrice.getText().isEmpty())
+                    tfPrice.setText(String.valueOf(item.getPrice()));
                 selectedItem = item;
             }
         }
-        tfQuantity.requestFocus();
+        if(tfQuantity.getText().isEmpty())
+            tfQuantity.requestFocus();
+        else
+            tfPrice.requestFocus();
+    }
+
+    private void supplierInit() {
+        suppliers = fetchSupFromMySQL();
+        observableListSup = FXCollections.observableArrayList(suppliers);
+        tfSupplier.setItems(observableListSup);
+
+        tfSupplier.setCellFactory(param -> new ListCell<Supplier>() {
+            @Override
+            protected void updateItem(Supplier item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
+
+        tfSupplier.setButtonCell(new ListCell<Supplier>() {
+            @Override
+            protected void updateItem(Supplier item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
+    }
+
+    private List<Supplier> fetchSupFromMySQL(){
+        String API_URL = "http://"+server+"/warehouse/suppliersGetAll.php";
+        List<Supplier> Suppliers = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
+                        String name = itemNode.get("name").asText();
+                        String phone = itemNode.get("phone").asText();
+                        float turnover = Float.parseFloat(itemNode.get("turnover").asText());
+
+                        Supplier supplier = new Supplier(code, name, phone,turnover);
+                        Suppliers.add(supplier);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Suppliers;
     }
 
     private List<Item> fetchDataFromMySQL() {
@@ -170,12 +295,12 @@ public class NewOrderController extends MainMenuController implements Initializa
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        float quantity = Float.parseFloat(itemNode.get("quantity").asText());
+                        float quantity = 0.0F;
                         String unit = itemNode.get("unit").asText();
                         float price = Float.parseFloat(itemNode.get("price").asText());
                         int category_code = itemNode.get("category_code").asInt();
-
-                        Item item = new Item(code, name, quantity, unit, price,category_code);
+                        float sum = 0.0F;
+                        Item item = new Item(code, name, quantity, unit, price,category_code,sum);
                         Items.add(item);
                     }
                 } else {
@@ -194,13 +319,14 @@ public class NewOrderController extends MainMenuController implements Initializa
     }
 
     public void addRow() {
-        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty()) {
+        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && Float.parseFloat(tfPrice.getText())>0) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
             ObservableList<Item> items = orderTable.getItems();
             if (!items.contains(selectedItem)) {
                 selectedItem.setQuantity(Float.parseFloat(tfQuantity.getText()));
-
+                selectedItem.setPrice(Float.parseFloat(tfPrice.getText()));
+                selectedItem.setSum(selectedItem.getQuantity() * selectedItem.getPrice());
                 // Προσθέστε το νέο αντικείμενο στη λίστα
                 items.add(selectedItem);
 
@@ -208,6 +334,10 @@ public class NewOrderController extends MainMenuController implements Initializa
                 tfName.requestFocus();
                 tfQuantity.setText("");
                 tfUnit.setText("");
+                tfPrice.setText("");
+                totalSum += selectedItem.getSum();
+                tfSum.setText(String.valueOf(totalSum));
+
             } else {
                 // Το selectedItem υπάρχει ήδη στη λίστα
                 // Βρείτε το υπάρχον αντικείμενο στη λίστα
@@ -219,21 +349,25 @@ public class NewOrderController extends MainMenuController implements Initializa
                 if (existingItem != null) {
                     // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
                     items.remove(existingItem);
+                    totalSum -= existingItem.getSum();
                     existingItem.setQuantity(existingItem.getQuantity() + Float.parseFloat(tfQuantity.getText()));
+                    existingItem.setSum(existingItem.getQuantity()* existingItem.getPrice());
                     items.add(existingItem);
                     tfName.setText("");
                     tfName.requestFocus();
                     tfQuantity.setText("");
                     tfUnit.setText("");
+                    tfPrice.setText("");
+                    totalSum += existingItem.getSum();
+                    tfSum.setText(String.valueOf(totalSum));
                 }
             }
         }
     }
 
-    public void deleteRow() {
+    public void deleteRow(ActionEvent event) {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
         Item selectedProduct = orderTable.getSelectionModel().getSelectedItem();
-
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
@@ -241,102 +375,67 @@ public class NewOrderController extends MainMenuController implements Initializa
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
+            totalSum -= selectedProduct.getSum();
+            tfSum.setText(String.valueOf(totalSum));
         }
     }
 
-    public void editRow() {
+    public void editRow(ActionEvent event) {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
         Item selectedProduct = orderTable.getSelectionModel().getSelectedItem();
-
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
             tfName.setText(selectedProduct.getName());
             tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
             tfUnit.setText(selectedProduct.getUnit());
+            tfPrice.setText(String.valueOf(selectedProduct.getPrice()));
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
             ObservableList<Item> items = orderTable.getItems();
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
+            totalSum -= selectedProduct.getSum();
+            tfSum.setText(String.valueOf(totalSum));
         }
     }
 
-    public void saveAction () {
-        try {
-            if (!orderTable.getItems().isEmpty()) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                fileChooser.setInitialFileName("Παραγγελία "+ dtf.format(orderDate.getValue()));
-                // Επιλέξτε τον τύπο αρχείου που θέλετε να αποθηκεύσετε (π.χ., PDF)
-                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
-                fileChooser.getExtensionFilters().add(extFilter);
 
-                // Πάρτε το επιλεγμένο αρχείο
-                File file = fileChooser.showSaveDialog(null);
+    public void saveAction(ActionEvent event) {
+        if (tfSupplier.getValue() != null){
+            if (!tfInvoice.getText().isEmpty()){
+                if (!orderTable.getItems().isEmpty()){
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    String date = dtf.format(tfDate.getValue());
+                    ObservableList<Item> items = orderTable.getItems();
+                    int suppliercode = tfSupplier.getValue().getCode();
+                    String invoice = tfInvoice.getText();
+                    addNewRequest(items,suppliercode,date, invoice,totalSum);
 
-                if (file != null) {
-                    // Χρησιμοποιήστε τον HTMLConverter για να δημιουργήσετε το PDF από τον HTML
-                    File outputFile = file;
-                    FileOutputStream outputStream = new FileOutputStream(outputFile);
-                    ConverterProperties converterProperties = new ConverterProperties();
-                    HtmlConverter.convertToPdf(generateHtmlFromTableView(orderTable), outputStream, converterProperties);
 
-                    System.out.println("PDF created successfully: " + outputFile.getAbsolutePath());
+
+                }else{
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("");
+                    alert.setContentText("Το τιμολόγιο είναι κενό!");
+                    Optional<ButtonType> result2 = alert.showAndWait();
                 }
-                dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                String date = dtf.format(orderDate.getValue());
-                System.out.println(date);
-                ObservableList<Item> items = orderTable.getItems();
-                addNewRequest(items, date);
-            } else {
+            }else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("");
-                alert.setContentText("Η παραγγελία είναι άδεια!");
+                alert.setContentText("Ο αριθμός τιμολογίου είναι κενός!");
                 Optional<ButtonType> result2 = alert.showAndWait();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("");
+            alert.setContentText("Δεν έχει επιλεγεί Προμηθευτής!");
+            Optional<ButtonType> result2 = alert.showAndWait();
         }
+
     }
 
-    private String generateHtmlFromTableView(TableView<?> tableView) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        // Δημιουργία HTML από το TableView
-        StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<html><body>");
-        htmlBuilder.append("<h1><center>Παραγγελία "+dtf.format(orderDate.getValue())+"<P>");
-        htmlBuilder.append("<table style=\"border: 1px solid black;\n" +
-                "border-collapse: collapse;" +
-                "font-size: 16pt;\">");
-
-        // Προσθήκη των επικεφαλίδων
-        htmlBuilder.append("<tr style=\"border:1px solid black;\">");
-        for (TableColumn<?, ?> column : tableView.getColumns()) {
-            htmlBuilder.append("<th style=\"border:1px solid black;\">").append(column.getText()).append("</th>");
-        }
-        htmlBuilder.append("<th style=\"border:1px solid black;\">").append("Ληφθείσα Ποσότητα</th>");
-        htmlBuilder.append("</tr>");
-        int i = 0;
-        // Προσθήκη των δεδομένων
-        for (Object ignored : tableView.getItems()) {
-
-            htmlBuilder.append("<tr style=\"border:1px solid black;\">");
-            for (TableColumn<?, ?> column : tableView.getColumns()) {
-                Object cellValue = column.getCellData(i);
-                htmlBuilder.append("<td style=\"border:1px solid black;\">").append(cellValue != null ? cellValue.toString() : "").append("</td>");
-            }
-            htmlBuilder.append("<td style=\"border:1px solid black;\"></td>");
-            i++;
-            htmlBuilder.append("</tr>");
-        }
-
-        htmlBuilder.append("</table></body></html>");
-        return htmlBuilder.toString();
-    }
-
-    private void addNewRequest(ObservableList<Item> tableView, String date) {
-        String apiUrl = "http://"+server+"/warehouse/orderAdd.php";
+    private void addNewRequest(ObservableList<Item> items, int supplierCode, String date, String invoice, float totalSum) {
+        String apiUrl = "http://"+server+"/warehouse/buyAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -354,10 +453,12 @@ public class NewOrderController extends MainMenuController implements Initializa
             ObjectNode jsonRequest = objectMapper.createObjectNode();
 
             // Προσθήκη της λίστας με τα είδη στο JSON
-            jsonRequest.putPOJO("orderTable", tableView);
+            jsonRequest.putPOJO("orderTable", items);
 
-            // Προσθήκη της ημερομηνίας στο JSON
             jsonRequest.put("date", date); // Προσαρμόστε την ημερομηνία όπως χρειάζεται
+            jsonRequest.put("supplierCode", supplierCode);
+            jsonRequest.put("invoice", invoice);
+            jsonRequest.put("totalSum", totalSum);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(jsonRequest);
@@ -389,8 +490,7 @@ public class NewOrderController extends MainMenuController implements Initializa
                     alert.setContentText(response.toString());
                     Optional<ButtonType> result2 = alert.showAndWait();
                     if (result2.get() == ButtonType.OK) {
-                        orderTable.getItems().clear();
-                        orderTable.refresh();
+                        clean();
                     }
 
                 }
@@ -401,6 +501,16 @@ public class NewOrderController extends MainMenuController implements Initializa
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void clean(){
+        orderTable.getItems().clear();
+        orderTable.refresh();
+        totalSum = 0.0F;
+        tfSum.setText("");
+        tfSupplier.setValue(null);
+        tfInvoice.setText("");
+        tfDate.setValue(LocalDate.now());
     }
 
     private static final Map<Character, Character> ENGLISH_TO_GREEK = new HashMap<>();
@@ -454,5 +564,24 @@ public class NewOrderController extends MainMenuController implements Initializa
             // Ορισμός της θέσης του κέρσορα στην αρχή
             tfName.positionCaret(0);
         }
+    }
+
+    private void applyNumericDecimalFormatter(TextField textField) {
+        // Ορισμός UnaryOperator για να δέχεται αριθμούς και δεκαδικούς
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String text = change.getControlNewText();
+
+            // Μετατροπή κόμμα σε τελεία
+            text = text.replace(',', '.');
+
+            if (Pattern.matches("[0-9]*\\.?[0-9]*", text)) {
+                return change;
+            }
+            return null;
+        };
+
+        // Εφαρμογή του TextFormatter
+        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+        textField.setTextFormatter(textFormatter);
     }
 }
