@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class ProductsController extends MainMenuController implements Initializable {
+public class ItemsController extends MainMenuController implements Initializable {
     String[] UNITS = {"ΤΕΜ", "ΚΙΛ", "ΛΙΤ", "ΔΟΧ"};
     String server;
     @FXML
@@ -34,8 +34,8 @@ public class ProductsController extends MainMenuController implements Initializa
     TextField filterField;
     @FXML
     ComboBox <Category> categoryFiled;
-    ObservableList<Category> observableListCat;
 
+    ObservableList<Category> observableListCat;
     List<Category> categories;
     ObservableList<Item> observableListItem;
     FilteredList<Item> filteredData;
@@ -299,6 +299,59 @@ public class ProductsController extends MainMenuController implements Initializa
             return categories;
         }
 
+    private List<Unit> fetchUnitsFromMySQL() {
+        String API_URL = "http://"+server+"/warehouse/unitsGetAll.php";
+        List<Unit> Units = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
+                        String unit = itemNode.get("unit").asText();
+
+                        Unit units = new Unit(code, unit);
+                        Units.add(units);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Units;
+
+    }
+
     private void openEditDialog(Item selectedProduct) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("newItem.fxml"));
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -317,7 +370,8 @@ public class ProductsController extends MainMenuController implements Initializa
         // Ορίζετε τιμές στα πεδία με βάση τα δεδομένα του επιλεγμένου προϊόντος
         nameField.setText(selectedProduct.getName());
         priceField.setText(String.valueOf(selectedProduct.getPrice()));
-        unitField.getItems().addAll(UNITS);
+
+        unitField.getItems().addAll(fetchUnitsFromMySQL());
         unitField.setValue(selectedProduct.getUnit());
 
         AtomicInteger categoryCode = new AtomicInteger(1);
@@ -383,8 +437,8 @@ public class ProductsController extends MainMenuController implements Initializa
 
             dialog.setTitle("Εισαγωγή Προϊόντος");
 
-            ComboBox<String> unitComboBox = (ComboBox<String>) loader.getNamespace().get("tfUnit");
-            unitComboBox.getItems().addAll(UNITS);
+            ComboBox unitComboBox = (ComboBox) loader.getNamespace().get("tfUnit");
+            unitComboBox.getItems().addAll(fetchUnitsFromMySQL());
             unitComboBox.getSelectionModel().selectFirst();
 
             ComboBox <Category>  tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
@@ -437,7 +491,7 @@ public class ProductsController extends MainMenuController implements Initializa
                 TextField tfPrice = (TextField) loader.getNamespace().get("tfPrice");
                 String name = tfName.getText();
                 Float price = Float.parseFloat(tfPrice.getText());
-                String unit = unitComboBox.getValue();
+                String unit = (String) unitComboBox.getValue();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Επιβεβαίωση εισαγωγής:");
@@ -713,6 +767,4 @@ public class ProductsController extends MainMenuController implements Initializa
 
         // ...
     }
-
-
 }

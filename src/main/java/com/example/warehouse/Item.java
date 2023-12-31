@@ -7,7 +7,7 @@ public class Item {
     String unit;
     float price;
     int category_code;
-    Float sum;
+    Float sum = 0.0F;
     String cat;
 
     public Item() {
@@ -44,7 +44,7 @@ public class Item {
         this.unit = unit;
     }
 
-    public Item(int code, String name, float quantity, String unit, float price, int categoryCode, float sum) {
+    public Item(int code, String name, float quantity, String unit, float price, int category_code, float sum) {
         this.code = code;
         this.name = name;
         this.quantity = quantity;
@@ -52,7 +52,15 @@ public class Item {
         this.price = price;
         this.category_code = category_code;
         this.sum = sum;
-        this.cat = cat;
+    }
+
+    public Item(int code, String name, float quantity, String unit, float price, float sum) {
+        this.code = code;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.price = price;
+        this.sum = sum;
     }
 
     public int getCode() {

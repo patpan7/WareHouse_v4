@@ -67,6 +67,24 @@ public class BuysController extends MainMenuController implements Initializable 
         buysTable.getColumns().addAll(supplierColumn,dateColumn, invColumn, totalColumn);
         tableInit();
         buysTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        buysTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Έλεγχος για δύο κλικ
+                // Πάρτε τα δεδομένα από την επιλεγμένη γραμμή
+                Buys selectedBuy = buysTable.getSelectionModel().getSelectedItem();
+
+
+                // Έλεγχος αν υπάρχει επιλεγμένο προϊόν
+                if (selectedBuy != null) {
+                    // Ανοίξτε το dialog box για επεξεργασία
+                    try {
+                        openEditDialog(selectedBuy);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
     }
 
     private void tableInit() {
@@ -113,9 +131,9 @@ public class BuysController extends MainMenuController implements Initializable 
                         String date = itemNode.get("date").asText();
                         String invoice = itemNode.get("invoice").asText();
                         Float total = Float.parseFloat(itemNode.get("total").asText());
+                        int suppliercode = itemNode.get("suppliercode").asInt();
 
-
-                        Buys buy = new Buys (name,date, invoice, total);
+                        Buys buy = new Buys (name,date, invoice, total,suppliercode);
                         buys.add(buy);
                     }
                 } else {

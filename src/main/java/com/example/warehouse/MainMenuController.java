@@ -24,7 +24,7 @@ public class MainMenuController {
     }
 
     public void productClick(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("products.fxml"));
+        root = FXMLLoader.load(getClass().getResource("items.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -64,7 +64,7 @@ public class MainMenuController {
     }
 
     public void intrashipmentClick(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("intrashipment.fxml"));
+        root = FXMLLoader.load(getClass().getResource("distribution.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

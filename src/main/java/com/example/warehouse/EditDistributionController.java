@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class EditBuyController extends MainMenuController implements Initializable {
+public class EditDistributionController extends MainMenuController implements Initializable {
 
     @FXML
     DatePicker buyDate;
@@ -34,11 +34,12 @@ public class EditBuyController extends MainMenuController implements Initializab
     @FXML
     TableView<Item> itemsTable;
     private ObservableList<Item> observableListItem;
-    Buys selectedBuy;
+    Distribution selectedDistribution;
 
     String server;
-    public EditBuyController(Buys selectedBuy) {
-        this.selectedBuy = selectedBuy;
+
+    public EditDistributionController(Distribution selectedDistribution) {
+        this.selectedDistribution = selectedDistribution;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class EditBuyController extends MainMenuController implements Initializab
         tableInit();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localDate = LocalDate.parse(selectedBuy.getDate(), formatter);
+        LocalDate localDate = LocalDate.parse(selectedDistribution.getDate(), formatter);
 
         buyDate.setValue(localDate);
     }
@@ -83,10 +84,10 @@ public class EditBuyController extends MainMenuController implements Initializab
     }
 
     private List<Item> fetchDataFromMySQL() {
-        String API_URL = "http://"+server+"/warehouse/itemsGetAllBuy.php";
+        String API_URL = "http://"+server+"/warehouse/itemsGetAllDistribution.php";
         List<Item> items = new ArrayList<>();
         try {
-            URL url = new URL(API_URL + "?invoice=" + selectedBuy.getInvoice() + "&supplier=" + selectedBuy.getSuppliercode());
+            URL url = new URL(API_URL);
             System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
