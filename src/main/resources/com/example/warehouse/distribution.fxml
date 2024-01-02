@@ -21,7 +21,7 @@
     <top>
         <AnchorPane fx:id="code" BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="334.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Ενδοδιακίνηση" AnchorPane.topAnchor="10.0">
+                <Label layoutX="334.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Ενδοδιακίνηση" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
                     <font>
                         <Font size="38.0" />
                     </font>

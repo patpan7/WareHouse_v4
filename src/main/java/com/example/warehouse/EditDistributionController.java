@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -25,22 +22,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class EditDistributionController extends MainMenuController implements Initializable {
+public class EditDistributionController implements Initializable {
 
     @FXML
     DatePicker buyDate;
+    @FXML
+    ComboBox<Department> departmentField;
     @FXML
     Button backButton;
     @FXML
     TableView<Item> itemsTable;
     private ObservableList<Item> observableListItem;
+
+    List<Department> departmentList;
+    ObservableList<Department> observableListDep;
     Distribution selectedDistribution;
 
     String server;
 
-    public EditDistributionController(Distribution selectedDistribution) {
-        this.selectedDistribution = selectedDistribution;
+    public EditDistributionController(Distribution selectedItem) {
+        this.selectedDistribution = selectedItem;
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,22 +61,53 @@ public class EditDistributionController extends MainMenuController implements In
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
-        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        TableColumn<Item, Float> sumColumn = new TableColumn<>("Σύνολο");
-        sumColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
-
-
 
         // Προσθήκη των κολόνων στο TableView
-        itemsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn, sumColumn);
+        itemsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn);
         tableInit();
+        departmentInit();
+
+        Department selectedDepartment = departmentList.stream()
+                .filter(department -> department.getName().equals(selectedDistribution.getDepartment()))
+                .findFirst()
+                .orElse(null);
+        departmentField.setValue(selectedDepartment);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localDate = LocalDate.parse(selectedDistribution.getDate(), formatter);
 
         buyDate.setValue(localDate);
+    }
+    private void departmentInit() {
+        departmentList = fetchDepFromMySQL();
+        observableListDep = FXCollections.observableArrayList(departmentList);
+        departmentField.setItems(observableListDep);
+
+        departmentField.setCellFactory(param -> new ListCell<Department>() {
+            @Override
+            protected void updateItem(Department item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
+
+        departmentField.setButtonCell(new ListCell<Department>() {
+            @Override
+            protected void updateItem(Department item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
     }
 
     private void tableInit() {
@@ -87,7 +121,7 @@ public class EditDistributionController extends MainMenuController implements In
         String API_URL = "http://"+server+"/warehouse/itemsGetAllDistribution.php";
         List<Item> items = new ArrayList<>();
         try {
-            URL url = new URL(API_URL);
+            URL url = new URL(API_URL + "?date=" + selectedDistribution.getDate() + "&department=" + selectedDistribution.getDepartment());
             System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -118,9 +152,7 @@ public class EditDistributionController extends MainMenuController implements In
                         String name = itemNode.get("name").asText();
                         float quantity = Float.parseFloat(itemNode.get("quantity").asText());
                         String unit = itemNode.get("unit").asText();
-                        float price = Float.parseFloat(itemNode.get("price").asText());
-                        float sum = Float.parseFloat(itemNode.get("sum").asText());
-                        Item item = new Item(code, name, quantity, unit,price,sum);
+                        Item item = new Item(code, name, quantity, unit);
                         items.add(item);
                     }
                 } else {
@@ -138,9 +170,66 @@ public class EditDistributionController extends MainMenuController implements In
         return items;
     }
 
+    private List<Department> fetchDepFromMySQL(){
+        String API_URL = "http://"+server+"/warehouse/departmentsGetAll.php";
+        List<Department> departments = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
+                        String name = itemNode.get("name").asText();
+
+                        Department department = new Department(code, name);
+                        departments.add(department);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return departments;
+    }
+
     public void handlebackButton(ActionEvent event){
         // Κλείσιμο του παραθύρου
         Stage stage = (Stage) backButton.getScene().getWindow();
         stage.close();
+    }
+
+    public void changeDepartment(ActionEvent actionEvent) {
+        departmentField.setEditable(true);
+        departmentField.setDisable(false);
     }
 }

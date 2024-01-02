@@ -10,8 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.BufferedReader;
@@ -25,8 +28,11 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class ItemsController extends MainMenuController implements Initializable {
-    String[] UNITS = {"ΤΕΜ", "ΚΙΛ", "ΛΙΤ", "ΔΟΧ"};
+public class ItemsController implements Initializable {
+
+    private Stage stage;
+    private Scene scene;
+    public Parent root;
     String server;
     @FXML
     TableView <Item> itemsTable;
@@ -40,6 +46,17 @@ public class ItemsController extends MainMenuController implements Initializable
     ObservableList<Item> observableListItem;
     FilteredList<Item> filteredData;
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    public void setRoot(Parent root) {
+        this.root = root;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,7 +67,7 @@ public class ItemsController extends MainMenuController implements Initializable
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Διαθέσιμη Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
@@ -491,7 +508,7 @@ public class ItemsController extends MainMenuController implements Initializable
                 TextField tfPrice = (TextField) loader.getNamespace().get("tfPrice");
                 String name = tfName.getText();
                 Float price = Float.parseFloat(tfPrice.getText());
-                String unit = (String) unitComboBox.getValue();
+                String unit = unitComboBox.getValue().toString();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Επιβεβαίωση εισαγωγής:");
@@ -766,5 +783,9 @@ public class ItemsController extends MainMenuController implements Initializable
         ENGLISH_TO_GREEK.put('\u005A', '\u0396');  // uppercase Z
 
         // ...
+    }
+
+    public void mainMenuClick(ActionEvent actionEvent) {
+
     }
 }

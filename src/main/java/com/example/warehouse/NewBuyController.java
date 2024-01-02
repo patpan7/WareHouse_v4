@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.BufferedReader;
@@ -30,7 +31,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class NewBuyController extends MainMenuController implements Initializable {
+public class NewBuyController implements Initializable {
 
     @FXML
     ComboBox<Supplier> tfSupplier;
@@ -58,7 +59,6 @@ public class NewBuyController extends MainMenuController implements Initializabl
 
     float totalSum = 0.0F;
     String server;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

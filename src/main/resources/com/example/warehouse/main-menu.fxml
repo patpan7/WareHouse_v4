@@ -63,11 +63,11 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button contentDisplay="TOP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#departmentsClick" prefHeight="70.0" prefWidth="150.0" scaleX="2.0" scaleY="2.0" text="Τμήματα" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Button contentDisplay="TOP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#departmentsClick" prefHeight="70.0" prefWidth="150.0" scaleX="2.0" scaleY="2.0" text="Επιστροφές" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/department.png" />
+                        <Image url="@icons/return.png" />
                      </image>
                   </ImageView>
                </graphic>

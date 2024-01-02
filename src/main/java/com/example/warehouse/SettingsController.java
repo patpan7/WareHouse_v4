@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class SettingsController extends MainMenuController implements Initializable {
+public class SettingsController implements Initializable {
 
     @FXML
     TextField tfServer;
@@ -30,6 +31,7 @@ public class SettingsController extends MainMenuController implements Initializa
     ListView <Unit> listUnits;
     ObservableList<Unit> observableList;
     String server;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -102,7 +104,7 @@ public class SettingsController extends MainMenuController implements Initializa
 
     public void saveSettings(ActionEvent event) throws IOException {
         AppSettings.saveSetting("server", tfServer.getText());
-        mainMenuClick(event);
+        //mainMenuClick(event);
     }
 
     public void unitAddNew(ActionEvent actionEvent) {

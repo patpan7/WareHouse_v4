@@ -28,7 +28,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
-public class BuysController extends MainMenuController implements Initializable {
+public class BuysController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -40,7 +40,6 @@ public class BuysController extends MainMenuController implements Initializable 
     DatePicker dateTo;
     ObservableList<Buys> observableList;
     String server;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,6 +83,15 @@ public class BuysController extends MainMenuController implements Initializable 
                     }
                 }
             }
+        });
+
+        dateFrom.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Εδώ μπορείτε να καλέσετε τη μέθοδο που θέλετε να εκτελεστεί
+            tableInit();
+        });
+        dateTo.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Εδώ μπορείτε να καλέσετε τη μέθοδο που θέλετε να εκτελεστεί
+            tableInit();
         });
     }
 

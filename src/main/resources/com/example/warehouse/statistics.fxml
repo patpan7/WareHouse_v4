@@ -13,7 +13,7 @@
     <top>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="362.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Στατιστηκά" AnchorPane.topAnchor="10.0">
+                <Label layoutX="362.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Στατιστηκά" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
                     <font>
                         <Font size="38.0" />
                     </font>

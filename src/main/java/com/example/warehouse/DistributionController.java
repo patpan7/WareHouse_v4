@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class DistributionController extends MainMenuController implements Initializable {
+public class DistributionController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -61,14 +61,18 @@ public class DistributionController extends MainMenuController implements Initia
         dateTo.setValue(LocalDate.now());
 
         TableColumn<Distribution, String> departmentColumn = new TableColumn<>("Τμήμα");
-        departmentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        departmentColumn.setCellValueFactory(new PropertyValueFactory<>("department"));
 
         TableColumn<Distribution, String> dateColumn = new TableColumn<>("Ημερομηνία");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
 
         distributionTable.getColumns().addAll(departmentColumn,dateColumn);
+        distributionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableInit();
+
+        filteredData = new FilteredList<>(observableList, b -> true);
+
         distributionTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Έλεγχος για δύο κλικ
                 // Πάρτε τα δεδομένα από την επιλεγμένη γραμμή
@@ -89,6 +93,15 @@ public class DistributionController extends MainMenuController implements Initia
         departmentInit();
         departmentField.valueProperty().addListener((observable, oldValue, newValue) -> {
             updateFilteredItems(newValue);
+        });
+
+        dateFrom.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Εδώ μπορείτε να καλέσετε τη μέθοδο που θέλετε να εκτελεστεί
+            tableInit();
+        });
+        dateTo.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Εδώ μπορείτε να καλέσετε τη μέθοδο που θέλετε να εκτελεστεί
+            tableInit();
         });
     }
 

@@ -19,7 +19,7 @@
             <Insets bottom="10.0" />
          </BorderPane.margin>
          <children>
-                <Label alignment="CENTER" layoutX="267.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Προβολή παραγγελίας" AnchorPane.topAnchor="10.0">
+                <Label alignment="CENTER" layoutX="267.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Προβολή παραγγελίας" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
                     <font>
                         <Font size="38.0" />
                     </font>
@@ -47,7 +47,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <DatePicker fx:id="orderDate" disable="true" />
+            <DatePicker fx:id="orderDate" editable="false" />
             <Button mnemonicParsing="false" onAction="#saveAction" styleClass="click-button" text="Αποθήκευση">
                <font>
                   <Font size="24.0" />

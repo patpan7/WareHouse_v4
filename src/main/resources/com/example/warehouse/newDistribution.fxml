@@ -25,7 +25,7 @@
     <top>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="334.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Νεα Διακίνηση" AnchorPane.topAnchor="11.0">
+                <Label layoutX="334.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Νεα Διακίνηση" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
                     <font>
                         <Font size="38.0" />
                     </font>
@@ -52,7 +52,7 @@
                     <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
@@ -80,7 +80,7 @@
                                 <Insets left="10.0" right="10.0" />
                             </GridPane.margin>
                         </TextField>
-                        <TextField fx:id="tfQuantity" promptText="Ποσότητα" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <TextField fx:id="tfQuantity" promptText="Ποσότητα" GridPane.columnIndex="3" GridPane.rowIndex="1">
                             <font>
                                 <Font size="24.0" />
                             </font>
@@ -110,11 +110,14 @@
                                 <Insets left="10.0" right="10.0" />
                             </GridPane.margin>
                         </ComboBox>
-                        <TextField fx:id="tfPrice" promptText="Τιμή" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
-                        </TextField>
+                  <TextField fx:id="tfTotalQuantity" promptText="Διαθέσημη Ποσότητα" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
                     </children>
                     <VBox.margin>
                         <Insets bottom="10.0" />

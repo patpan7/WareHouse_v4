@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class EditBuyController extends MainMenuController implements Initializable {
+public class EditBuyController implements Initializable {
 
     @FXML
     DatePicker buyDate;
@@ -37,8 +37,9 @@ public class EditBuyController extends MainMenuController implements Initializab
     Buys selectedBuy;
 
     String server;
-    public EditBuyController(Buys selectedBuy) {
-        this.selectedBuy = selectedBuy;
+
+    public EditBuyController(Buys selectedItem) {
+        this.selectedBuy = selectedItem;
     }
 
     @Override

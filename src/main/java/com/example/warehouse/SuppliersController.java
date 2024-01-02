@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class SuppliersController extends MainMenuController implements Initializable {
+public class SuppliersController implements Initializable {
 
     @FXML
     TableView<Supplier> supplierTable;
@@ -32,6 +33,8 @@ public class SuppliersController extends MainMenuController implements Initializ
     ObservableList<Supplier> observableList;
 
     String server;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.loadSetting("server");

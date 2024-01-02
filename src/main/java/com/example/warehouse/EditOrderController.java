@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class EditOrderController extends MainMenuController implements Initializable {
+public class EditOrderController implements Initializable {
 
     @FXML
     DatePicker orderDate;
