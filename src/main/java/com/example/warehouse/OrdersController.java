@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class OrdersController extends MainMenuController implements Initializable {
+public class OrdersController implements Initializable {
 
     private Stage stage;
     private Scene scene;

@@ -1,4 +1,7 @@
 package com.example.warehouse;
 
-public class DepartmentsController extends MainMenuController {
+import javafx.stage.Stage;
+
+public class DepartmentsController {
+
 }

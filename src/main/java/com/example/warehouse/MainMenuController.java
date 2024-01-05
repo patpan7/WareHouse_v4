@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,6 +16,18 @@ public class MainMenuController {
     private Scene scene;
     public Parent root;
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    public void setRoot(Parent root) {
+        this.root = root;
+    }
+
     public void mainMenuClick(ActionEvent e) throws IOException {
         root = FXMLLoader.load(getClass().getResource("main-menu.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -24,11 +37,35 @@ public class MainMenuController {
     }
 
     public void productClick(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("products.fxml"));
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+//        root = FXMLLoader.load(getClass().getResource("items.fxml"));
+//        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("items.fxml"));
+        Parent root = fxmlLoader.load();
+
+        // Διαβάζουμε τις διαστάσεις από τον κύριο controller
+        double originalWidth = stage.getWidth();
+        double originalHeight = stage.getHeight();
+
+        // Ρυθμίζουμε τις διαστάσεις του νέου παραθύρου
+        Stage newStage = new Stage();
+        newStage.setWidth(originalWidth);
+        newStage.setHeight(originalHeight);
+
+        // Ρυθμίζουμε τον κύριο controller του νέου παραθύρου
+        ItemsController newWindowController = fxmlLoader.getController();
+        newWindowController.setStage(newStage);
+
+        // Ρυθμίζουμε το scene και εμφανίζουμε το νέο παράθυρο
+        newStage.setScene(new Scene(root));
+        newStage.show();
+
+        // Κώδικας για το κλείσιμο του τρέχοντος παραθύρου (προαιρετικό)
+        Stage currentStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        currentStage.close();
     }
 
     public void suppliersClick(ActionEvent e) throws IOException {
@@ -64,7 +101,7 @@ public class MainMenuController {
     }
 
     public void intrashipmentClick(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("intrashipment.fxml"));
+        root = FXMLLoader.load(getClass().getResource("distribution.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

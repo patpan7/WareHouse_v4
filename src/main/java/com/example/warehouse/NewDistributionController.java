@@ -31,14 +31,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class NewBuyController implements Initializable {
+public class NewDistributionController implements Initializable {
 
     @FXML
-    ComboBox<Supplier> tfSupplier;
+    ComboBox<Department> tfDepartment;
     @FXML
     DatePicker tfDate;
-    @FXML
-    TextField tfInvoice;
     @FXML
     TextField tfName;
     @FXML
@@ -46,28 +44,23 @@ public class NewBuyController implements Initializable {
     @FXML
     TextField tfQuantity;
     @FXML
-    TextField tfPrice;
+    TextField tfTotalQuantity;
     @FXML
-    TextField tfSum;
-    @FXML
-    TableView<Item> orderTable;
-
-    List<Supplier> suppliers;
-    ObservableList<Supplier> observableListSup;
+    TableView<Item> distributionTable;
+    List<Department> departments;
+    ObservableList<Department> observableListDep;
     List<Item> items1;
     Item selectedItem;
-
-    float totalSum = 0.0F;
     String server;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.loadSetting("server");
 
-        supplierInit();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        tfDate.setValue(LocalDate.now());
+        departmentInit();
 
+        tfDate.setValue(LocalDate.now());
         items1 = fetchDataFromMySQL();
         // Ενεργοποίηση αυτόματης συμπλήρωσης στο TextField με βάση το όνομα του είδους
         TextFields.bindAutoCompletion(tfName, request -> {
@@ -120,25 +113,10 @@ public class NewBuyController implements Initializable {
         tfQuantity.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 // Αναζήτηση στη λίστα ειδών
-                autocomplete();
-            }
-        });
-
-        applyNumericDecimalFormatter(tfPrice);
-        tfPrice.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
-                // Αναζήτηση στη λίστα ειδών
                 addRow();
             }
         });
 
-        tfPrice.setOnMouseClicked(event -> {
-            if (tfPrice.getText().isEmpty()) {
-                autocomplete();
-            } else {
-                System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
-            }
-        });
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -149,16 +127,9 @@ public class NewBuyController implements Initializable {
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
-        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        TableColumn<Item, Float> totalColumn = new TableColumn<>("Σύνολο");
-        totalColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
-
-
         // Προσθήκη των κολόνων στο TableView
-        orderTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn, totalColumn);
-        orderTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        distributionTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn);
+        distributionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
     }
 
@@ -166,25 +137,22 @@ public class NewBuyController implements Initializable {
         for (Item item : items1) {
             if (item.getName().equalsIgnoreCase(tfName.getText())) {
                 tfUnit.setText(item.getUnit());
-                if (tfPrice.getText().isEmpty())
-                    tfPrice.setText(String.valueOf(item.getPrice()));
+                tfTotalQuantity.setText(String.valueOf(item.getQuantity()));
                 selectedItem = item;
             }
         }
         if(tfQuantity.getText().isEmpty())
             tfQuantity.requestFocus();
-        else
-            tfPrice.requestFocus();
     }
 
-    private void supplierInit() {
-        suppliers = fetchSupFromMySQL();
-        observableListSup = FXCollections.observableArrayList(suppliers);
-        tfSupplier.setItems(observableListSup);
+    private void departmentInit() {
+        departments = fetchSupFromMySQL();
+        observableListDep = FXCollections.observableArrayList(departments);
+        tfDepartment.setItems(observableListDep);
 
-        tfSupplier.setCellFactory(param -> new ListCell<Supplier>() {
+        tfDepartment.setCellFactory(param -> new ListCell<Department>() {
             @Override
-            protected void updateItem(Supplier item, boolean empty) {
+            protected void updateItem(Department item, boolean empty) {
                 super.updateItem(item, empty);
 
                 if (empty || item == null) {
@@ -195,9 +163,9 @@ public class NewBuyController implements Initializable {
             }
         });
 
-        tfSupplier.setButtonCell(new ListCell<Supplier>() {
+        tfDepartment.setButtonCell(new ListCell<Department>() {
             @Override
-            protected void updateItem(Supplier item, boolean empty) {
+            protected void updateItem(Department item, boolean empty) {
                 super.updateItem(item, empty);
 
                 if (empty || item == null) {
@@ -209,9 +177,9 @@ public class NewBuyController implements Initializable {
         });
     }
 
-    private List<Supplier> fetchSupFromMySQL(){
-        String API_URL = "http://"+server+"/warehouse/suppliersGetAll.php";
-        List<Supplier> Suppliers = new ArrayList<>();
+    private List<Department> fetchSupFromMySQL(){
+        String API_URL = "http://"+server+"/warehouse/departmentsGetAll.php";
+        List<Department> Departments = new ArrayList<>();
         try {
             URL url = new URL(API_URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -241,11 +209,9 @@ public class NewBuyController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        String phone = itemNode.get("phone").asText();
-                        float turnover = Float.parseFloat(itemNode.get("turnover").asText());
 
-                        Supplier supplier = new Supplier(code, name, phone,turnover);
-                        Suppliers.add(supplier);
+                        Department department = new Department(code, name);
+                        Departments.add(department);
                     }
                 } else {
                     String failMessage = jsonNode.get("message").asText();
@@ -260,7 +226,7 @@ public class NewBuyController implements Initializable {
             e.printStackTrace();
         }
 
-        return Suppliers;
+        return Departments;
     }
 
     private List<Item> fetchDataFromMySQL() {
@@ -295,7 +261,7 @@ public class NewBuyController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        float quantity = 0.0F;
+                        float quantity = Float.parseFloat(itemNode.get("quantity").asText());
                         String unit = itemNode.get("unit").asText();
                         float price = Float.parseFloat(itemNode.get("price").asText());
                         int category_code = itemNode.get("category_code").asInt();
@@ -319,123 +285,155 @@ public class NewBuyController implements Initializable {
     }
 
     public void addRow() {
-        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && Float.parseFloat(tfPrice.getText())>0) {
+        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && Float.parseFloat(tfQuantity.getText())>=0.01) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
-            ObservableList<Item> items = orderTable.getItems();
-            if (!items.contains(selectedItem)) {
-                selectedItem.setQuantity(Float.parseFloat(tfQuantity.getText()));
-                selectedItem.setPrice(Float.parseFloat(tfPrice.getText()));
-                selectedItem.setSum(selectedItem.getQuantity() * selectedItem.getPrice());
-                // Προσθέστε το νέο αντικείμενο στη λίστα
-                items.add(selectedItem);
+            ObservableList<Item> items = distributionTable.getItems();
 
-                tfName.setText("");
-                tfName.requestFocus();
-                tfQuantity.setText("");
-                tfUnit.setText("");
-                tfPrice.setText("");
-                totalSum += selectedItem.getSum();
-                tfSum.setText(String.valueOf(totalSum));
+            if (selectedItem != null) {
+                float addedQuantity = Float.parseFloat(tfQuantity.getText());
 
-            } else {
-                // Το selectedItem υπάρχει ήδη στη λίστα
-                // Βρείτε το υπάρχον αντικείμενο στη λίστα
+                // Ελέγξτε αν το είδος υπάρχει στη λίστα του autocomplete
+                if (selectedItem.getQuantity() >= addedQuantity) {
+                    selectedItem.setQuantity(selectedItem.getQuantity() - addedQuantity);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("");
+                    alert.setContentText("Ανεπαρκές υπόλοιπο!");
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    return;
+                }
+
+                // Ελέγξτε αν το είδος υπάρχει ήδη στον πίνακα
                 Item existingItem = items.stream()
-                        .filter(item -> item.equals(selectedItem))
+                        .filter(item -> item.getCode() == selectedItem.getCode())
                         .findFirst()
                         .orElse(null);
 
                 if (existingItem != null) {
-                    // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
+                    // Το είδος υπάρχει, ενημερώστε το quantity
+                    float newQuantity = existingItem.getQuantity() + addedQuantity;
+                    existingItem.setQuantity(newQuantity);
+
+                    // Αφαιρέστε το υπάρχον αντικείμενο από τον πίνακα
                     items.remove(existingItem);
-                    totalSum -= existingItem.getSum();
-                    existingItem.setQuantity(existingItem.getQuantity() + Float.parseFloat(tfQuantity.getText()));
-                    existingItem.setSum(existingItem.getQuantity()* existingItem.getPrice());
+
+                    // Προσθήκη του ενημερωμένου αντικειμένου στον πίνακα
                     items.add(existingItem);
-                    tfName.setText("");
-                    tfName.requestFocus();
-                    tfQuantity.setText("");
-                    tfUnit.setText("");
-                    tfPrice.setText("");
-                    totalSum += existingItem.getSum();
-                    tfSum.setText(String.valueOf(totalSum));
+
+                    // Ενημέρωση του πίνακα
+                    distributionTable.refresh();
+                } else {
+                    // Το είδος δεν υπάρχει, ανανεώστε το υπόλοιπο του είδους στο autocomplete
+                    int index = items1.indexOf(selectedItem);
+                    if (index != -1) {
+                        items1.set(index, selectedItem);
+                    }
+
+                    // Δημιουργία νέου αντικειμένου για τον πίνακα
+                    Item newItem = new Item();
+                    newItem.setCode(selectedItem.getCode());
+                    newItem.setName(selectedItem.getName());
+                    newItem.setQuantity(addedQuantity);
+                    newItem.setUnit(selectedItem.getUnit());
+                    newItem.setPrice(selectedItem.getPrice());
+                    newItem.setSum(selectedItem.getSum());
+
+                    // Προσθήκη του νέου αντικειμένου στη λίστα του πίνακα
+                    items.add(newItem);
                 }
+
+                // Καθαρισμός των πεδίων
+                tfName.setText("");
+                tfName.requestFocus();
+                tfTotalQuantity.setText("");
+                tfQuantity.setText("");
+                tfUnit.setText("");
             }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("");
+            alert.setContentText("Λάθος ποσότητα!");
+            Optional<ButtonType> result2 = alert.showAndWait();
         }
     }
 
-    public void deleteRow(ActionEvent event) {
+    public void editRow(ActionEvent actionEvent) {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
-        Item selectedProduct = orderTable.getSelectionModel().getSelectedItem();
-        // Αν έχει επιλεγεί γραμμή
-        if (selectedProduct != null) {
-            // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
-            ObservableList<Item> items = orderTable.getItems();
-
-            // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
-            items.remove(selectedProduct);
-            totalSum -= selectedProduct.getSum();
-            tfSum.setText(String.valueOf(totalSum));
-        }
-    }
-
-    public void editRow(ActionEvent event) {
-        // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
-        Item selectedProduct = orderTable.getSelectionModel().getSelectedItem();
+        Item selectedProduct = distributionTable.getSelectionModel().getSelectedItem();
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
             tfName.setText(selectedProduct.getName());
             tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
             tfUnit.setText(selectedProduct.getUnit());
-            tfPrice.setText(String.valueOf(selectedProduct.getPrice()));
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
-            ObservableList<Item> items = orderTable.getItems();
+            ObservableList<Item> items = distributionTable.getItems();
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
-            totalSum -= selectedProduct.getSum();
-            tfSum.setText(String.valueOf(totalSum));
+
+            // Βρείτε το αντίστοιχο αντικείμενο στην αρχική λίστα
+            Item originalItem = items1.stream()
+                    .filter(item -> item.getCode() == selectedProduct.getCode())
+                    .findFirst()
+                    .orElse(null);
+
+            // Προσθέστε το quantity του επιλεγμένου αντικειμένου στην αρχική λίστα
+            if (originalItem != null) {
+                originalItem.setQuantity(originalItem.getQuantity() + selectedProduct.getQuantity());
+                tfTotalQuantity.setText(String.valueOf(originalItem.getQuantity()));
+            }
         }
     }
 
+    public void deleteRow(ActionEvent actionEvent) {
+        // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
+        Item selectedProduct = distributionTable.getSelectionModel().getSelectedItem();
+        // Αν έχει επιλεγεί γραμμή
+        if (selectedProduct != null) {
+            // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
+            ObservableList<Item> items = distributionTable.getItems();
 
-    public void saveAction(ActionEvent event) {
-        if (tfSupplier.getValue() != null){
-            if (!tfInvoice.getText().isEmpty()){
-                if (!orderTable.getItems().isEmpty()){
+            // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
+            items.remove(selectedProduct);
+
+            // Βρείτε το αντίστοιχο αντικείμενο στην αρχική λίστα
+            Item originalItem = items1.stream()
+                    .filter(item -> item.getCode() == selectedProduct.getCode())
+                    .findFirst()
+                    .orElse(null);
+
+            // Προσθέστε το quantity του επιλεγμένου αντικειμένου στην αρχική λίστα
+            if (originalItem != null) {
+                originalItem.setQuantity(originalItem.getQuantity() + selectedProduct.getQuantity());
+            }
+        }
+    }
+
+    public void saveAction(ActionEvent actionEvent) {
+        if (tfDepartment.getValue() != null){
+            if (!distributionTable.getItems().isEmpty()){
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     String date = dtf.format(tfDate.getValue());
-                    ObservableList<Item> items = orderTable.getItems();
-                    int suppliercode = tfSupplier.getValue().getCode();
-                    String invoice = tfInvoice.getText();
-                    addNewRequest(items,suppliercode,date, invoice,totalSum);
-
-
-
-                }else{
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("");
-                    alert.setContentText("Το τιμολόγιο είναι κενό!");
-                    Optional<ButtonType> result2 = alert.showAndWait();
-                }
-            }else {
+                    ObservableList<Item> items = distributionTable.getItems();
+                    int departmentcode = tfDepartment.getValue().getCode();
+                    addNewRequest(items,departmentcode,date);
+            }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("");
-                alert.setContentText("Ο αριθμός τιμολογίου είναι κενός!");
+                alert.setContentText("Το κίνηση είναι κενή!");
                 Optional<ButtonType> result2 = alert.showAndWait();
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("");
-            alert.setContentText("Δεν έχει επιλεγεί Προμηθευτής!");
-            Optional<ButtonType> result2 = alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("");
+                alert.setContentText("Δεν έχει επιλεγεί Τμήμα!");
+                Optional<ButtonType> result2 = alert.showAndWait();
         }
-
     }
 
-    private void addNewRequest(ObservableList<Item> items, int supplierCode, String date, String invoice, float totalSum) {
-        String apiUrl = "http://"+server+"/warehouse/buyAdd.php";
+    private void addNewRequest(ObservableList<Item> items, int departmentcode, String date) {
+        String apiUrl = "http://"+server+"/warehouse/distributionAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -453,12 +451,10 @@ public class NewBuyController implements Initializable {
             ObjectNode jsonRequest = objectMapper.createObjectNode();
 
             // Προσθήκη της λίστας με τα είδη στο JSON
-            jsonRequest.putPOJO("orderTable", items);
+            jsonRequest.putPOJO("distributionTable", items);
 
             jsonRequest.put("date", date); // Προσαρμόστε την ημερομηνία όπως χρειάζεται
-            jsonRequest.put("supplierCode", supplierCode);
-            jsonRequest.put("invoice", invoice);
-            jsonRequest.put("totalSum", totalSum);
+            jsonRequest.put("departmentcode", departmentcode);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(jsonRequest);
@@ -504,13 +500,55 @@ public class NewBuyController implements Initializable {
     }
 
     public void clean(){
-        orderTable.getItems().clear();
-        orderTable.refresh();
-        totalSum = 0.0F;
-        tfSum.setText("");
-        tfSupplier.setValue(null);
-        tfInvoice.setText("");
+        distributionTable.getItems().clear();
+        distributionTable.refresh();
+        tfDepartment.setValue(null);
         tfDate.setValue(LocalDate.now());
+    }
+
+    private void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        // Έλεγχος αν το μήκος του κειμένου είναι μεγαλύτερο από το μήκος του TextField
+        if (tfName.getText().length() > tfName.getPrefColumnCount()) {
+            // Προσαρμογή του μεγέθους της γραμματοσειράς
+            tfName.setStyle("-fx-font-size: 14;"); // Ορίστε το επιθυμητό μέγεθος της γραμματοσειράς
+            tfName.positionCaret(0);
+        } else {
+            // Επαναφορά του μεγέθους της γραμματοσειράς στην προκαθορισμένη τιμή
+            tfName.setStyle(""); // Επαναφορά στο default μέγεθος της γραμματοσειράς
+        }
+        if (newValue.isEmpty()) {
+            selectedItem = null;
+            tfUnit.setText("");
+            tfTotalQuantity.setText("");
+            tfQuantity.setText("");
+        }
+    }
+
+    private void handle(KeyEvent event) {
+        // Έλεγχος της θέσης του κέρσορα
+        if (tfName.getText().length() > tfName.getPrefColumnCount()) {
+            // Ορισμός της θέσης του κέρσορα στην αρχή
+            tfName.positionCaret(0);
+        }
+    }
+
+    private void applyNumericDecimalFormatter(TextField textField) {
+        // Ορισμός UnaryOperator για να δέχεται αριθμούς και δεκαδικούς
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String text = change.getControlNewText();
+
+            // Μετατροπή κόμμα σε τελεία
+            text = text.replace(',', '.');
+
+            if (Pattern.matches("[0-9]*\\.?[0-9]*", text)) {
+                return change;
+            }
+            return null;
+        };
+
+        // Εφαρμογή του TextFormatter
+        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+        textField.setTextFormatter(textFormatter);
     }
 
     private static final Map<Character, Character> ENGLISH_TO_GREEK = new HashMap<>();
@@ -544,44 +582,5 @@ public class NewBuyController implements Initializable {
         ENGLISH_TO_GREEK.put('\u005A', '\u0396');  // uppercase Z
 
         // ...
-    }
-
-    private void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        // Έλεγχος αν το μήκος του κειμένου είναι μεγαλύτερο από το μήκος του TextField
-        if (tfName.getText().length() > tfName.getPrefColumnCount()) {
-            // Προσαρμογή του μεγέθους της γραμματοσειράς
-            tfName.setStyle("-fx-font-size: 14;"); // Ορίστε το επιθυμητό μέγεθος της γραμματοσειράς
-            tfName.positionCaret(0);
-        } else {
-            // Επαναφορά του μεγέθους της γραμματοσειράς στην προκαθορισμένη τιμή
-            tfName.setStyle(""); // Επαναφορά στο default μέγεθος της γραμματοσειράς
-        }
-    }
-
-    private void handle(KeyEvent event) {
-        // Έλεγχος της θέσης του κέρσορα
-        if (tfName.getText().length() > tfName.getPrefColumnCount()) {
-            // Ορισμός της θέσης του κέρσορα στην αρχή
-            tfName.positionCaret(0);
-        }
-    }
-
-    private void applyNumericDecimalFormatter(TextField textField) {
-        // Ορισμός UnaryOperator για να δέχεται αριθμούς και δεκαδικούς
-        UnaryOperator<TextFormatter.Change> filter = change -> {
-            String text = change.getControlNewText();
-
-            // Μετατροπή κόμμα σε τελεία
-            text = text.replace(',', '.');
-
-            if (Pattern.matches("[0-9]*\\.?[0-9]*", text)) {
-                return change;
-            }
-            return null;
-        };
-
-        // Εφαρμογή του TextFormatter
-        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
-        textField.setTextFormatter(textFormatter);
     }
 }

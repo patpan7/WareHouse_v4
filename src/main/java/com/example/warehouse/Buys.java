@@ -5,14 +5,15 @@ public class Buys {
     String date;
     String invoice;
     Float total;
+    int suppliercode;
 
-    public Buys(String name, String date, String invoice, Float total) {
+    public Buys(String name, String date, String invoice, Float total, int suppliercode) {
         this.name = name;
         this.date = date;
         this.invoice = invoice;
         this.total = total;
+        this.suppliercode = suppliercode;
     }
-
     public String getName() {
         return name;
     }
@@ -44,4 +45,14 @@ public class Buys {
     public void setTotal(Float total) {
         this.total = total;
     }
+
+    public int getSuppliercode() {
+        return suppliercode;
+    }
+
+    public void setSuppliercode(int suppliercode) {
+        this.suppliercode = suppliercode;
+    }
 }
+
+

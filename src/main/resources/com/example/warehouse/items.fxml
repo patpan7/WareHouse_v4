@@ -17,11 +17,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.ProductsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.ItemsController">
     <top>
         <AnchorPane fx:id="code" BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="383.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Αποθήκη" AnchorPane.topAnchor="10.0">
+                <Label layoutX="383.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Αποθήκη" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
                     <font>
                         <Font size="38.0" />
                     </font>
@@ -93,7 +93,7 @@
                               <Insets />
                            </opaqueInsets>
                         </TextField>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="665.0" layoutY="18.0" styleClass="normal-label" text="Αναζήτηση" AnchorPane.topAnchor="20.0">
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="665.0" layoutY="18.0" styleClass="normal-label" text="Κατηγορία" AnchorPane.topAnchor="20.0">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>

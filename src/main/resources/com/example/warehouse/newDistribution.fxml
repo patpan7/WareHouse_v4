@@ -21,11 +21,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.NewBuyController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.NewDistributionController">
     <top>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="368.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Νεα αγορά" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
+                <Label layoutX="334.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Νεα Διακίνηση" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
                     <font>
                         <Font size="38.0" />
                     </font>
@@ -52,7 +52,7 @@
                     <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
@@ -80,7 +80,7 @@
                                 <Insets left="10.0" right="10.0" />
                             </GridPane.margin>
                         </TextField>
-                        <TextField fx:id="tfQuantity" promptText="Ποσότητα" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <TextField fx:id="tfQuantity" promptText="Ποσότητα" GridPane.columnIndex="3" GridPane.rowIndex="1">
                             <font>
                                 <Font size="24.0" />
                             </font>
@@ -100,39 +100,30 @@
                                 <String fx:value="text-field" />
                             </styleClass>
                         </TextField>
-                        <TextField fx:id="tfInvoice" promptText="Παραστατικό" stylesheets="@external.css" GridPane.columnIndex="2">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
-                            <styleClass>
-                                <String fx:value="auto-complete-popup" />
-                                <String fx:value="text-field" />
-                            </styleClass>
-                            <GridPane.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" />
-                            </GridPane.margin>
-                        </TextField>
                         <DatePicker fx:id="tfDate" GridPane.columnIndex="1">
                             <GridPane.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" />
                             </GridPane.margin>
                         </DatePicker>
-                        <ComboBox fx:id="tfSupplier" prefWidth="280.0" promptText="Προμηθευτής">
+                        <ComboBox fx:id="tfDepartment" prefWidth="280.0" promptText="Τμήμα">
                             <GridPane.margin>
                                 <Insets left="10.0" right="10.0" />
                             </GridPane.margin>
                         </ComboBox>
-                        <TextField fx:id="tfPrice" promptText="Τιμή" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                            <font>
-                                <Font size="24.0" />
-                            </font>
-                        </TextField>
+                  <TextField fx:id="tfTotalQuantity" promptText="Διαθέσημη Ποσότητα" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
                     </children>
                     <VBox.margin>
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </GridPane>
-                <TableView fx:id="orderTable" prefHeight="590.0" prefWidth="1200.0">
+                <TableView fx:id="distributionTable" prefHeight="590.0" prefWidth="1200.0">
                     <VBox.margin>
                         <Insets bottom="10.0" />
                     </VBox.margin>
@@ -148,16 +139,7 @@
                         </ContextMenu>
                     </contextMenu>
                 </TableView>
-                <HBox alignment="CENTER">
-                    <children>
-                        <Label styleClass="normal-label" text="Σύνολο">
-                            <padding>
-                                <Insets right="20.0" />
-                            </padding>
-                        </Label>
-                        <TextField fx:id="tfSum" alignment="CENTER" />
-                    </children>
-                </HBox>
+                <HBox alignment="CENTER" />
                 <Button mnemonicParsing="false" onAction="#saveAction" styleClass="click-button" text="Αποθήκευση">
                     <font>
                         <Font size="24.0" />
