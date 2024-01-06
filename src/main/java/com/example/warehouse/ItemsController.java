@@ -10,11 +10,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
 
 import java.io.BufferedReader;
@@ -29,10 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ItemsController implements Initializable {
-
-    private Stage stage;
-    private Scene scene;
-    public Parent root;
+    @FXML
+    StackPane stackPane;
     String server;
     @FXML
     TableView <Item> itemsTable;
@@ -45,18 +42,6 @@ public class ItemsController implements Initializable {
     List<Category> categories;
     ObservableList<Item> observableListItem;
     FilteredList<Item> filteredData;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public void setRoot(Parent root) {
-        this.root = root;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -171,6 +156,23 @@ public class ItemsController implements Initializable {
         // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
         observableListItem = FXCollections.observableArrayList(items1);
         itemsTable.setItems(observableListItem);
+        itemsTable.setRowFactory(tv -> new TableRow<Item>() {
+            @Override
+            protected void updateItem(Item item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || item.getEnable() == 0) {
+//                    ColorAdjust colorAdjust = new ColorAdjust();
+//                    colorAdjust.setContrast(-1.0); // Ανενεργό εφέ
+//                    setEffect(colorAdjust);
+                    getStyleClass().add("inactive-row");
+                } else {
+//                    setEffect(null);
+                    getStyleClass().removeAll("inactive-row");
+                }
+            }
+        });
+        observableListItem.sort(Comparator.comparingInt(Item::getEnable).reversed());
+        itemsTable.setItems(observableListItem);
         categoryFiled.getSelectionModel().select(0);
     }
 
@@ -243,8 +245,8 @@ public class ItemsController implements Initializable {
                             String unit = itemNode.get("unit").asText();
                             float price = Float.parseFloat(itemNode.get("price").asText());
                             int category_code = itemNode.get("category_code").asInt();
-
-                            Item item = new Item(code, name, quantity, unit, price,category_code);
+                            int enable = itemNode.get("enable").asInt();
+                            Item item = new Item(code, name, quantity, unit, price,category_code,enable);
                             Items.add(item);
                         }
                     } else {
@@ -382,7 +384,7 @@ public class ItemsController implements Initializable {
         TextField priceField = (TextField) dialog.getDialogPane().lookup("#tfPrice");
         ComboBox unitField = (ComboBox) dialog.getDialogPane().lookup("#tfUnit");
         ComboBox <Category>  tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
-
+        CheckBox tfEnable = (CheckBox) dialog.getDialogPane().lookup("#tfEnable");
 
         // Ορίζετε τιμές στα πεδία με βάση τα δεδομένα του επιλεγμένου προϊόντος
         nameField.setText(selectedProduct.getName());
@@ -420,6 +422,7 @@ public class ItemsController implements Initializable {
         });
         //tfCategory.setValue(selectedProduct.getCategory_code());
 
+        tfEnable.setSelected(selectedProduct.getEnable() == 1);
 
         // Προσθήκη κουμπιών στον διάλογο
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -428,16 +431,23 @@ public class ItemsController implements Initializable {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // Επιστρέφετε το αντικείμενο με τις ενημερωμένες τιμές
                 System.out.println("Πατήθηκε το ΟΚ");
+                int enable = 0;
+                if (tfEnable.isSelected())
+                    enable = 1;
 
-                updateRequest(selectedProduct.getCode(), nameField.getText(), Float.parseFloat(priceField.getText()), unitField.getValue().toString(), categoryCode.get());
+                updateRequest(selectedProduct.getCode(), nameField.getText(), Float.parseFloat(priceField.getText()), unitField.getValue().toString(), categoryCode.get(),enable);
                 // Ενημέρωση του επιλεγμένου αντικειμένου στη λίστα
                 selectedProduct.setName(nameField.getText());
                 selectedProduct.setPrice(Float.parseFloat(priceField.getText()));
                 selectedProduct.setUnit(unitField.getValue().toString());
                 selectedProduct.setCategory_code(categoryCode.get());
-
+                if (tfEnable.isSelected())
+                   selectedProduct.setEnable(1);
+                else
+                    selectedProduct.setEnable(0);
                 // Ανανέωση του TableView
-                itemsTable.refresh();
+//                itemsTable.refresh();
+                tableInit();
 
                 // Ενημέρωση του φίλτρου με βάση την επιλεγμένη κατηγορία
                 Category selectedCategory = categoryFiled.getValue();
@@ -495,6 +505,7 @@ public class ItemsController implements Initializable {
                 }
             });
 
+
             // Ορίζετε τα κουμπιά "OK" και "Cancel"
             dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
             // Εμφάνιση του διαλόγου
@@ -509,7 +520,10 @@ public class ItemsController implements Initializable {
                 String name = tfName.getText();
                 Float price = Float.parseFloat(tfPrice.getText());
                 String unit = unitComboBox.getValue().toString();
-
+                CheckBox tfEnable = (CheckBox) loader.getNamespace().get("tfEnable");
+                int enable = 0;
+                if (tfEnable.isSelected())
+                    enable = 1;
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Επιβεβαίωση εισαγωγής:");
                 alert.setContentText("Όνομα: " + name+", Τιμή: "+price+", Μον.Μέτρησης: "+unit);
@@ -517,14 +531,15 @@ public class ItemsController implements Initializable {
                 if (result2.isEmpty())
                     return;
                 else if (result2.get() == ButtonType.OK) {
-                    addNewRequest(name, price, unit,categotyCode.get());
+                    addNewRequest(name, price, unit,categotyCode.get(),enable);
                     // Επιλογή της κατηγορίας
                     Category selectedCategory = tfCategory.getValue();
                     int categoryCode = (selectedCategory != null) ? selectedCategory.getCode() : 0;
                     Item newItem = new Item(name,unit,price,categoryCode);
                     observableListItem.add(newItem);
                     // Ανανέωση του πίνακα
-                    itemsTable.refresh();
+                    //itemsTable.refresh();
+                    tableInit();
 
                     // Εφαρμογή του φίλτρου με βάση την επιλεγμένη κατηγορία
                     updateFilteredItems(selectedCategory);
@@ -538,7 +553,7 @@ public class ItemsController implements Initializable {
 
     }
 
-    private void addNewRequest(String name, Float price, String unit, int category_code) {
+    private void addNewRequest(String name, Float price, String unit, int category_code, int enable) {
         String apiUrl = "http://"+server+"/warehouse/itemAdd.php";
 
         try {
@@ -554,7 +569,7 @@ public class ItemsController implements Initializable {
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            Item itemData = new Item(name,unit,price,category_code);
+            Item itemData = new Item(name,unit,price,category_code,enable);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);
@@ -701,7 +716,7 @@ public class ItemsController implements Initializable {
 
     }
 
-    private void updateRequest(int code, String name, Float price, String unit, int category_code) {
+    private void updateRequest(int code, String name, Float price, String unit, int category_code, int enable) {
         String apiUrl = "http://"+server+"/warehouse/itemUpdate.php";
 
         try {
@@ -717,7 +732,7 @@ public class ItemsController implements Initializable {
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            Item itemData = new Item(code,name,unit,price,category_code);
+            Item itemData = new Item(code,name,unit,price,category_code,enable);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);
@@ -785,7 +800,8 @@ public class ItemsController implements Initializable {
         // ...
     }
 
-    public void mainMenuClick(ActionEvent actionEvent) {
-
+    public void mainMenuClick(ActionEvent actionEvent) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

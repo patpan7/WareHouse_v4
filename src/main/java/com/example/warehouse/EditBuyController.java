@@ -6,12 +6,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -26,7 +29,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class EditBuyController implements Initializable {
-
+    @FXML
+    StackPane stackPane;
+    public Parent root;
     @FXML
     DatePicker buyDate;
     @FXML
@@ -138,9 +143,10 @@ public class EditBuyController implements Initializable {
         return items;
     }
 
-    public void handlebackButton(ActionEvent event){
-        // Κλείσιμο του παραθύρου
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.close();
+    public void handlebackButton(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-menu.fxml"));
+        root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
     }
 }

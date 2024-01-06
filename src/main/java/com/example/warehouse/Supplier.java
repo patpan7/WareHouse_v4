@@ -5,6 +5,7 @@ public class Supplier {
     String name;
     String phone;
     float turnover;
+    int enable;
 
     public Supplier() {
     }
@@ -16,15 +17,25 @@ public class Supplier {
         this.turnover = turnover;
     }
 
-    public Supplier(int code, String name, String phone) {
-        this.code = code;
-        this.name = name;
-        this.phone = phone;
-    }
 
     public Supplier(String name, String phone) {
         this.name = name;
         this.phone = phone;
+    }
+
+    public Supplier(int code, String name, String phone, float turnover, int enable) {
+        this.code = code;
+        this.name = name;
+        this.phone = phone;
+        this.turnover = turnover;
+        this.enable = enable;
+    }
+
+    public Supplier(int code, String name, String phone, int enable) {
+        this.code = code;
+        this.name = name;
+        this.phone = phone;
+        this.enable = enable;
     }
 
     public int getCode() {
@@ -57,5 +68,13 @@ public class Supplier {
 
     public void setTurnover(float turnover) {
         this.turnover = turnover;
+    }
+
+    public int getEnable() {
+        return enable;
+    }
+
+    public void setEnable(int enable) {
+        this.enable = enable;
     }
 }

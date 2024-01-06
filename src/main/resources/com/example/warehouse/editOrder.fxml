@@ -12,8 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-    <top>
+<?import javafx.scene.layout.StackPane?>
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.warehouse.EditOrderController">
+    <children>
+        <BorderPane minHeight="800.0" minWidth="1200.0" stylesheets="@external.css">   <top>
       <AnchorPane>
          <BorderPane.margin>
             <Insets bottom="10.0" />
@@ -66,3 +69,5 @@
       </VBox>
    </bottom>
 </BorderPane>
+        </children>
+        </StackPane>

@@ -1,0 +1,38 @@
+
+g	java:S112x"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8şõÉãÍ1
+k
+java:S1192—"HDefine a constant instead of duplicating this literal "http://" 3 times.(£ÙóÏÿÿÿÿÿ8€öÉãÍ1
+m	java:S117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šÃñ8öÉãÍ1
+m	java:S117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±Õèë8öÉãÍ1
+s	java:S117—"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ÙóÏÿÿÿÿÿ8öÉãÍ1
+n	java:S117˜"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áá‡¨8öÉãÍ1
+t
+java:S3776*"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(•‘İŸüÿÿÿÿ8¨öÉãÍ1
+^
+java:S1874<"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ñ¼è8ªöÉãÍ1
+N
+java:S1602@",Remove useless curly braces around statement(ÚÆŒÅÿÿÿÿÿ8«öÉãÍ1
+^
+java:S1126Z"AReplace this if-then-else statement by a single return statement.(å¾¯Æ8­öÉãÍ1
+M	java:S106¾"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ĞöÉãÍ1
+M	java:S106Á"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ĞöÉãÍ1
+`
+java:S1126İ"BReplace this if-then-else statement by a single method invocation.(ÈÏå¶8Ø…ËãÍ1
+H	java:S106è"+Replace this use of System.out by a logger.(‹Œ×¹8ÙöÉãÍ1
+9
+java:S3626"Remove this redundant jump.(ûÁİ…8ÚöÉãÍ1
+U
+java:S1172ñ"2Remove this unused method parameter "actionEvent".(ë‹Ù­ùÿÿÿÿ8ÚöÉãÍ1
+H	java:S106‚"+Replace this use of System.out by a logger.(‹Œ×¹8ÜöÉãÍ1
+G	java:S106·"+Replace this use of System.out by a logger.(ÁØÕx8ßöÉãÍ1
+M	java:S106Â"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8àöÉãÍ1
+]
+java:S1854Õ":Remove this useless assignment to local variable "result".(Ãë¿²şÿÿÿÿ8àöÉãÍ1
+N
+java:S1481Õ"+Remove this unused "result" local variable.(Ãë¿²şÿÿÿÿ8áöÉãÍ1
+G	java:S106ú"+Replace this use of System.out by a logger.(ÁØÕx8ãöÉãÍ1
+M	java:S106…"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ãöÉãÍ1
+J
+java:S1172±",Remove this unused method parameter "event".(™™È«8èöÉãÍ1
+Q
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8¬šèãÍ1

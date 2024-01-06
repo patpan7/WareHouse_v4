@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -24,7 +26,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class SuppliersController implements Initializable {
-
+    @FXML
+    StackPane stackPane;
     @FXML
     TableView<Supplier> supplierTable;
     @FXML
@@ -127,6 +130,21 @@ public class SuppliersController implements Initializable {
         // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
         observableList = FXCollections.observableArrayList(items1);
         supplierTable.setItems(observableList);
+        supplierTable.setRowFactory(tv -> new TableRow<Supplier>() {
+            @Override
+            protected void updateItem(Supplier supplier, boolean empty) {
+                super.updateItem(supplier, empty);
+                if (supplier == null || supplier.getEnable() == 0) {
+                    ColorAdjust colorAdjust = new ColorAdjust();
+                    colorAdjust.setSaturation(-1.0); // Ανενεργό εφέ
+                    setEffect(colorAdjust);
+                } else {
+                    setEffect(null);
+                }
+            }
+        });
+        observableList.sort(Comparator.comparingInt(Supplier::getEnable).reversed());
+        supplierTable.setItems(observableList);
     }
 
     private List<Supplier> fetchDataFromMySQL() {
@@ -163,8 +181,8 @@ public class SuppliersController implements Initializable {
                         String name = itemNode.get("name").asText();
                         String phone = itemNode.get("phone").asText();
                         float turnover = Float.parseFloat(itemNode.get("turnover").asText());
-
-                        Supplier supplier = new Supplier(code, name, phone,turnover);
+                        int enable = itemNode.get("enable").asInt();
+                        Supplier supplier = new Supplier(code, name, phone,turnover,enable);
                         Suppliers.add(supplier);
                     }
                 } else {
@@ -195,11 +213,15 @@ public class SuppliersController implements Initializable {
         // Παίρνετε πρόσβαση στα παιδιά του dialog box
         TextField nameField = (TextField) dialog.getDialogPane().lookup("#tfName");
         TextField phoneField = (TextField) dialog.getDialogPane().lookup("#tfPhone");
-
+        CheckBox tfEnable = (CheckBox) dialog.getDialogPane().lookup("#tfEnable");
 
         // Ορίζετε τιμές στα πεδία με βάση τα δεδομένα του επιλεγμένου προϊόντος
         nameField.setText(selectedProduct.getName());
         phoneField.setText(selectedProduct.getPhone());
+        if (selectedProduct.getEnable() == 1)
+            tfEnable.setSelected(true);
+        else
+            tfEnable.setSelected(false);
 
         // Προσθήκη κουμπιών στον διάλογο
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -208,7 +230,10 @@ public class SuppliersController implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // Επιστρέφετε το αντικείμενο με τις ενημερωμένες τιμές
             System.out.println("Πατήθηκε το ΟΚ");
-            updateRequest(selectedProduct.getCode(),nameField.getText(),phoneField.getText());
+            int enable = 0;
+            if (tfEnable.isSelected())
+                enable = 1;
+            updateRequest(selectedProduct.getCode(),nameField.getText(),phoneField.getText(),enable);
             tableInit();
         }
     }
@@ -321,7 +346,7 @@ public class SuppliersController implements Initializable {
 
     }
 
-    private void updateRequest(int code, String name, String phone) {
+    private void updateRequest(int code, String name, String phone, int enable) {
         String apiUrl = "http://"+server+"/warehouse/supplierUpdate.php";
 
         try {
@@ -337,7 +362,7 @@ public class SuppliersController implements Initializable {
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            Supplier supplierData = new Supplier(code,name,phone);
+            Supplier supplierData = new Supplier(code,name,phone,enable);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(supplierData);
@@ -403,5 +428,10 @@ public class SuppliersController implements Initializable {
         ENGLISH_TO_GREEK.put('\u005A', '\u0396');  // uppercase Z
 
         // ...
+    }
+
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

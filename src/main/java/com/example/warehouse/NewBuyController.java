@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -32,7 +33,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class NewBuyController implements Initializable {
-
+    @FXML
+    StackPane stackPane;
     @FXML
     ComboBox<Supplier> tfSupplier;
     @FXML
@@ -583,5 +585,10 @@ public class NewBuyController implements Initializable {
         // Εφαρμογή του TextFormatter
         TextFormatter<String> textFormatter = new TextFormatter<>(filter);
         textField.setTextFormatter(textFormatter);
+    }
+
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

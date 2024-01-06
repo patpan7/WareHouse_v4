@@ -1,0 +1,15 @@
+
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÑÄ¾8ª¾ÓáÍ1
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ü¤³8ª¾ÓáÍ1
+r	java:S117!"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ÚŒ¹ùÿÿÿÿ8ª¾ÓáÍ1
+r	java:S117/"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½Š§Éøÿÿÿÿ8ª¾ÓáÍ1
+m	java:S117B"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«¹í8ª¾ÓáÍ1
+m	java:S117L"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æ®§‹8ÁÂëáÍ1
+r	java:S117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ó©ìƒıÿÿÿÿ8§ˆğáÍ1
+n	java:S117’"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8óßşáÍ1
+y	java:S116	"XRename this field "category_code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æü½‘şÿÿÿÿ8²¾ÓáÍ1
+o	java:S100y"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï“ÑÓùÿÿÿÿ8Ã¾ÓáÍ1
+k	java:S100’"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8Å¾ÓáÍ1
+M	java:S106¡"+Replace this use of System.out by a logger.(çñ¿âûÿÿÿÿ8Ç¾ÓáÍ1
+^	java:S125Ÿ"<This block of commented-out lines of code should be removed.(µÉ¯øÿÿÿÿ8Ç¾ÓáÍ1
+^	java:S125¢"<This block of commented-out lines of code should be removed.(ğ¡¤Øÿÿÿÿÿ8È¾ÓáÍ1

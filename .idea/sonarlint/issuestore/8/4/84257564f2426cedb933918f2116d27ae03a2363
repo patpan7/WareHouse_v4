@@ -1,0 +1,35 @@
+
+s	java:S117•"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8þðËÞÍ1
+n	java:S117–"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üŽûÛ8ÿðËÞÍ1
+s	java:S117·"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8ÿðËÞÍ1
+l
+java:S3655Ž"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8àñËÞÍ1
+o
+java:S6204H"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8çñËÞÍ1
+L	java:S106^"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8éñËÞÍ1
+L	java:S106f"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8êñËÞÍ1
+]	java:S125r"<This block of commented-out lines of code should be removed.(Êõ¥‡ÿÿÿÿÿ8êñËÞÍ1
+^	java:S125ƒ"<This block of commented-out lines of code should be removed.(‘™ë„ûÿÿÿÿ8ìñËÞÍ1
+_
+java:S1874…"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ÒîÊò8ìñËÞÍ1
+M	java:S106¾"+Replace this use of System.out by a logger.(êŽäöÿÿÿÿÿ8¢òËÞÍ1
+M	java:S106Á"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8¢òËÞÍ1
+^
+java:S1854¯";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8¨òËÞÍ1
+H	java:S106¤"+Replace this use of System.out by a logger.(úÕÐ8­òËÞÍ1
+H	java:S106¨"+Replace this use of System.out by a logger.(²¨ç÷8®òËÞÍ1
+O
+java:S1481¯",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8¯òËÞÍ1
+O
+java:S1481É",Remove this unused "ignored" local variable.(ÌåÎèüÿÿÿÿ8±òËÞÍ1
+H	java:S106ó"+Replace this use of System.out by a logger.(ÕºÅã8´òËÞÍ1
+G	java:S106ý"+Replace this use of System.out by a logger.(ÁØÕx8µòËÞÍ1
+M	java:S106ˆ"+Replace this use of System.out by a logger.(ÍÐŒÙüÿÿÿÿ8¶òËÞÍ1
+b
+java:S4968¾"?Replace this type parametrization by the 'final' type `String`.(€£¨žúÿÿÿÿ8¼òËÞÍ1
+J
+java:S1172Ò",Remove this unused method parameter "event".(™™È«8¾òËÞÍ1
+K
+java:S1128".Remove this unused import 'javafx.scene.Node'.(ÑÖ¬ï8ÌîÎÞÍ1
+Q
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8šØÍÞÍ1

@@ -1,0 +1,18 @@
+
+_
+java:S1192–"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷
+k	java:S117{"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒÔ»Úúÿÿÿÿ
+g	java:S117°"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’
+w
+java:S1450%"aRemove the "observableListItem" field and declare it as a local variable in the relevant methods.(åÆä®
+E	java:S106"+Replace this use of System.out by a logger.(ŞÆ­Ûşÿÿÿÿ
+F	java:S106¢"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
+F	java:S106¥"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
+F	java:S106Õ"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
+F	java:S106Ø"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
+H
+java:S1172ã",Remove this unused method parameter "event".(Í»¬Äùÿÿÿÿ
+N
+java:S1172é"2Remove this unused method parameter "actionEvent".(‰Ú¨ûÿÿÿÿ
+J
+java:S1172î",Remove this unused method parameter "event".(™™È«8ŠˆÉİÍ1

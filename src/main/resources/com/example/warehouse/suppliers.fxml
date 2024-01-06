@@ -11,81 +11,87 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.SuppliersController">
-    <top>
-        <AnchorPane BorderPane.alignment="CENTER">
-            <children>
-                <Label layoutX="347.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Προμηθευτές" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
-                    <font>
-                        <Font size="38.0" />
-                    </font>
-                </Label>
-                <Button layoutX="973.0" layoutY="7.0" mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                    <graphic>
-                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/menu.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </children>
-         <BorderPane.margin>
-            <Insets bottom="10.0" />
-         </BorderPane.margin>
-        </AnchorPane>
-    </top>
-    <center>
-        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-            <children>
-            <AnchorPane>
-               <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="18.0" styleClass="normal-label" text="Αναζήτηση" AnchorPane.topAnchor="20.0">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.SuppliersController">
+    <children>
+        <BorderPane minHeight="800.0" minWidth="1200.0" stylesheets="@external.css">
+            <top>
+                <AnchorPane BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="347.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Προμηθευτές" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
                             <font>
-                                <Font name="System Bold" size="30.0" />
+                                <Font size="38.0" />
                             </font>
-                            <opaqueInsets>
-                                <Insets />
-                            </opaqueInsets>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
                         </Label>
-                        <TextField fx:id="filterField" layoutX="163.0" layoutY="2.0" prefHeight="45.0" prefWidth="456.0" AnchorPane.topAnchor="10.0">
-                            <opaqueInsets>
-                                <Insets />
-                            </opaqueInsets>
-                        </TextField>
-                        <Button layoutX="813.0" layoutY="9.0" mnemonicParsing="false" onAction="#supplierAddNew" styleClass="click-button" text="Προσθήκη Νέου Προμηθευτή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                        <Button layoutX="973.0" layoutY="7.0" mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                             <graphic>
-                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@icons/add.png" />
+                                        <Image url="@icons/menu.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </AnchorPane>
-                <TableView fx:id="supplierTable" prefHeight="698.0" prefWidth="1200.0">
-                    <contextMenu>
-                        <ContextMenu>
-                            <items>
-                                <MenuItem mnemonicParsing="false" onAction="#handleEditOption" text="Επεξεργασία" />
-                                <MenuItem mnemonicParsing="false" onAction="#supplierAddNew" text="Προσθήκη" />
-                            </items>
-                        </ContextMenu>
-                    </contextMenu></TableView>
-            </children>
-         <BorderPane.margin>
-            <Insets bottom="10.0" />
-         </BorderPane.margin>
-        </VBox>
-    </center>
-</BorderPane>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                    </BorderPane.margin>
+                </AnchorPane>
+            </top>
+            <center>
+                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <AnchorPane>
+                            <children>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="18.0" styleClass="normal-label" text="Αναζήτηση" AnchorPane.topAnchor="20.0">
+                                    <font>
+                                        <Font name="System Bold" size="30.0" />
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                    <padding>
+                                        <Insets right="20.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="filterField" layoutX="163.0" layoutY="2.0" prefHeight="45.0" prefWidth="456.0" AnchorPane.topAnchor="10.0">
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </TextField>
+                                <Button layoutX="813.0" layoutY="9.0" mnemonicParsing="false" onAction="#supplierAddNew" styleClass="click-button" text="Προσθήκη Νέου Προμηθευτή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                                    <graphic>
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@icons/add.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </AnchorPane>
+                        <TableView fx:id="supplierTable" VBox.vgrow="ALWAYS">
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#handleEditOption" text="Επεξεργασία" />
+                                        <MenuItem mnemonicParsing="false" onAction="#supplierAddNew" text="Προσθήκη" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </TableView>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                    </BorderPane.margin>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>

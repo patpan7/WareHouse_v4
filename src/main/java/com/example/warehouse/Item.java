@@ -8,7 +8,7 @@ public class Item {
     float price;
     int category_code;
     Float sum = 0.0F;
-    String cat;
+    int enable;
 
     public Item() {
     }
@@ -61,6 +61,41 @@ public class Item {
         this.unit = unit;
         this.price = price;
         this.sum = sum;
+    }
+
+    public Item(int code, String name, float quantity, String unit, float price, int category_code, int enable) {
+        this.code = code;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = category_code;
+        this.enable = enable;
+    }
+
+    public Item(int code, String name, String unit, Float price, int category_code, int enable) {
+        this.code = code;
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = category_code;
+        this.enable = enable;
+    }
+
+    public int getEnable() {
+        return enable;
+    }
+
+    public void setEnable(int enable) {
+        this.enable = enable;
+    }
+
+    public Item(String name, String unit, Float price, int category_code, int enable) {
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = category_code;
+        this.enable = enable;
     }
 
     public int getCode() {

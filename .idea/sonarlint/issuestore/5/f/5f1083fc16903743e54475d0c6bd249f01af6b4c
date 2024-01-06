@@ -1,0 +1,33 @@
+
+g	java:S112U"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ğÊ¹ÅÉ1
+r	java:S117m"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÜö‰øÿÿÿÿ8òÊ¹ÅÉ1
+c
+java:S1874G"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ğ’‰©ùÿÿÿÿ8¨Ë¹ÅÉ1
+N
+java:S1602[",Remove useless curly braces around statement(£ÖÂîùÿÿÿÿ8ªË¹ÅÉ1
+I
+java:S1602_",Remove useless curly braces around statement(³ŒÔæ8ªË¹ÅÉ1
+M	java:S106•"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ÇË¹ÅÉ1
+M	java:S106˜"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ÈË¹ÅÉ1
+J
+java:S1172¢",Remove this unused method parameter "event".(ÈÂ‰Ó8ÑË¹ÅÉ1
+]
+java:S1854±":Remove this useless assignment to local variable "result".(Ãë¿²şÿÿÿÿ8ĞË¹ÅÉ1
+J
+java:S1172ª",Remove this unused method parameter "event".(¦ç–†8ªØÎİÍ1
+N
+java:S1481±"+Remove this unused "result" local variable.(Ãë¿²şÿÿÿÿ8ÒË¹ÅÉ1
+Q
+java:S1172¸"3Remove this unused method parameter "selectedItem".(Ç·çÖ8’ŞÆŞÍ1
+J
+java:S1172¿",Remove this unused method parameter "event".(™™È«8­‘ÃŞÍ1
+K
+java:S1128".Remove this unused import 'javafx.scene.Node'.(ÑÖ¬ï8Â‚ÇŞÍ1
+]
+java:S1128";Remove this unused import 'javafx.scene.layout.BorderPane'.(Îî¥üÿÿÿÿ8Â‚ÇŞÍ1
+T
+java:S1128"7Remove this unused import 'java.text.SimpleDateFormat'.(ú¡ÙÛ8Ã‚ÇŞÍ1
+h
+java:S1128 "FRemove this unused import 'java.util.concurrent.atomic.AtomicInteger'.(¿êäœøÿÿÿÿ8Ã‚ÇŞÍ1
+Z
+java:S1128!"8Remove this unused import 'java.util.stream.Collectors'.(Óóº´úÿÿÿÿ8Ã‚ÇŞÍ1

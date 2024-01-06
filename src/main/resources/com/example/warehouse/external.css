@@ -82,7 +82,10 @@
 //.table-row-cell:focused {
 //    -fx-background-color:purple;
 //}
-
+.inactive-row {
+    -fx-background-color: #cccccc; /* Σκούρο γκρί φόντο */
+    -fx-text-fill: white;
+}
 //------------------DatePickers----------------
 .date-picker .arrow-button {
 	-fx-background-color: -fx-primary-color;
@@ -134,12 +137,15 @@
     -fx-background-color: #a9a9a9 ,  white ,  white;
     -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
     -fx-font-size: 24px;
+
 }
 
 .text-field:focused {
     -fx-background-color: #a9a9a9 , white , white;
     -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
     -fx-font-size: 24px;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+        -fx-prompt-translate-y: -25%;
 }
 
 //------------------ComboBox----------------

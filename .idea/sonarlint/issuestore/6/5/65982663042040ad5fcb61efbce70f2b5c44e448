@@ -1,0 +1,38 @@
+
+`	java:S112["FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ
+d
+java:S1192¤"HDefine a constant instead of duplicating this literal "http://" 3 times.(Û‘ş®ùÿÿÿÿ
+_
+java:S1192Á"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷
+l	java:S117¤"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Û‘ş®ùÿÿÿÿ
+g	java:S117Ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’
+\
+java:S1874J"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(Ó½ÕÙûÿÿÿÿ
+B
+java:S1602a",Remove useless curly braces around statement(ŒàñÈ
+G
+java:S1602e",Remove useless curly braces around statement(£ÖÂîùÿÿÿÿ
+B
+java:S1602i",Remove useless curly braces around statement(³ŒÔæ
+n
+java:S1602u"SRemove useless curly braces around statement and then remove useless return keyword(êˆµúÿÿÿÿ
+F	java:S106Ì"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
+F	java:S106Ï"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
+F	java:S106ÿ"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
+F	java:S106‚"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
+O
+java:S1172",Remove this unused method parameter "event".(ÇĞ¶Ëşÿÿÿÿ8©ÕÄİÍ1
+2
+java:S3626¯"Remove this redundant jump.(ûÁİ…
+H
+java:S1172”"2Remove this unused method parameter "actionEvent".(£è
+A	java:S106¥"+Replace this use of System.out by a logger.(‹Œ×¹
+A	java:S106Ô"+Replace this use of System.out by a logger.(ÕºÅã
+@	java:S106İ"+Replace this use of System.out by a logger.(ÁØÕx
+F	java:S106è"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ
+V
+java:S1172ó"3Remove this unused method parameter "selectedItem".(ü°ü¦ÿÿÿÿÿ8¡àŞÍ1
+J
+java:S1172û",Remove this unused method parameter "event".(™™È«8ù«áŞÍ1
+K
+java:S1128".Remove this unused import 'javafx.scene.Node'.(ÑÖ¬ï8„ãŞÍ1

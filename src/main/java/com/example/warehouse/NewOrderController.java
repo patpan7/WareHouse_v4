@@ -7,12 +7,17 @@ import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
@@ -28,7 +33,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class NewOrderController implements Initializable {
-
+    @FXML
+    StackPane stackPane;
     @FXML
     TextField tfName;
     @FXML
@@ -455,5 +461,12 @@ public class NewOrderController implements Initializable {
             // Ορισμός της θέσης του κέρσορα στην αρχή
             tfName.positionCaret(0);
         }
+    }
+
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("orders.fxml"));
+        Parent root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
     }
 }

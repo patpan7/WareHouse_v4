@@ -1,0 +1,19 @@
+
+m	java:S117R"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŞÁ¹×8ƒÜÉİÍ1
+~
+java:S1450%"aRemove the "observableListItem" field and declare it as a local variable in the relevant methods.(åÆä®8ñÜÉİÍ1
+L	java:S106y"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ŸİÉİÍ1
+L	java:S106|"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ŸİÉİÍ1
+^
+java:S1854¡";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8 İÉİÍ1
+U
+java:S1172†"2Remove this unused method parameter "actionEvent".(—Éïûÿÿÿÿ8¡İÉİÍ1
+H	java:S106›"+Replace this use of System.out by a logger.(úÕĞ8§İÉİÍ1
+O
+java:S1481¡",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8¨İÉİÍ1
+O
+java:S1481»",Remove this unused "ignored" local variable.(ÌåÎèüÿÿÿÿ8«İÉİÍ1
+O
+java:S1172Ë",Remove this unused method parameter "event".(Í»¬Äùÿÿÿÿ8­İÉİÍ1
+J
+java:S1172Ğ",Remove this unused method parameter "event".(™™È«8É§ÊİÍ1

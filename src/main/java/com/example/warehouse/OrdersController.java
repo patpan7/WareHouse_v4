@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -32,7 +33,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class OrdersController implements Initializable {
-
+    @FXML
+    StackPane stackPane;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -158,11 +160,10 @@ public class OrdersController implements Initializable {
     }
 
     public void orderAddNew(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("newOrder.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newOrder.fxml"));
+        root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
     }
 
 
@@ -182,18 +183,13 @@ public class OrdersController implements Initializable {
 
     private void openEditDialog(Order selectedItem) throws IOException {
         // Δημιουργία νέου FXMLLoader
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("editOrder.fxml"));
-
-        // Προσθήκη προσαρμοσμένου κατασκευαστή
-        loader.setController(new EditOrderController(selectedItem));
-
-        // Φόρτωση του FXML
-        Parent root = loader.load();
-
-        // Δημιουργία νέου παραθύρου
-        Stage stage = new Stage();
-        stage.setTitle("Λεπτομέρειες Παραγγελίας");
-        stage.setScene(new Scene(root));
-        stage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editOrder.fxml"));
+        root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
+    }
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

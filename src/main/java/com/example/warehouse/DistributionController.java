@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -31,6 +32,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DistributionController implements Initializable {
+    @FXML
+    StackPane stackPane;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -264,11 +267,10 @@ public class DistributionController implements Initializable {
     }
 
     public void destributionAddNew(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("newDistribution.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newDistribution.fxml"));
+        root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
     }
 
     public void departmentAddNew(ActionEvent actionEvent) throws IOException {
@@ -368,18 +370,14 @@ public class DistributionController implements Initializable {
 
     private void openEditDialog(Distribution selectedItem) throws IOException {
         // Δημιουργία νέου FXMLLoader
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("editDistribution.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editDistribution.fxml"));
+        root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
+    }
 
-        // Προσθήκη προσαρμοσμένου κατασκευαστή
-        loader.setController(new EditDistributionController(selectedItem));
-
-        // Φόρτωση του FXML
-        Parent root = loader.load();
-
-        // Δημιουργία νέου παραθύρου
-        Stage stage = new Stage();
-        stage.setTitle("Λεπτομέρειες Παραγγελίας");
-        stage.setScene(new Scene(root));
-        stage.show();
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

@@ -6,93 +6,103 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.OrdersController">
-    <top>
-        <AnchorPane BorderPane.alignment="CENTER">
-            <children>
-                <Label layoutX="353.0" layoutY="12.0" styleClass="header-label" text="Warehouse v4 - Παραγγελίες" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
-                    <font>
-                        <Font size="38.0" />
-                    </font>
-                </Label>
-                <Button layoutX="973.0" layoutY="6.0" mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                    <graphic>
-                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/menu.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </children>
-         <BorderPane.margin>
-            <Insets bottom="10.0" />
-         </BorderPane.margin>
-        </AnchorPane>
-    </top>
-    <center>
-        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-            <children>
-            <AnchorPane>
-               <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="31.0" styleClass="normal-label" text="Από" AnchorPane.topAnchor="20.0">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.OrdersController">
+    <children>
+        <BorderPane minHeight="800.0" minWidth="1200.0" stylesheets="@external.css">
+            <top>
+                <AnchorPane BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="353.0" layoutY="12.0" styleClass="header-label" text="Warehouse v4 - Παραγγελίες" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
                             <font>
-                                <Font name="System Bold" size="30.0" />
+                                <Font size="38.0" />
                             </font>
-                            <opaqueInsets>
-                                <Insets />
-                            </opaqueInsets>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
                         </Label>
-                        <Button layoutX="922.0" layoutY="19.0" mnemonicParsing="false" onAction="#orderAddNew" styleClass="click-button" text="Νέα Παραγγελία" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                        <Button layoutX="973.0" layoutY="6.0" mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                             <graphic>
-                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@icons/add.png" />
+                                        <Image url="@icons/menu.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
-                     <opaqueInsets>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </opaqueInsets>
                         </Button>
-                  <DatePicker fx:id="dateFrom" layoutX="83.0" layoutY="14.0" prefWidth="200.0" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="316.0" layoutY="22.0" styleClass="normal-label" text="Έως">
-                     <font>
-                        <Font name="System Bold" size="30.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
-                  </Label>
-                  <DatePicker fx:id="dateTo" layoutX="384.0" layoutY="14.0" prefWidth="200.0" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </AnchorPane>
-                <TableView fx:id="ordersTable" prefHeight="698.0" prefWidth="1200.0">
-                    <contextMenu>
-                        <ContextMenu>
-                            <items>
-                                <MenuItem fx:id="editOption" mnemonicParsing="false" onAction="#handleEditOption" text="Επεξεργασία" />
-                            </items>
-                        </ContextMenu>
-                    </contextMenu></TableView>
-            </children>
-        </VBox>
-    </center>
-</BorderPane>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                    </BorderPane.margin>
+                </AnchorPane>
+            </top>
+            <center>
+                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                                <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Από">
+                                    <font>
+                                        <Font name="System Bold" size="30.0" />
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                    <padding>
+                                        <Insets right="20.0" />
+                                    </padding>
+                                </Label>
+                                <DatePicker fx:id="dateFrom" prefWidth="200.0" />
+                        <Separator prefWidth="20.0" visible="false" />
+                                <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Έως">
+                                    <font>
+                                        <Font name="System Bold" size="30.0" />
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                    <padding>
+                                        <Insets right="20.0" />
+                                    </padding>
+                                </Label>
+                                <DatePicker fx:id="dateTo" prefWidth="200.0" />
+                        <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
+                                <Button mnemonicParsing="false" onAction="#orderAddNew" styleClass="click-button" text="Νέα Παραγγελία">
+                                    <graphic>
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@icons/add.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <opaqueInsets>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </opaqueInsets>
+                                </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                        <TableView fx:id="ordersTable" VBox.vgrow="ALWAYS">
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem fx:id="editOption" mnemonicParsing="false" onAction="#handleEditOption" text="Επεξεργασία" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </TableView>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>

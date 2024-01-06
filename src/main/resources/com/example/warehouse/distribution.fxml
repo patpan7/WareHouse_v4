@@ -14,121 +14,132 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.DistributionController">
-    <top>
-        <AnchorPane fx:id="code" BorderPane.alignment="CENTER">
-            <children>
-                <Label layoutX="334.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Ενδοδιακίνηση" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
-                    <font>
-                        <Font size="38.0" />
-                    </font>
-                </Label>
-                <Button layoutX="973.0" layoutY="2.0" mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                    <graphic>
-                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/menu.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </children>
-            <BorderPane.margin>
-                <Insets bottom="10.0" />
-            </BorderPane.margin>
-        </AnchorPane>
-    </top>
-    <center>
-        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-            <children>
-                <VBox>
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.DistributionController">
+    <children>
+        <BorderPane minHeight="800.0" minWidth="1200.0" stylesheets="@external.css">
+            <top>
+                <AnchorPane fx:id="code" BorderPane.alignment="CENTER">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#destributionAddNew" styleClass="click-button" text="Προσθήκη Ενδοδιακίνησης">
-                                    <graphic>
-                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@icons/add.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                    <HBox.margin>
-                                        <Insets left="20.0" right="20.0" />
-                                    </HBox.margin>
-                                </Button>
-                                <Separator visible="false" HBox.hgrow="ALWAYS" />
-                                <Button mnemonicParsing="false" onAction="#departmentAddNew" styleClass="click-button" text="Προσθήκη Νέου Τμήματος">
-                                    <graphic>
-                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@icons/add.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                    <HBox.margin>
-                                        <Insets left="20.0" right="20.0" />
-                                    </HBox.margin>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <AnchorPane>
-                            <children>
-                                <DatePicker fx:id="dateFrom" layoutX="83.0" layoutY="14.0" prefWidth="200.0" />
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="316.0" layoutY="22.0" styleClass="normal-label" text="Έως">
-                                    <font>
-                                        <Font name="System Bold" size="30.0" />
-                                    </font>
-                                    <opaqueInsets>
-                                        <Insets />
-                                    </opaqueInsets>
-                                    <padding>
-                                        <Insets right="20.0" />
-                                    </padding>
-                                </Label>
-                                <DatePicker fx:id="dateTo" layoutX="384.0" layoutY="14.0" prefWidth="200.0" />
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="719.0" layoutY="20.0" styleClass="normal-label" text="Τμήμα" AnchorPane.topAnchor="20.0">
-                                    <font>
-                                        <Font name="System Bold" size="30.0" />
-                                    </font>
-                                    <opaqueInsets>
-                                        <Insets />
-                                    </opaqueInsets>
-                                    <padding>
-                                        <Insets right="20.0" />
-                                    </padding>
-                                </Label>
-                                <ComboBox fx:id="departmentField" layoutX="814.0" layoutY="10.0" prefHeight="51.0" prefWidth="360.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="10.0" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="22.0" styleClass="normal-label" text="Από">
-                           <font>
-                              <Font name="System Bold" size="30.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets right="20.0" />
-                           </padding>
+                        <Label layoutX="334.0" layoutY="11.0" styleClass="header-label" text="Warehouse v4 - Ενδοδιακίνηση" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
+                            <font>
+                                <Font size="38.0" />
+                            </font>
                         </Label>
+                        <Button layoutX="973.0" layoutY="2.0" mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                            <graphic>
+                                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/menu.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                    </BorderPane.margin>
+                </AnchorPane>
+            </top>
+            <center>
+                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox>
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#destributionAddNew" styleClass="click-button" text="Προσθήκη Ενδοδιακίνησης">
+                                            <graphic>
+                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@icons/add.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                            <HBox.margin>
+                                                <Insets />
+                                            </HBox.margin>
+                                        </Button>
+                                        <Separator visible="false" HBox.hgrow="ALWAYS" />
+                                        <Button mnemonicParsing="false" onAction="#departmentAddNew" styleClass="click-button" text="Προσθήκη Νέου Τμήματος">
+                                            <graphic>
+                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@icons/add.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                            <HBox.margin>
+                                                <Insets />
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="20.0" right="20.0" />
+                           </VBox.margin>
+                                </HBox>
                             </children>
-                            <padding>
-                                <Insets bottom="10.0" />
-                            </padding>
-                        </AnchorPane>
+                        </VBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                                  <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Από">
+                                      <font>
+                                          <Font name="System Bold" size="30.0" />
+                                      </font>
+                                      <opaqueInsets>
+                                          <Insets />
+                                      </opaqueInsets>
+                                      <padding>
+                                          <Insets right="20.0" />
+                                      </padding>
+                                  </Label>
+                                  <DatePicker fx:id="dateFrom" prefWidth="200.0" />
+                        <Separator prefWidth="20.0" visible="false" />
+                                  <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Έως">
+                                      <font>
+                                          <Font name="System Bold" size="30.0" />
+                                      </font>
+                                      <opaqueInsets>
+                                          <Insets />
+                                      </opaqueInsets>
+                                      <padding>
+                                          <Insets right="20.0" />
+                                      </padding>
+                                  </Label>
+                                  <DatePicker fx:id="dateTo" prefWidth="200.0" />
+                        <Separator visible="false" HBox.hgrow="ALWAYS" />
+                                  <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Τμήμα">
+                                      <font>
+                                          <Font name="System Bold" size="30.0" />
+                                      </font>
+                                      <opaqueInsets>
+                                          <Insets />
+                                      </opaqueInsets>
+                                      <padding>
+                                          <Insets right="20.0" />
+                                      </padding>
+                                  </Label>
+                                  <ComboBox fx:id="departmentField" prefHeight="51.0" prefWidth="360.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                        <TableView fx:id="distributionTable" prefHeight="698.0" prefWidth="1200.0" stylesheets="@external.css">
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" text="Επεξεργασία" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </TableView>
                     </children>
                 </VBox>
-                <TableView fx:id="distributionTable" prefHeight="698.0" prefWidth="1200.0" stylesheets="@external.css">
-                    <contextMenu>
-                        <ContextMenu>
-                            <items>
-                                <MenuItem mnemonicParsing="false"  text="Επεξεργασία" />
-                            </items>
-                        </ContextMenu>
-                    </contextMenu></TableView>
-            </children>
-        </VBox>
-    </center>
-</BorderPane>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>

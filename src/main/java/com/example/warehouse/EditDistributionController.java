@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -23,7 +24,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class EditDistributionController implements Initializable {
-
+    @FXML
+    StackPane stackPane;
     @FXML
     DatePicker buyDate;
     @FXML
@@ -231,5 +233,10 @@ public class EditDistributionController implements Initializable {
     public void changeDepartment(ActionEvent actionEvent) {
         departmentField.setEditable(true);
         departmentField.setDisable(false);
+    }
+
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

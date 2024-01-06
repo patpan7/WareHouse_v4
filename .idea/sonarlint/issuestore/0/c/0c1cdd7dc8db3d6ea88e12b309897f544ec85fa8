@@ -1,0 +1,26 @@
+
+d
+java:S1192("GDefine a constant instead of duplicating this literal "server" 3 times.(ºùíÌ8ŞÉÏİÍ1
+r	java:S1177"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿºøìüÿÿÿÿ8à‹ÏİÍ1
+r	java:S1178"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áêöóøÿÿÿÿ8ßÉÏİÍ1
+\
+java:S1117*":Rename "server" which hides the field declared at line 35.(ĞùÓĞÿÿÿÿÿ8¤ÊÏİÍ1
+L	java:S106\"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ÅÊÏİÍ1
+L	java:S106_"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ÅÊÏİÍ1
+‰
+java:S1130k"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(ôÿñ8ÆÊÏİÍ1
+I
+java:S1172k",Remove this unused method parameter "event".(ôÿñ8ÆÊÏİÍ1
+X	java:S125m"<This block of commented-out lines of code should be removed.(ââÜ8ÇÊÏİÍ1
+9
+java:S3626‹"Remove this redundant jump.(ûÁİ…8ÈÊÏİÍ1
+O
+java:S1172p"2Remove this unused method parameter "actionEvent".(‚ŒÜÉ8ÊÊÏİÍ1
+H	java:S106"+Replace this use of System.out by a logger.(‹Œ×¹8ÕÊÏİÍ1
+H	java:S106®"+Replace this use of System.out by a logger.(ÕºÅã8ÚÊÏİÍ1
+G	java:S106·"+Replace this use of System.out by a logger.(ÁØÕx8ÛÊÏİÍ1
+M	java:S106Â"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8İÊÏİÍ1
+J
+java:S1172Í",Remove this unused method parameter "event".(™™È«8òÖìäÍ1
+Q
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8İÊÏİÍ1

@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -32,7 +33,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class NewDistributionController implements Initializable {
-
+    @FXML
+    StackPane stackPane;
     @FXML
     ComboBox<Department> tfDepartment;
     @FXML
@@ -582,5 +584,10 @@ public class NewDistributionController implements Initializable {
         ENGLISH_TO_GREEK.put('\u005A', '\u0396');  // uppercase Z
 
         // ...
+    }
+
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

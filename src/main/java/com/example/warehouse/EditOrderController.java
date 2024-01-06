@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -25,7 +26,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EditOrderController implements Initializable {
-
+    @FXML
+    StackPane stackPane;
     @FXML
     DatePicker orderDate;
     @FXML
@@ -202,5 +204,9 @@ public class EditOrderController implements Initializable {
         // Κλείσιμο του παραθύρου
         Stage stage = (Stage) backButton.getScene().getWindow();
         stage.close();
+    }
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

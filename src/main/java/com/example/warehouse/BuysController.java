@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -29,6 +30,9 @@ import java.util.ResourceBundle;
 
 
 public class BuysController implements Initializable {
+
+    @FXML
+    StackPane stackPane;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -160,11 +164,10 @@ public class BuysController implements Initializable {
     }
 
     public void buyAddNew(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("newBuy.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newBuy.fxml"));
+        root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
     }
 
     public void handleEditOption(ActionEvent event) throws IOException {
@@ -184,17 +187,13 @@ public class BuysController implements Initializable {
     private void openEditDialog(Buys selectedItem) throws IOException {
         // Δημιουργία νέου FXMLLoader
         FXMLLoader loader = new FXMLLoader(getClass().getResource("editBuy.fxml"));
+        root = loader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
+    }
 
-        // Προσθήκη προσαρμοσμένου κατασκευαστή
-        loader.setController(new EditBuyController(selectedItem));
-
-        // Φόρτωση του FXML
-        Parent root = loader.load();
-
-        // Δημιουργία νέου παραθύρου
-        Stage stage = new Stage();
-        stage.setTitle("Λεπτομέρειες Παραγγελίας");
-        stage.setScene(new Scene(root));
-        stage.show();
+    public void mainMenuClick(ActionEvent event) throws IOException {
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.mainMenuClick(stackPane);
     }
 }

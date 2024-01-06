@@ -9,28 +9,37 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.StatistcsController">
-    <top>
-        <AnchorPane BorderPane.alignment="CENTER">
-            <children>
-                <Label layoutX="362.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Στατιστηκά" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
-                    <font>
-                        <Font size="38.0" />
-                    </font>
-                </Label>
-                <Button layoutX="973.0" layoutY="8.0" mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                    <graphic>
-                        <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/menu.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </children>
-         <BorderPane.margin>
-            <Insets bottom="10.0" />
-         </BorderPane.margin>
-        </AnchorPane>
-    </top>
-</BorderPane>
+<?import javafx.scene.layout.StackPane?>
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.warehouse.StatistcsController">
+    <children>
+        <BorderPane minHeight="800.0" minWidth="1200.0" stylesheets="@external.css">
+            <top>
+                <AnchorPane BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="362.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Στατιστηκά"
+                               AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
+                            <font>
+                                <Font size="38.0"/>
+                            </font>
+                        </Label>
+                        <Button layoutX="973.0" layoutY="8.0" mnemonicParsing="false" onAction="#mainMenuClick"
+                                styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0"
+                                AnchorPane.topAnchor="10.0">
+                            <graphic>
+                                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/menu.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="10.0"/>
+                    </BorderPane.margin>
+                </AnchorPane>
+            </top>
+        </BorderPane>
+    </children>
+</StackPane>
