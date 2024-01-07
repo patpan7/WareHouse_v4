@@ -8,27 +8,25 @@
 <?import javafx.scene.text.Font?>
 
 <DialogPane stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <content>
-      <HBox alignment="CENTER_RIGHT">
-         <children>
-   
-                 <Label styleClass="normal-label" text="Μονάδα μέτρησης:">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <padding>
-                  <Insets right="20.0" />
-               </padding>
+    <content>
+        <HBox alignment="CENTER_RIGHT">
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+
+            <Label styleClass="normal-label" text="Μονάδα μέτρησης:">
+                <font>
+                    <Font size="24.0"/>
+                </font>
+                <padding>
+                    <Insets right="20.0"/>
+                </padding>
             </Label>
-              <TextField fx:id="tfUnit">
-               <font>
-                  <Font size="24.0" />
-               </font>
+            <TextField fx:id="tfUnit">
+                <font>
+                    <Font size="24.0"/>
+                </font>
             </TextField>
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </HBox>
-   </content>
+        </HBox>
+    </content>
 </DialogPane>

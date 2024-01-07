@@ -9,92 +9,91 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.StackPane?>
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.example.warehouse.EditDistributionController">
-    <children>
-        <BorderPane minHeight="800.0" minWidth="1200.0" stylesheets="@external.css">
-            <top>
-                <AnchorPane>
-                    <BorderPane.margin>
-                        <Insets bottom="10.0"/>
-                    </BorderPane.margin>
-                    <children>
-                        <Label alignment="CENTER" layoutX="147.0" layoutY="16.0" styleClass="header-label"
-                               text="Warehouse v4 - Επεξεργασία Ενδοδιακινίσης" AnchorPane.leftAnchor="150.0"
-                               AnchorPane.topAnchor="10.0">
-                            <font>
-                                <Font size="38.0"/>
-                            </font>
-                        </Label>
-                        <Button fx:id="backButton" layoutX="973.0" layoutY="11.0" mnemonicParsing="false"
-                                onAction="#handlebackButton" styleClass="click-button" text="Επιστροφή"
-                                AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                            <graphic>
-                                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@icons/menu.png"/>
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
-                    </children>
-                </AnchorPane>
-            </top>
-            <center>
-                <VBox alignment="CENTER" BorderPane.alignment="CENTER">
-                    <children>
-                        <HBox alignment="CENTER">
-                            <children>
-                                <ComboBox fx:id="departmentField" disable="true" prefWidth="280.0">
-                                    <HBox.margin>
-                                        <Insets left="10.0" right="10.0"/>
-                                    </HBox.margin>
-                                </ComboBox>
-                                <Button mnemonicParsing="false" onAction="#changeDepartment" styleClass="click-button"
-                                        text="Αλλαγή τμήματος">
-                                    <HBox.margin>
-                                        <Insets left="10.0" right="10.0"/>
-                                    </HBox.margin>
-                                </Button>
-                                <Separator visible="false" HBox.hgrow="ALWAYS"/>
-                                <DatePicker fx:id="buyDate"/>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                            </VBox.margin>
-                        </HBox>
-                        <TableView fx:id="itemsTable" prefHeight="590.0" prefWidth="1200.0">
-                            <VBox.margin>
-                                <Insets bottom="10.0"/>
-                            </VBox.margin>
-                            <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                            </columnResizePolicy>
-                        </TableView>
-                        <Button mnemonicParsing="false" styleClass="click-button" text="Αποθήκευση">
-                            <font>
-                                <Font size="24.0"/>
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="10.0" top="10.0"/>
-                            </VBox.margin>
-                        </Button>
-                    </children>
+<StackPane fx:id="stackPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane minHeight="800.0" minWidth="1200.0">
+        <top>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                <BorderPane.margin>
+                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                </BorderPane.margin>
+                <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Label styleClass="header-label" text="Warehouse v4 - Προβολή Ενδοδιακίνησης" HBox.hgrow="ALWAYS">
+                        <font>
+                            <Font size="38.0" />
+                        </font>
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                    </Label>
+                </HBox>
+                <HBox alignment="CENTER_RIGHT">
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets right="20.0" />
                     </opaqueInsets>
-                    <BorderPane.margin>
-                        <Insets/>
-                    </BorderPane.margin>
-                </VBox>
-            </center>
-        </BorderPane>
-    </children>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                    <Button mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή">
+                        <graphic>
+                            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@icons/menu.png" />
+                            </ImageView>
+                        </graphic>
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                    </Button>
+                </HBox>
+            </HBox>
+        </top>
+        <center>
+            <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+                <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </VBox.margin>
+                    <ComboBox fx:id="departmentField" disable="true" prefWidth="280.0">
+                        <HBox.margin>
+                            <Insets left="10.0" right="10.0" />
+                        </HBox.margin>
+                    </ComboBox>
+                    <Button mnemonicParsing="false" onAction="#changeDepartment" styleClass="click-button" text="Αλλαγή τμήματος">
+                        <HBox.margin>
+                            <Insets left="10.0" right="10.0" />
+                        </HBox.margin>
+                    </Button>
+                    <Separator visible="false" HBox.hgrow="ALWAYS" />
+                    <DatePicker fx:id="buyDate" />
+                </HBox>
+                <TableView fx:id="itemsTable" prefHeight="590.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+                <Button mnemonicParsing="false" styleClass="click-button" text="Αποθήκευση">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </VBox.margin>
+                </Button>
+            </VBox>
+        </center>
+    </BorderPane>
 </StackPane>

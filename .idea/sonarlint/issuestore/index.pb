@@ -1,8 +1,6 @@
 
 k
 ;src/main/java/com/example/warehouse/NewOrderController.java,8\4\84257564f2426cedb933918f2116d27ae03a2363
-k
-;src/main/java/com/example/warehouse/ProductsController.java,0\0\00d03371ec81c6928dfdad8c1cab30fc0ec017f2
 i
 9src/main/java/com/example/warehouse/OrdersController.java,5\f\5f1083fc16903743e54475d0c6bd249f01af6b4c
 7
@@ -25,8 +23,6 @@ a
 1src/main/java/com/example/warehouse/Category.java,f\f\ffdf7a45d622d4e0b14d4ec882e6930847fc9773
 n
 >src/main/java/com/example/warehouse/DepartmentsController.java,1\f\1fe29eb9479f421f5cd71f36763ad6a9502ee192
-p
-@src/main/java/com/example/warehouse/IntrashipmentController.java,6\c\6c3a342200b00f02f5ff8d08d494de7844380ea5
 a
 1src/main/java/com/example/warehouse/MainMenu.java,9\a\9a692a09840eb890ab08b14aa2638a6aa3b6efd7
 l
@@ -62,8 +58,6 @@ Q.idea/sonarlint/securityhotspotstore/6/1/61f738214beb17637bbd265fa03cfc753ac865
 Å
 Q.idea/sonarlint/securityhotspotstore/9/a/9a692a09840eb890ab08b14aa2638a6aa3b6efd7,4\0\40f87d8145a0b5916347353f12dcecfd5511f03a
 Å
-Q.idea/sonarlint/securityhotspotstore/6/c/6c3a342200b00f02f5ff8d08d494de7844380ea5,1\6\16b21456acb30fb4e15512d2449799f9a360c047
-Å
 Q.idea/sonarlint/securityhotspotstore/1/f/1fe29eb9479f421f5cd71f36763ad6a9502ee192,8\6\86cab77b5298bee61ad4ab145b96b545469e5fe0
 Å
 Q.idea/sonarlint/securityhotspotstore/9/c/9ccfb67239851759fef1e060f300470c20636603,e\c\ece68e4f691b4b2b8aea8d1c90c02e0b352c2fe0
@@ -77,8 +71,6 @@ Q.idea/sonarlint/securityhotspotstore/d/1/d126368c8518c579ab974f9512590a09ee66c6
 Q.idea/sonarlint/securityhotspotstore/5/f/5f1083fc16903743e54475d0c6bd249f01af6b4c,9\8\98d1c4e8fa37bc61cc21f89d1dfbffc5792d7127
 Å
 Q.idea/sonarlint/securityhotspotstore/0/4/04b02bfcfbb59e2ce9803e449df2cd081600b104,0\e\0e74b3dc681e2413001e766b75d9bc146c685f7d
-Å
-Q.idea/sonarlint/securityhotspotstore/0/0/00d03371ec81c6928dfdad8c1cab30fc0ec017f2,b\c\bc1a3fa558fdaac3a30c347df91b846bae076f8f
 Å
 Q.idea/sonarlint/securityhotspotstore/e/8/e8b3109c1787f90596af48e6dc72ccd390a98bbe,0\0\00c3c156c28250c5278b47858792c74386c48568
 Å
@@ -115,5 +107,5 @@ w
 G.idea/sonarlint/issuestore/f/4/f4955761c36c8427b8b707ea9ee3e2aa0906209f,5\1\5128de2d3274f37fc318ba96c5bec4a6f79f649c
 w
 G.idea/sonarlint/issuestore/f/f/ffdf7a45d622d4e0b14d4ec882e6930847fc9773,d\2\d297f344a341c4401981cad210bd6ce9108a9e1c
-w
-G.idea/sonarlint/issuestore/6/c/6c3a342200b00f02f5ff8d08d494de7844380ea5,8\a\8a9262c50f496f588cf2abbe7098bf73a24fcacd
+e
+5src/main/java/com/example/warehouse/Distribution.java,a\1\a1dbecf6f7fe342ef15787afa9b3d35f92b6194e

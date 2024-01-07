@@ -10,60 +10,54 @@
 <?import javafx.scene.text.Font?>
 
 <DialogPane stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <content>
-      <VBox alignment="CENTER">
-         <children>
+    <content>
+        <VBox alignment="CENTER">
             <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
-               <children>
-         
-                     <Label styleClass="normal-label" text="Όνομα:">
-                         <font>
-                             <Font size="24.0" />
-                         </font>
-                         <padding>
-                             <Insets right="20.0" />
-                         </padding>
-                  </Label>
-                     <TextField fx:id="tfName">
-                         <font>
-                             <Font size="24.0" />
-                         </font>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+
+                <Label styleClass="normal-label" text="Όνομα:">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <padding>
+                        <Insets right="20.0"/>
+                    </padding>
+                </Label>
+                <TextField fx:id="tfName">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </TextField>
             </HBox>
             <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
-               <children>
-         
-                     <Label styleClass="normal-label" text="Τηλέφωνο:">
-                         <font>
-                             <Font size="24.0" />
-                         </font>
-                         <padding>
-                             <Insets right="20.0" />
-                         </padding>
-                  </Label>
-                     <TextField fx:id="tfPhone" alignment="TOP_LEFT">
-                         <font>
-                             <Font size="24.0" />
-                         </font>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+
+                <Label styleClass="normal-label" text="Τηλέφωνο:">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <padding>
+                        <Insets right="20.0"/>
+                    </padding>
+                </Label>
+                <TextField fx:id="tfPhone" alignment="TOP_LEFT">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </TextField>
             </HBox>
             <CheckBox fx:id="tfEnable" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Ενεργός:">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets right="250.0" />
-               </VBox.margin>
+                <font>
+                    <Font name="System Bold" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets right="250.0"/>
+                </VBox.margin>
             </CheckBox>
-         </children>
-      </VBox>
-   </content>
+        </VBox>
+    </content>
 </DialogPane>

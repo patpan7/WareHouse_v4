@@ -1,13 +1,13 @@
 
-r	java:S117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÎàùÿÿÿÿ8„·ÆİÍ1
+r	java:S117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÎàùÿÿÿÿ8ö‰şÍ1
 m
-java:S1104""PMake root a static final constant or non-public and provide accessors if needed.(Ş–›­8ì¢ŞÍ1
+java:S1104""PMake root a static final constant or non-public and provide accessors if needed.(Ş–›­8ö‰şÍ1
 ~
-java:S1450)"aRemove the "observableListItem" field and declare it as a local variable in the relevant methods.(åÆä®8ó·ÆİÍ1
-L	java:S106`"+Replace this use of System.out by a logger.(ŞÆ­Ûşÿÿÿÿ8…¸ÆİÍ1
-M	java:S106…"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8³¸ÆİÍ1
-M	java:S106ˆ"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8³¸ÆİÍ1
-O
-java:S1172’",Remove this unused method parameter "event".(ëÛö€ÿÿÿÿÿ8´¸ÆİÍ1
+java:S1450)"aRemove the "observableListItem" field and declare it as a local variable in the relevant methods.(åÆä®8´ŠşÍ1
+L	java:S106`"+Replace this use of System.out by a logger.(ŞÆ­Ûşÿÿÿÿ8¾ŠşÍ1
+M	java:S106…"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ÜŠşÍ1
+M	java:S106ˆ"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8İŠşÍ1
+J
+java:S1172’",Remove this unused method parameter "event".(™™È«8ŞŠşÍ1
 Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8…¢ŞÍ1
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8æÛÙƒÎ1

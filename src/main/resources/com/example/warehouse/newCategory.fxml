@@ -8,24 +8,21 @@
 <?import javafx.scene.text.Font?>
 
 <DialogPane stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <content>
-      <HBox alignment="CENTER_RIGHT">
-         <children>
-   
-                 <Label styleClass="normal-label" text="Όνομα:">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <padding>
-                  <Insets right="20.0" />
-               </padding>
+    <content>
+        <HBox alignment="CENTER_RIGHT">
+            <Label styleClass="normal-label" text="Όνομα:">
+                <font>
+                    <Font size="24.0"/>
+                </font>
+                <padding>
+                    <Insets right="20.0"/>
+                </padding>
             </Label>
-              <TextField fx:id="tfName">
-               <font>
-                  <Font size="24.0" />
-               </font>
+            <TextField fx:id="tfName">
+                <font>
+                    <Font size="24.0"/>
+                </font>
             </TextField>
-         </children>
-      </HBox>
-   </content>
+        </HBox>
+    </content>
 </DialogPane>

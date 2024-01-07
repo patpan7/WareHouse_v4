@@ -38,8 +38,13 @@ public class EditOrderController implements Initializable {
     Order selectedOrder;
 
     String server;
+
     public EditOrderController(Order selectedOrder) {
         this.selectedOrder = selectedOrder;
+    }
+
+    public void initData(Order selectedOrder) {
+        this.selectedOrder.equals(selectedOrder);
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

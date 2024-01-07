@@ -74,12 +74,12 @@ public class MainMenuController {
     }
 
     public void departmentsClick(ActionEvent e) throws IOException {
-//        root = FXMLLoader.load(getClass().getResource("departments.fxml"));
+//        root = FXMLLoader.load(getClass().getResource("returns.fxml"));
 //        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 //        scene = new Scene(root);
 //        stage.setScene(scene);
 //        stage.show();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("departments.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("returns.fxml"));
         root = fxmlLoader.load();
         stackPane.getChildren().clear();
         stackPane.getChildren().add(root);

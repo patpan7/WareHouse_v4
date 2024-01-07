@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -75,6 +75,15 @@ public class DistributionController implements Initializable {
         tableInit();
 
         filteredData = new FilteredList<>(observableList, b -> true);
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<Distribution> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(distributionTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        distributionTable.setItems(sortedData);
 
         distributionTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Έλεγχος για δύο κλικ
@@ -115,7 +124,9 @@ public class DistributionController implements Initializable {
         } else {
             // Φιλτράρισμα των ειδών με βάση την επιλεγμένη κατηγορία
             filteredData.setPredicate(item -> {
-                return item.getName().equals(selectedDepartment.getName());
+                System.out.println(item.getDepartment());
+                System.out.println(selectedDepartment.getName());
+                return item.getDepartment().equals(selectedDepartment.getName());
             });
         }
     }
@@ -371,6 +382,7 @@ public class DistributionController implements Initializable {
     private void openEditDialog(Distribution selectedItem) throws IOException {
         // Δημιουργία νέου FXMLLoader
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editDistribution.fxml"));
+        fxmlLoader.setController(new EditDistributionController(selectedItem));
         root = fxmlLoader.load();
         stackPane.getChildren().clear();
         stackPane.getChildren().add(root);

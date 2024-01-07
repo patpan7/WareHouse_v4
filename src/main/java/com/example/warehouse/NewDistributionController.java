@@ -8,7 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -268,8 +270,11 @@ public class NewDistributionController implements Initializable {
                         float price = Float.parseFloat(itemNode.get("price").asText());
                         int category_code = itemNode.get("category_code").asInt();
                         float sum = 0.0F;
-                        Item item = new Item(code, name, quantity, unit, price,category_code,sum);
-                        Items.add(item);
+                        int enable = itemNode.get("enable").asInt();
+                        if (enable == 1){
+                            Item item = new Item(code, name, quantity, unit, price,category_code,sum);
+                            Items.add(item);
+                        }
                     }
                 } else {
                     String failMessage = jsonNode.get("message").asText();
@@ -587,7 +592,9 @@ public class NewDistributionController implements Initializable {
     }
 
     public void mainMenuClick(ActionEvent event) throws IOException {
-        MainMenuController mainMenuController = new MainMenuController();
-        mainMenuController.mainMenuClick(stackPane);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("distribution.fxml"));
+        Parent root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
     }
 }

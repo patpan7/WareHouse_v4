@@ -181,9 +181,11 @@ public class NewOrderController implements Initializable {
                         String unit = itemNode.get("unit").asText();
                         float price = Float.parseFloat(itemNode.get("price").asText());
                         int category_code = itemNode.get("category_code").asInt();
-
-                        Item item = new Item(code, name, quantity, unit, price,category_code);
-                        Items.add(item);
+                        int enable = itemNode.get("enable").asInt();
+                        if (enable == 1){
+                            Item item = new Item(code, name, quantity, unit, price,category_code);
+                            Items.add(item);
+                        }
                     }
                 } else {
                     String failMessage = jsonNode.get("message").asText();

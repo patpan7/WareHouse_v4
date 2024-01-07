@@ -11,93 +11,81 @@
 <?import javafx.scene.text.Font?>
 
 <DialogPane stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <content>
-      <VBox alignment="CENTER">
-         <children>
+    <content>
+        <VBox alignment="CENTER">
             <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <children>
-         
-                    <Label styleClass="normal-label" text="Όνομα:">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
-                  </Label>
-                    <TextField fx:id="tfName">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </TextField>
-               </children>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+                <Label styleClass="normal-label" text="Όνομα:">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <padding>
+                        <Insets right="20.0"/>
+                    </padding>
+                </Label>
+                <TextField fx:id="tfName">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </TextField>
             </HBox>
             <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <children>
-         
-                    <Label styleClass="normal-label" text="Τιμή:">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
-                  </Label>
-                    <TextField fx:id="tfPrice">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </TextField>
-               </children>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+                <Label styleClass="normal-label" text="Τιμή:">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <padding>
+                        <Insets right="20.0"/>
+                    </padding>
+                </Label>
+                <TextField fx:id="tfPrice">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </TextField>
             </HBox>
             <HBox alignment="CENTER_RIGHT">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <children>
-         
-                    <Label styleClass="normal-label" text="Μονάδα Μέτρησης:">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
-                  </Label>
-                  <ComboBox fx:id="tfUnit" prefHeight="51.0" prefWidth="298.0" />
-               </children>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+                <Label styleClass="normal-label" text="Μονάδα Μέτρησης:">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <padding>
+                        <Insets right="20.0"/>
+                    </padding>
+                </Label>
+                <ComboBox fx:id="tfUnit" prefHeight="51.0" prefWidth="298.0"/>
             </HBox>
             <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <children>
-                  <Label styleClass="normal-label" text="Κατηγορία:">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
-                  </Label>
-                  <ComboBox fx:id="tfCategory" prefHeight="51.0" prefWidth="298.0" />
-               </children>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+                <Label styleClass="normal-label" text="Κατηγορία:">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <padding>
+                        <Insets right="20.0"/>
+                    </padding>
+                </Label>
+                <ComboBox fx:id="tfCategory" prefHeight="51.0" prefWidth="298.0"/>
             </HBox>
-            <CheckBox fx:id="tfEnable" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" selected="true" text="Ενεργό:">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets right="135.0" />
-               </VBox.margin>
+            <CheckBox fx:id="tfEnable" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false"
+                      nodeOrientation="RIGHT_TO_LEFT" selected="true" text="Ενεργό:">
+                <font>
+                    <Font name="System Bold" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets right="135.0"/>
+                </VBox.margin>
             </CheckBox>
-         </children>
-      </VBox>
-   </content>
+        </VBox>
+    </content>
 </DialogPane>

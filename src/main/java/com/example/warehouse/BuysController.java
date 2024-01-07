@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 
 public class BuysController implements Initializable {
 
+    public MenuItem editOption;
     @FXML
     StackPane stackPane;
     private Stage stage;
@@ -187,6 +188,7 @@ public class BuysController implements Initializable {
     private void openEditDialog(Buys selectedItem) throws IOException {
         // Δημιουργία νέου FXMLLoader
         FXMLLoader loader = new FXMLLoader(getClass().getResource("editBuy.fxml"));
+        loader.setController(new EditBuyController(selectedItem));
         root = loader.load();
         stackPane.getChildren().clear();
         stackPane.getChildren().add(root);

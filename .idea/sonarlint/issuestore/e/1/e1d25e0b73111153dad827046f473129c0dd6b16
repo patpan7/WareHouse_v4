@@ -1,59 +1,59 @@
 
 _
-java:S1192·"HDefine a constant instead of duplicating this literal "http://" 3 times.(™ıì’
+java:S1192¹"HDefine a constant instead of duplicating this literal "http://" 3 times.(™ıì’
 _
-java:S1192Ñ"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷
-g	java:S117·"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’
-l	java:S117¸"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µÛ®İúÿÿÿÿ
-l	java:S117ë"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ
-g	java:S117ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ
-l	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ
-e
-java:S3655ê"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î
+java:S1192Ó"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷
+g	java:S117¹"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’
+l	java:S117º"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µÛ®İúÿÿÿÿ
+l	java:S117í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ
+g	java:S117î"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ
+l	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ
+l
+java:S3655ï"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ÕˆÚ÷Í1
 h
-java:S6204P"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹
-E	java:S106f"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ
-E	java:S106o"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ
+java:S6204R"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹
+E	java:S106h"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ
+E	java:S106q"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ
 ]
-java:S1874†"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(Ó½ÕÙûÿÿÿÿ
-F	java:S106Ü"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
-F	java:S106ß"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
-F	java:S106”"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
-F	java:S106—"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
-n
-java:S3776¡"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(°Ö×ıÿÿÿÿ
-W
-java:S1854±";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ
-W
-java:S1854ç";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ
-H
-java:S1481±",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ
-H
-java:S1481ç",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ
-N
-java:S1172ë"2Remove this unused method parameter "actionEvent".(­—íİúÿÿÿÿ
-I
-java:S1172‡"2Remove this unused method parameter "actionEvent".(ğ‚Á³
-W
-java:S1854«";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ
-W
-java:S1854±";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ
-N
-java:S1172Ÿ"2Remove this unused method parameter "actionEvent".(—Éïûÿÿÿÿ
-H
-java:S1481«",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ
-H
-java:S1481±",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ
-A	java:S106Ï"+Replace this use of System.out by a logger.(ÕºÅã
-@	java:S106Ù"+Replace this use of System.out by a logger.(ÁØÕx
-F	java:S106ä"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ
-[
-java:S4968ÿ"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ
-X
-java:S6353¡"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ
-X
-java:S6353¡"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ
+java:S1874ˆ"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(Ó½ÕÙûÿÿÿÿ
+F	java:S106Ş"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
+F	java:S106á"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
+M	java:S106™"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8‰‰Ú÷Í1
+M	java:S106œ"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8‰‰Ú÷Í1
+u
+java:S3776¦"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(°Ö×ıÿÿÿÿ8Š‰Ú÷Í1
+^
+java:S1854¶";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8‹‰Ú÷Í1
+^
+java:S1854ì";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8‹‰Ú÷Í1
+O
+java:S1481¶",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‰Ú÷Í1
+O
+java:S1481ì",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‘‰Ú÷Í1
+U
+java:S1172ğ"2Remove this unused method parameter "actionEvent".(­—íİúÿÿÿÿ8’‰Ú÷Í1
+P
+java:S1172Œ"2Remove this unused method parameter "actionEvent".(ğ‚Á³8•‰Ú÷Í1
+^
+java:S1854°";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8—‰Ú÷Í1
+^
+java:S1854¶";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8˜‰Ú÷Í1
+U
+java:S1172¤"2Remove this unused method parameter "actionEvent".(—Éïûÿÿÿÿ8™‰Ú÷Í1
+O
+java:S1481°",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‰Ú÷Í1
+O
+java:S1481¶",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‰Ú÷Í1
+H	java:S106Ô"+Replace this use of System.out by a logger.(ÕºÅã8¢‰Ú÷Í1
+G	java:S106Ş"+Replace this use of System.out by a logger.(ÁØÕx8£‰Ú÷Í1
+M	java:S106é"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8¥‰Ú÷Í1
+b
+java:S4968„"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8¨‰Ú÷Í1
+_
+java:S6353¦"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8¬‰Ú÷Í1
+_
+java:S6353¦"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8¬‰Ú÷Í1
 J
-java:S1172Í",Remove this unused method parameter "event".(™™È«8ü‚ÍİÍ1
+java:S1172Ò",Remove this unused method parameter "event".(™™È«8±‰Ú÷Í1
 Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8ú¬ìáÍ1
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8ú¬ìáÍ1

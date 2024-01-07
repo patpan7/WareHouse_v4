@@ -5,41 +5,52 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.StackPane?>
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.example.warehouse.StatistcsController">
-    <children>
-        <BorderPane minHeight="800.0" minWidth="1200.0" stylesheets="@external.css">
-            <top>
-                <AnchorPane BorderPane.alignment="CENTER">
-                    <children>
-                        <Label layoutX="362.0" layoutY="10.0" styleClass="header-label" text="Warehouse v4 - Στατιστηκά"
-                               AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="10.0">
-                            <font>
-                                <Font size="38.0"/>
-                            </font>
-                        </Label>
-                        <Button layoutX="973.0" layoutY="8.0" mnemonicParsing="false" onAction="#mainMenuClick"
-                                styleClass="click-button" text="Επιστροφή" AnchorPane.rightAnchor="20.0"
-                                AnchorPane.topAnchor="10.0">
-                            <graphic>
-                                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@icons/menu.png"/>
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
-                    </children>
-                    <BorderPane.margin>
-                        <Insets bottom="10.0"/>
-                    </BorderPane.margin>
-                </AnchorPane>
-            </top>
-        </BorderPane>
-    </children>
+<StackPane fx:id="stackPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.StatistcsController">
+    <BorderPane minHeight="800.0" minWidth="1200.0">
+        <top>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                <BorderPane.margin>
+                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                </BorderPane.margin>
+                <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Label styleClass="header-label" text="Warehouse v4 - Στατιστικά" HBox.hgrow="ALWAYS">
+                        <font>
+                            <Font size="38.0" />
+                        </font>
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                    </Label>
+                </HBox>
+                <HBox alignment="CENTER_RIGHT">
+                    <opaqueInsets>
+                        <Insets right="20.0" />
+                    </opaqueInsets>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                    <Button mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή">
+                        <graphic>
+                            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@icons/menu.png" />
+                            </ImageView>
+                        </graphic>
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                    </Button>
+                </HBox>
+            </HBox>
+        </top>
+        <center>
+            <VBox BorderPane.alignment="CENTER">
+            </VBox>
+        </center>
+    </BorderPane>
 </StackPane>

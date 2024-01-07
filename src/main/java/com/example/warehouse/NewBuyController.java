@@ -8,7 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -164,7 +166,7 @@ public class NewBuyController implements Initializable {
 
     }
 
-    void autocomplete(){
+    void autocomplete() {
         for (Item item : items1) {
             if (item.getName().equalsIgnoreCase(tfName.getText())) {
                 tfUnit.setText(item.getUnit());
@@ -173,7 +175,7 @@ public class NewBuyController implements Initializable {
                 selectedItem = item;
             }
         }
-        if(tfQuantity.getText().isEmpty())
+        if (tfQuantity.getText().isEmpty())
             tfQuantity.requestFocus();
         else
             tfPrice.requestFocus();
@@ -211,8 +213,8 @@ public class NewBuyController implements Initializable {
         });
     }
 
-    private List<Supplier> fetchSupFromMySQL(){
-        String API_URL = "http://"+server+"/warehouse/suppliersGetAll.php";
+    private List<Supplier> fetchSupFromMySQL() {
+        String API_URL = "http://" + server + "/warehouse/suppliersGetAll.php";
         List<Supplier> Suppliers = new ArrayList<>();
         try {
             URL url = new URL(API_URL);
@@ -245,9 +247,11 @@ public class NewBuyController implements Initializable {
                         String name = itemNode.get("name").asText();
                         String phone = itemNode.get("phone").asText();
                         float turnover = Float.parseFloat(itemNode.get("turnover").asText());
-
-                        Supplier supplier = new Supplier(code, name, phone,turnover);
-                        Suppliers.add(supplier);
+                        int enable = itemNode.get("enable").asInt();
+                        if (enable == 1) {
+                            Supplier supplier = new Supplier(code, name, phone, turnover);
+                            Suppliers.add(supplier);
+                        }
                     }
                 } else {
                     String failMessage = jsonNode.get("message").asText();
@@ -266,7 +270,7 @@ public class NewBuyController implements Initializable {
     }
 
     private List<Item> fetchDataFromMySQL() {
-        String API_URL = "http://"+server+"/warehouse/itemsGetAll.php";
+        String API_URL = "http://" + server + "/warehouse/itemsGetAll.php";
         List<Item> Items = new ArrayList<>();
         try {
             URL url = new URL(API_URL);
@@ -302,8 +306,11 @@ public class NewBuyController implements Initializable {
                         float price = Float.parseFloat(itemNode.get("price").asText());
                         int category_code = itemNode.get("category_code").asInt();
                         float sum = 0.0F;
-                        Item item = new Item(code, name, quantity, unit, price,category_code,sum);
-                        Items.add(item);
+                        int enable = itemNode.get("enable").asInt();
+                        if (enable == 1) {
+                            Item item = new Item(code, name, quantity, unit, price, category_code, sum);
+                            Items.add(item);
+                        }
                     }
                 } else {
                     String failMessage = jsonNode.get("message").asText();
@@ -321,7 +328,7 @@ public class NewBuyController implements Initializable {
     }
 
     public void addRow() {
-        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && Float.parseFloat(tfPrice.getText())>0) {
+        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && Float.parseFloat(tfPrice.getText()) > 0) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
             ObservableList<Item> items = orderTable.getItems();
@@ -353,7 +360,7 @@ public class NewBuyController implements Initializable {
                     items.remove(existingItem);
                     totalSum -= existingItem.getSum();
                     existingItem.setQuantity(existingItem.getQuantity() + Float.parseFloat(tfQuantity.getText()));
-                    existingItem.setSum(existingItem.getQuantity()* existingItem.getPrice());
+                    existingItem.setSum(existingItem.getQuantity() * existingItem.getPrice());
                     items.add(existingItem);
                     tfName.setText("");
                     tfName.requestFocus();
@@ -403,25 +410,24 @@ public class NewBuyController implements Initializable {
 
 
     public void saveAction(ActionEvent event) {
-        if (tfSupplier.getValue() != null){
-            if (!tfInvoice.getText().isEmpty()){
-                if (!orderTable.getItems().isEmpty()){
+        if (tfSupplier.getValue() != null) {
+            if (!tfInvoice.getText().isEmpty()) {
+                if (!orderTable.getItems().isEmpty()) {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     String date = dtf.format(tfDate.getValue());
                     ObservableList<Item> items = orderTable.getItems();
                     int suppliercode = tfSupplier.getValue().getCode();
                     String invoice = tfInvoice.getText();
-                    addNewRequest(items,suppliercode,date, invoice,totalSum);
+                    addNewRequest(items, suppliercode, date, invoice, totalSum);
 
 
-
-                }else{
+                } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("");
                     alert.setContentText("Το τιμολόγιο είναι κενό!");
                     Optional<ButtonType> result2 = alert.showAndWait();
                 }
-            }else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("");
                 alert.setContentText("Ο αριθμός τιμολογίου είναι κενός!");
@@ -437,7 +443,7 @@ public class NewBuyController implements Initializable {
     }
 
     private void addNewRequest(ObservableList<Item> items, int supplierCode, String date, String invoice, float totalSum) {
-        String apiUrl = "http://"+server+"/warehouse/buyAdd.php";
+        String apiUrl = "http://" + server + "/warehouse/buyAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -486,7 +492,7 @@ public class NewBuyController implements Initializable {
                 }
 
                 System.out.println("Response: " + response.toString());
-                if (responseCode == 200){
+                if (responseCode == 200) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("");
                     alert.setContentText(response.toString());
@@ -505,7 +511,7 @@ public class NewBuyController implements Initializable {
         }
     }
 
-    public void clean(){
+    public void clean() {
         orderTable.getItems().clear();
         orderTable.refresh();
         totalSum = 0.0F;
@@ -588,7 +594,9 @@ public class NewBuyController implements Initializable {
     }
 
     public void mainMenuClick(ActionEvent event) throws IOException {
-        MainMenuController mainMenuController = new MainMenuController();
-        mainMenuController.mainMenuClick(stackPane);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("buys.fxml"));
+        Parent root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
     }
 }

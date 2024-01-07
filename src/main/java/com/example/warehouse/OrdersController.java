@@ -82,6 +82,7 @@ public class OrdersController implements Initializable {
                     try {
                         openEditDialog(selectedOrder);
                     } catch (IOException e) {
+                        System.out.println(e.toString());
                         throw new RuntimeException(e);
                     }
                 }
@@ -182,9 +183,10 @@ public class OrdersController implements Initializable {
     }
 
     private void openEditDialog(Order selectedItem) throws IOException {
-        // Δημιουργία νέου FXMLLoader
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editOrder.fxml"));
-        root = fxmlLoader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("editOrder.fxml"));
+        // Προσθήκη προσαρμοσμένου κατασκευαστή
+        loader.setController(new EditOrderController(selectedItem));
+        root = loader.load();
         stackPane.getChildren().clear();
         stackPane.getChildren().add(root);
     }

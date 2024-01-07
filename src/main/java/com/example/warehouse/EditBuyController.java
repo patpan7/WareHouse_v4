@@ -143,7 +143,7 @@ public class EditBuyController implements Initializable {
         return items;
     }
 
-    public void handlebackButton(ActionEvent event) throws IOException {
+    public void mainMenuClick(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-menu.fxml"));
         root = fxmlLoader.load();
         stackPane.getChildren().clear();
