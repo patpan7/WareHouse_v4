@@ -11,7 +11,7 @@ s	java:S117‘"QRename this local variable to match the regular expression '^[a
 n	java:S117’"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8öÑÎ‚Î1
 s	java:S117³"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8öÑÎ‚Î1
 l
-java:S3655ô"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8üÒÎ‚Î1
+java:S3655ò"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8üÒÎ‚Î1
 t
 java:S3776D"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(•‘İŸüÿÿÿÿ8ÓÎ‚Î1
 Y
@@ -33,30 +33,28 @@ O
 java:S1172ù",Remove this unused method parameter "event".(”İö›ÿÿÿÿÿ8¸ÓÎ‚Î1
 O
 java:S1172ˆ",Remove this unused method parameter "event".(õëóÿÿÿÿÿ8¹ÓÎ‚Î1
+Y
+java:S1854ª";Remove this useless assignment to local variable "result2".(³ÒŞÔ8»ÓÎ‚Î1
 ^
-java:S1854¬";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8»ÓÎ‚Î1
+java:S1854°";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8»ÓÎ‚Î1
 ^
-java:S1854²";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8»ÓÎ‚Î1
-^
-java:S1854¸";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8»ÓÎ‚Î1
+java:S1854¶";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8»ÓÎ‚Î1
 J
 java:S1172œ",Remove this unused method parameter "event".(¬»¤é8»ÓÎ‚Î1
-O
-java:S1481¬",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8½ÓÎ‚Î1
-O
-java:S1481²",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8¾ÓÎ‚Î1
-O
-java:S1481¸",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8¾ÓÎ‚Î1
-H	java:S106Ù"+Replace this use of System.out by a logger.(ÕºÅã8ÀÓÎ‚Î1
-G	java:S106ã"+Replace this use of System.out by a logger.(ÁØÕx8ÁÓÎ‚Î1
-M	java:S106î"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ÂÓÎ‚Î1
-b
-java:S4968­"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8ÈÓÎ‚Î1
-_
-java:S6353É"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8ËÓÎ‚Î1
-_
-java:S6353É"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8ËÓÎ‚Î1
 J
-java:S1172Ô",Remove this unused method parameter "event".(™™È«8ÌÓÎ‚Î1
-Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8ÓÓÎ‚Î1
+java:S1481ª",Remove this unused "result2" local variable.(³ÒŞÔ8½ÓÎ‚Î1
+O
+java:S1481°",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8¾ÓÎ‚Î1
+O
+java:S1481¶",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8¾ÓÎ‚Î1
+H	java:S106×"+Replace this use of System.out by a logger.(ÕºÅã8ÀÓÎ‚Î1
+G	java:S106á"+Replace this use of System.out by a logger.(ÁØÕx8ÁÓÎ‚Î1
+M	java:S106ì"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ÂÓÎ‚Î1
+b
+java:S4968«"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8ÈÓÎ‚Î1
+_
+java:S6353Ç"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8ËÓÎ‚Î1
+_
+java:S6353Ç"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8ËÓÎ‚Î1
+J
+java:S1172Ò",Remove this unused method parameter "event".(™™È«8ÌÓÎ‚Î1

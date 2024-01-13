@@ -17,10 +17,6 @@ public class Order {
         this.date = date;
     }
 
-    public void setTotalProducts(int totalProducts) {
-        this.totalProducts = totalProducts;
-    }
-
     public String getDate() {
         return date;
     }

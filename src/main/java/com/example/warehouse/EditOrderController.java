@@ -2,22 +2,28 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.converter.FloatStringConverter;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,6 +41,7 @@ public class EditOrderController implements Initializable {
     @FXML
     TableView <Item> itemsTable;
     private ObservableList<Item> observableListItem;
+    List <Item> editedList;
     Order selectedOrder;
 
     String server;
@@ -43,21 +50,29 @@ public class EditOrderController implements Initializable {
         this.selectedOrder = selectedOrder;
     }
 
-    public void initData(Order selectedOrder) {
-        this.selectedOrder.equals(selectedOrder);
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.loadSetting("server");
+        editedList = new ArrayList<>();
 
-        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
-        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
+        TableColumn<Item, Integer> codeColumn = new TableColumn<>("Κωδικός");
+        codeColumn.setCellValueFactory(new PropertyValueFactory<>("item_code"));
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        quantityColumn.setOnEditCommit(event -> {
+            Item editedItem = event.getRowValue();
+            Float newQuantity = event.getNewValue();
+
+            if (newQuantity != editedItem.getQuantity()){
+                editedItem.setQuantity(newQuantity);
+                editedList.add(editedItem);
+            }
+        });
 
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
@@ -67,6 +82,9 @@ public class EditOrderController implements Initializable {
 
         // Προσθήκη των κολόνων στο TableView
         itemsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
+        itemsTable.setEditable(true);
+
+
         tableInit();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -114,11 +132,12 @@ public class EditOrderController implements Initializable {
 
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
+                        int item_code = itemNode.get("item_code").asInt();
                         String name = itemNode.get("name").asText();
                         float quantity = Float.parseFloat(itemNode.get("quantity").asText());
                         String unit = itemNode.get("unit").asText();
 
-                        Item item = new Item(code, name, quantity, unit);
+                        Item item = new Item(code, item_code, name, unit, quantity);
                         items.add(item);
                     }
                 } else {
@@ -165,6 +184,76 @@ public class EditOrderController implements Initializable {
                 alert.setContentText("Η παραγγελία είναι άδεια!");
                 Optional<ButtonType> result2 = alert.showAndWait();
             }
+
+            if (!editedList.isEmpty()){
+                updateRequest(editedList);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateRequest(List<Item> editedList) {
+        String apiUrl = "http://"+server+"/warehouse/orderEdit.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            // Προσθήκη της λίστας με τα είδη στο JSON
+            jsonRequest.putPOJO("editedList", editedList);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+                if (responseCode == 200){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        itemsTable.getItems().clear();
+                        itemsTable.refresh();
+                        mainMenuClick(new ActionEvent());
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -205,13 +294,10 @@ public class EditOrderController implements Initializable {
         return htmlBuilder.toString();
     }
 
-    public void handlebackButton(ActionEvent event){
-        // Κλείσιμο του παραθύρου
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.close();
-    }
     public void mainMenuClick(ActionEvent event) throws IOException {
-        MainMenuController mainMenuController = new MainMenuController();
-        mainMenuController.mainMenuClick(stackPane);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("orders.fxml"));
+        Parent root = fxmlLoader.load();
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(root);
     }
 }

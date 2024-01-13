@@ -92,7 +92,7 @@ public class ItemsController implements Initializable {
 
                 if (Item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
                     return true; // Filter matches first name.
-                } else if (String.valueOf(Item.getCode()).indexOf(lowerCaseFilter) != -1) {
+                } else if (String.valueOf(Item.getItem_code()).indexOf(lowerCaseFilter) != -1) {
                     return true; // Filter matches last name.
                 }
                 else if (Item.getUnit().toLowerCase().indexOf(lowerCaseFilter)!=-1)
@@ -434,7 +434,7 @@ public class ItemsController implements Initializable {
                 if (tfEnable.isSelected())
                     enable = 1;
 
-                updateRequest(selectedProduct.getCode(), nameField.getText(), Float.parseFloat(priceField.getText()), unitField.getValue().toString(), categoryCode.get(),enable);
+                updateRequest(selectedProduct.getItem_code(), nameField.getText(), Float.parseFloat(priceField.getText()), unitField.getValue().toString(), categoryCode.get(),enable);
                 // Ενημέρωση του επιλεγμένου αντικειμένου στη λίστα
                 selectedProduct.setName(nameField.getText());
                 selectedProduct.setPrice(Float.parseFloat(priceField.getText()));

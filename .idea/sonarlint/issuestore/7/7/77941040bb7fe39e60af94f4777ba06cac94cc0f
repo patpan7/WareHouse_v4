@@ -1,15 +1,26 @@
 
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÑÄ¾8ª¾ÓáÍ1
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ü¤³8ª¾ÓáÍ1
-r	java:S117!"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ÚŒ¹ùÿÿÿÿ8ª¾ÓáÍ1
-r	java:S117/"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½Š§Éøÿÿÿÿ8ª¾ÓáÍ1
-m	java:S117B"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«¹í8ª¾ÓáÍ1
-m	java:S117L"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æ®§‹8ÁÂëáÍ1
-r	java:S117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ó©ìƒıÿÿÿÿ8§ˆğáÍ1
-n	java:S117’"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8óßşáÍ1
-y	java:S116	"XRename this field "category_code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æü½‘şÿÿÿÿ8²¾ÓáÍ1
-o	java:S100y"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï“ÑÓùÿÿÿÿ8Ã¾ÓáÍ1
-k	java:S100’"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8Å¾ÓáÍ1
-M	java:S106¡"+Replace this use of System.out by a logger.(çñ¿âûÿÿÿÿ8Ç¾ÓáÍ1
-^	java:S125Ÿ"<This block of commented-out lines of code should be removed.(µÉ¯øÿÿÿÿ8Ç¾ÓáÍ1
-^	java:S125¢"<This block of commented-out lines of code should be removed.(ğ¡¤Øÿÿÿÿÿ8È¾ÓáÍ1
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Šß³¶ûÿÿÿÿ8ª¾ÓáÍ1
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Šß³¶ûÿÿÿÿ8ª¾ÓáÍ1
+m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆ£ş¹8Ñ¼Û¥Ğ1
+r	java:S117""QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ÚŒ¹ùÿÿÿÿ8ª¾ÓáÍ1
+r	java:S117)"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ü•ÕÆûÿÿÿÿ8ÁÂëáÍ1
+m	java:S1170"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ööï–8ˆÜ¥Ğ1
+m	java:S1170"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ööï–8§ˆğáÍ1
+r	java:S117:"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼•ıîøÿÿÿÿ8óßşáÍ1
+m	java:S117D"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(İÃ¾â8ˆÜ¥Ğ1
+m	java:S117D"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(İÃ¾â8è‘Ú¥Ğ1
+r	java:S117N"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÛöâÀüÿÿÿÿ8Àüİ¥Ğ1
+r	java:S117N"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÛöâÀüÿÿÿÿ8¿ÅÚ¥Ğ1
+r	java:S117W"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ó©ìƒıÿÿÿÿ8Ò¼Û¥Ğ1
+n	java:S117€"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥ªì‹8õ¦ı¥Ğ1
+n	java:S117”"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8‰Ü¥Ğ1
+p	java:S116"TRename this field "item_code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡º¶×8‚–Ù¥Ğ1
+y	java:S116
+"XRename this field "category_code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æü½‘şÿÿÿÿ8²¾ÓáÍ1
+j	java:S100g"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑÆæ‡8ØƒÖ¦Ğ1
+o	java:S100{"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï“ÑÓùÿÿÿÿ8Ã¾ÓáÍ1
+k	java:S100€"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥ªì‹8éäÖ¦Ğ1
+k	java:S100”"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8Å¾ÓáÍ1
+M	java:S106«"+Replace this use of System.out by a logger.(çñ¿âûÿÿÿÿ8Ç¾ÓáÍ1
+^	java:S125©"<This block of commented-out lines of code should be removed.(µÉ¯øÿÿÿÿ8Ç¾ÓáÍ1
+^	java:S125¬"<This block of commented-out lines of code should be removed.(ğ¡¤Øÿÿÿÿÿ8È¾ÓáÍ1

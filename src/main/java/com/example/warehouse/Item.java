@@ -2,6 +2,7 @@ package com.example.warehouse;
 
 public class Item {
     int code;
+    int item_code;
     String name;
     float quantity;
     String unit;
@@ -13,8 +14,8 @@ public class Item {
     public Item() {
     }
 
-    public Item(int code, String name, float quantity, String unit, float price, int category_code) {
-        this.code = code;
+    public Item(int item_code, String name, float quantity, String unit, float price, int category_code) {
+        this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -22,12 +23,12 @@ public class Item {
         this.category_code = category_code;
     }
 
-    public Item(int code, String name, String unit, float price, int category_code) {
+    public Item(int code, int item_code, String name, String unit, float quantity) {
         this.code = code;
+        this.item_code = item_code;
         this.name = name;
         this.unit = unit;
-        this.price = price;
-        this.category_code = category_code;
+        this.quantity = quantity;
     }
 
     public Item(String name, String unit, Float price, int category_code) {
@@ -37,15 +38,15 @@ public class Item {
         this.category_code = category_code;
     }
 
-    public Item(int code, String name, float quantity, String unit) {
-        this.code = code;
+    public Item(int item_code, String name, float quantity, String unit) {
+        this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
     }
 
-    public Item(int code, String name, float quantity, String unit, float price, int category_code, float sum) {
-        this.code = code;
+    public Item(int item_code, String name, float quantity, String unit, float price, int category_code, float sum) {
+        this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -54,8 +55,9 @@ public class Item {
         this.sum = sum;
     }
 
-    public Item(int code, String name, float quantity, String unit, float price, float sum) {
+    public Item(int code, int item_code, String name, float quantity, String unit, float price, float sum) {
         this.code = code;
+        this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -63,8 +65,8 @@ public class Item {
         this.sum = sum;
     }
 
-    public Item(int code, String name, float quantity, String unit, float price, int category_code, int enable) {
-        this.code = code;
+    public Item(int item_code, String name, float quantity, String unit, float price, int category_code, int enable) {
+        this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -73,8 +75,16 @@ public class Item {
         this.enable = enable;
     }
 
-    public Item(int code, String name, String unit, Float price, int category_code, int enable) {
-        this.code = code;
+    public Item(int item_code, String name, String unit, Float price, int category_code, int enable) {
+        this.item_code = item_code;
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = category_code;
+        this.enable = enable;
+    }
+
+    public Item(String name, String unit, Float price, int category_code, int enable) {
         this.name = name;
         this.unit = unit;
         this.price = price;
@@ -90,16 +100,8 @@ public class Item {
         this.enable = enable;
     }
 
-    public Item(String name, String unit, Float price, int category_code, int enable) {
-        this.name = name;
-        this.unit = unit;
-        this.price = price;
-        this.category_code = category_code;
-        this.enable = enable;
-    }
-
-    public int getCode() {
-        return code;
+    public int getItem_code() {
+        return item_code;
     }
 
     public String getName() {
@@ -123,8 +125,8 @@ public class Item {
     public float getSum() {
         return sum;
     }
-    public void setCode(int code) {
-        this.code = code;
+    public void setItem_code(int item_code) {
+        this.item_code = item_code;
     }
 
     public void setName(String name) {
@@ -153,6 +155,14 @@ public class Item {
     @Override
     public String toString() {
         return name;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public void print() {

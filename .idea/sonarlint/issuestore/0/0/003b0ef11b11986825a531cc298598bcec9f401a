@@ -1,19 +1,25 @@
 
-m	java:S117W"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŞÁ¹×8ƒ£æƒÎ1
+m	java:S117i"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŞÁ¹×8£š‚§Ğ1
+s	java:S117‡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–ë¼ûÿÿÿÿ8£š‚§Ğ1
+l
+java:S3655ö"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ú»‚§Ğ1
 ~
-java:S1450%"aRemove the "observableListItem" field and declare it as a local variable in the relevant methods.(åÆä®8Ñ£æƒÎ1
-L	java:S106~"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ô£æƒÎ1
-M	java:S106"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ô£æƒÎ1
+java:S1450+"aRemove the "observableListItem" field and declare it as a local variable in the relevant methods.(åÆä®8óš‚§Ğ1
+M	java:S106‘"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8—›‚§Ğ1
+M	java:S106”"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8˜›‚§Ğ1
 ^
-java:S1854¦";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8õ£æƒÎ1
+java:S1854¹";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8˜›‚§Ğ1
 U
-java:S1172‹"2Remove this unused method parameter "actionEvent".(—Éïûÿÿÿÿ8õ£æƒÎ1
-H	java:S106 "+Replace this use of System.out by a logger.(úÕĞ8û£æƒÎ1
+java:S1172"2Remove this unused method parameter "actionEvent".(—Éïûÿÿÿÿ8™›‚§Ğ1
+H	java:S106³"+Replace this use of System.out by a logger.(úÕĞ8›‚§Ğ1
 O
-java:S1481¦",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8ü£æƒÎ1
+java:S1481¹",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8›‚§Ğ1
+H	java:S106Û"+Replace this use of System.out by a logger.(ÕºÅã8¡›‚§Ğ1
+G	java:S106å"+Replace this use of System.out by a logger.(ÁØÕx8¡›‚§Ğ1
+M	java:S106ğ"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8¢›‚§Ğ1
 O
-java:S1481À",Remove this unused "ignored" local variable.(ÌåÎèüÿÿÿÿ8ÿ£æƒÎ1
-O
-java:S1172Ğ",Remove this unused method parameter "event".(Í»¬Äùÿÿÿÿ8¤æƒÎ1
+java:S1481™",Remove this unused "ignored" local variable.(ÌåÎèüÿÿÿÿ8¦›‚§Ğ1
 J
-java:S1172Õ",Remove this unused method parameter "event".(™™È«8¤æƒÎ1
+java:S1172©",Remove this unused method parameter "event".(™™È«8¨›‚§Ğ1
+Q
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8³¼‚§Ğ1

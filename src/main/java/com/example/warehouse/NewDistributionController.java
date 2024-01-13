@@ -16,7 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.BufferedReader;
@@ -313,7 +312,7 @@ public class NewDistributionController implements Initializable {
 
                 // Ελέγξτε αν το είδος υπάρχει ήδη στον πίνακα
                 Item existingItem = items.stream()
-                        .filter(item -> item.getCode() == selectedItem.getCode())
+                        .filter(item -> item.getItem_code() == selectedItem.getItem_code())
                         .findFirst()
                         .orElse(null);
 
@@ -339,7 +338,7 @@ public class NewDistributionController implements Initializable {
 
                     // Δημιουργία νέου αντικειμένου για τον πίνακα
                     Item newItem = new Item();
-                    newItem.setCode(selectedItem.getCode());
+                    newItem.setItem_code(selectedItem.getItem_code());
                     newItem.setName(selectedItem.getName());
                     newItem.setQuantity(addedQuantity);
                     newItem.setUnit(selectedItem.getUnit());
@@ -381,7 +380,7 @@ public class NewDistributionController implements Initializable {
 
             // Βρείτε το αντίστοιχο αντικείμενο στην αρχική λίστα
             Item originalItem = items1.stream()
-                    .filter(item -> item.getCode() == selectedProduct.getCode())
+                    .filter(item -> item.getItem_code() == selectedProduct.getItem_code())
                     .findFirst()
                     .orElse(null);
 
@@ -406,7 +405,7 @@ public class NewDistributionController implements Initializable {
 
             // Βρείτε το αντίστοιχο αντικείμενο στην αρχική λίστα
             Item originalItem = items1.stream()
-                    .filter(item -> item.getCode() == selectedProduct.getCode())
+                    .filter(item -> item.getItem_code() == selectedProduct.getItem_code())
                     .findFirst()
                     .orElse(null);
 

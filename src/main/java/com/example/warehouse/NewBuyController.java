@@ -419,13 +419,11 @@ public class NewBuyController implements Initializable {
                     int suppliercode = tfSupplier.getValue().getCode();
                     String invoice = tfInvoice.getText();
                     addNewRequest(items, suppliercode, date, invoice, totalSum);
-
-
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("");
                     alert.setContentText("Το τιμολόγιο είναι κενό!");
-                    Optional<ButtonType> result2 = alert.showAndWait();
+                    Optional<ButtonType> result2 = alert.showAndWaieditt();
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
