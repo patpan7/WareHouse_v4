@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -57,7 +58,7 @@ public class EditDistributionController implements Initializable {
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
@@ -152,7 +153,7 @@ public class EditDistributionController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        float quantity = Float.parseFloat(itemNode.get("quantity").asText());
+                        BigDecimal quantity = BigDecimal.valueOf(Long.parseLong(itemNode.get("quantity").asText()));
                         String unit = itemNode.get("unit").asText();
                         Item item = new Item(code, name, quantity, unit);
                         items.add(item);

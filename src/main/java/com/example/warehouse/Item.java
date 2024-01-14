@@ -1,20 +1,22 @@
 package com.example.warehouse;
 
+import java.math.BigDecimal;
+
 public class Item {
     int code;
     int item_code;
     String name;
-    float quantity;
+    BigDecimal quantity;
     String unit;
-    float price;
+    BigDecimal price;
     int category_code;
-    Float sum = 0.0F;
+    BigDecimal sum = BigDecimal.ZERO;
     int enable;
 
     public Item() {
     }
 
-    public Item(int item_code, String name, float quantity, String unit, float price, int category_code) {
+    public Item(int item_code, String name, BigDecimal quantity, String unit, BigDecimal price, int category_code) {
         this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
@@ -23,29 +25,30 @@ public class Item {
         this.category_code = category_code;
     }
 
-    public Item(int code, int item_code, String name, String unit, float quantity) {
+    public Item(int code, int item_code, String name, String unit, BigDecimal quantity, BigDecimal price) {
         this.code = code;
         this.item_code = item_code;
         this.name = name;
         this.unit = unit;
         this.quantity = quantity;
+        this.price = price;
     }
 
-    public Item(String name, String unit, Float price, int category_code) {
+    public Item(String name, String unit, BigDecimal price, int category_code) {
         this.name = name;
         this.unit = unit;
         this.price = price;
         this.category_code = category_code;
     }
 
-    public Item(int item_code, String name, float quantity, String unit) {
+    public Item(int item_code, String name, BigDecimal quantity, String unit) {
         this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
     }
 
-    public Item(int item_code, String name, float quantity, String unit, float price, int category_code, float sum) {
+    public Item(int item_code, String name, BigDecimal quantity, String unit, BigDecimal price, int category_code, BigDecimal sum) {
         this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
@@ -55,7 +58,7 @@ public class Item {
         this.sum = sum;
     }
 
-    public Item(int code, int item_code, String name, float quantity, String unit, float price, float sum) {
+    public Item(int code, int item_code, String name, BigDecimal quantity, String unit, BigDecimal price, BigDecimal sum) {
         this.code = code;
         this.item_code = item_code;
         this.name = name;
@@ -65,7 +68,7 @@ public class Item {
         this.sum = sum;
     }
 
-    public Item(int item_code, String name, float quantity, String unit, float price, int category_code, int enable) {
+    public Item(int item_code, String name, BigDecimal quantity, String unit, BigDecimal price, int category_code, int enable) {
         this.item_code = item_code;
         this.name = name;
         this.quantity = quantity;
@@ -75,7 +78,7 @@ public class Item {
         this.enable = enable;
     }
 
-    public Item(int item_code, String name, String unit, Float price, int category_code, int enable) {
+    public Item(int item_code, String name, String unit, BigDecimal price, int category_code, int enable) {
         this.item_code = item_code;
         this.name = name;
         this.unit = unit;
@@ -84,7 +87,7 @@ public class Item {
         this.enable = enable;
     }
 
-    public Item(String name, String unit, Float price, int category_code, int enable) {
+    public Item(String name, String unit, BigDecimal price, int category_code, int enable) {
         this.name = name;
         this.unit = unit;
         this.price = price;
@@ -108,7 +111,7 @@ public class Item {
         return name;
     }
 
-    public float getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
@@ -116,13 +119,13 @@ public class Item {
         return unit;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
     public int getCategory_code() {return category_code;}
 
-    public float getSum() {
+    public BigDecimal getSum() {
         return sum;
     }
     public void setItem_code(int item_code) {
@@ -133,7 +136,7 @@ public class Item {
         this.name = name;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
@@ -141,7 +144,7 @@ public class Item {
         this.unit = unit;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -149,7 +152,7 @@ public class Item {
         this.category_code = category_code;
     }
 
-    public void setSum (float sum){
+    public void setSum (BigDecimal sum){
         this.sum = sum;
     }
     @Override

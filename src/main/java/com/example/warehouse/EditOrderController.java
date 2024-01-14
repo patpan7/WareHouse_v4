@@ -18,9 +18,10 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.BigDecimalStringConverter;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -61,12 +62,12 @@ public class EditOrderController implements Initializable {
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BigDecimalStringConverter()));
         quantityColumn.setOnEditCommit(event -> {
             Item editedItem = event.getRowValue();
-            Float newQuantity = event.getNewValue();
+            BigDecimal newQuantity = event.getNewValue();
 
             if (newQuantity != editedItem.getQuantity()){
                 editedItem.setQuantity(newQuantity);
@@ -77,7 +78,7 @@ public class EditOrderController implements Initializable {
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
-        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
+        TableColumn<Item, BigDecimal> priceColumn = new TableColumn<>("Τιμή");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Προσθήκη των κολόνων στο TableView
@@ -134,10 +135,11 @@ public class EditOrderController implements Initializable {
                         int code = itemNode.get("code").asInt();
                         int item_code = itemNode.get("item_code").asInt();
                         String name = itemNode.get("name").asText();
-                        float quantity = Float.parseFloat(itemNode.get("quantity").asText());
+                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
                         String unit = itemNode.get("unit").asText();
+                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
 
-                        Item item = new Item(code, item_code, name, unit, quantity);
+                        Item item = new Item(code, item_code, name, unit, quantity,price);
                         items.add(item);
                     }
                 } else {

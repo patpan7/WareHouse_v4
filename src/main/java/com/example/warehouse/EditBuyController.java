@@ -18,9 +18,10 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.BigDecimalStringConverter;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -62,12 +63,12 @@ public class EditBuyController implements Initializable {
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BigDecimalStringConverter()));
         quantityColumn.setOnEditCommit(event -> {
             Item editedItem = event.getRowValue();
-            Float newQuantity = event.getNewValue();
+            BigDecimal newQuantity = event.getNewValue();
 
             // Εύρεση του editedItem στην editedList βάση του κωδικού
             Optional<Item> existingItem = editedList.stream()
@@ -79,12 +80,12 @@ public class EditBuyController implements Initializable {
                 if (!Objects.equals(existingItem.get().getQuantity(), newQuantity)) {
                     // Η τιμή διαφέρει, ενημερώνουμε το price
                     existingItem.get().setQuantity(newQuantity);
-                    existingItem.get().setSum(newQuantity * existingItem.get().getPrice());
+                    existingItem.get().setSum(newQuantity.multiply(existingItem.get().getPrice()));
                 }
             } else {
                 // Το editedItem δεν υπάρχει στη λίστα, προσθέτουμε το editedItem με τη νέα τιμή
                 editedItem.setQuantity(newQuantity);
-                editedItem.setSum(newQuantity * editedItem.getPrice());
+                editedItem.setSum(newQuantity.multiply(editedItem.getPrice()));
                 editedList.add(editedItem);
             }
             itemsTable.refresh();
@@ -95,12 +96,12 @@ public class EditBuyController implements Initializable {
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
-        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
+        TableColumn<Item, BigDecimal> priceColumn = new TableColumn<>("Τιμή");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        priceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        priceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BigDecimalStringConverter()));
         priceColumn.setOnEditCommit(event -> {
             Item editedItem = event.getRowValue();
-            Float newPrice = event.getNewValue();
+            BigDecimal newPrice = event.getNewValue();
 
             // Εύρεση του editedItem στην editedList βάση του κωδικού
             Optional<Item> existingItem = editedList.stream()
@@ -112,12 +113,12 @@ public class EditBuyController implements Initializable {
                 if (!Objects.equals(existingItem.get().getPrice(), newPrice)) {
                     // Η τιμή διαφέρει, ενημερώνουμε το price
                     existingItem.get().setPrice(newPrice);
-                    existingItem.get().setSum(newPrice * existingItem.get().getQuantity());
+                    existingItem.get().setSum(newPrice.multiply(existingItem.get().getQuantity()));
                 }
             } else {
                 // Το editedItem δεν υπάρχει στη λίστα, προσθέτουμε το editedItem με τη νέα τιμή
                 editedItem.setPrice(newPrice);
-                editedItem.setSum(newPrice * editedItem.getPrice());
+                editedItem.setSum(newPrice.multiply(editedItem.getPrice()));
                 editedList.add(editedItem);
             }
             itemsTable.refresh();
@@ -125,7 +126,7 @@ public class EditBuyController implements Initializable {
 
         });
 
-        TableColumn<Item, Float> sumColumn = new TableColumn<>("Σύνολο");
+        TableColumn<Item, BigDecimal> sumColumn = new TableColumn<>("Σύνολο");
         sumColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
 
 
@@ -183,10 +184,10 @@ public class EditBuyController implements Initializable {
                         int code = itemNode.get("code").asInt();
                         int item_code = itemNode.get("item_code").asInt();
                         String name = itemNode.get("name").asText();
-                        float quantity = Float.parseFloat(itemNode.get("quantity").asText());
+                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
                         String unit = itemNode.get("unit").asText();
-                        float price = Float.parseFloat(itemNode.get("price").asText());
-                        float sum = Float.parseFloat(itemNode.get("sum").asText());
+                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
+                        BigDecimal sum = BigDecimal.valueOf(itemNode.get("sum").asDouble());
                         Item item = new Item(code,item_code, name, quantity, unit,price,sum);
                         items.add(item);
                     }
@@ -207,11 +208,11 @@ public class EditBuyController implements Initializable {
 
     private void updateTotalSum() {
         // Υπολογίστε το άθροισμα της στήλης "Σύνολο" και ενημερώστε το tfSum
-        float totalSum = 0;
+        BigDecimal totalSum = BigDecimal.ZERO;
         for (Item item : observableListItem) {
-            totalSum += item.getSum();
+            totalSum = totalSum.add(item.getSum());
         }
-        tfSum.setText(Float.toString(totalSum));
+        tfSum.setText(String.valueOf(totalSum));
     }
 
     public void saveAction(ActionEvent actionEvent) {

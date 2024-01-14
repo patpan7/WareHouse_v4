@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -124,7 +125,7 @@ public class NewDistributionController implements Initializable {
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
@@ -264,11 +265,11 @@ public class NewDistributionController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        float quantity = Float.parseFloat(itemNode.get("quantity").asText());
+                        BigDecimal quantity = BigDecimal.valueOf(Long.parseLong(itemNode.get("quantity").asText()));
                         String unit = itemNode.get("unit").asText();
-                        float price = Float.parseFloat(itemNode.get("price").asText());
+                        BigDecimal price = BigDecimal.valueOf(Long.parseLong(itemNode.get("price").asText()));
                         int category_code = itemNode.get("category_code").asInt();
-                        float sum = 0.0F;
+                        BigDecimal sum = BigDecimal.ZERO;
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1){
                             Item item = new Item(code, name, quantity, unit, price,category_code,sum);
@@ -291,17 +292,17 @@ public class NewDistributionController implements Initializable {
     }
 
     public void addRow() {
-        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && Float.parseFloat(tfQuantity.getText())>=0.01) {
+        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && BigDecimal.valueOf(Long.parseLong(tfQuantity.getText())).compareTo(BigDecimal.valueOf(0.01))>0) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
             ObservableList<Item> items = distributionTable.getItems();
 
             if (selectedItem != null) {
-                float addedQuantity = Float.parseFloat(tfQuantity.getText());
+                BigDecimal addedQuantity = BigDecimal.valueOf(Long.parseLong(tfQuantity.getText()));
 
                 // Ελέγξτε αν το είδος υπάρχει στη λίστα του autocomplete
-                if (selectedItem.getQuantity() >= addedQuantity) {
-                    selectedItem.setQuantity(selectedItem.getQuantity() - addedQuantity);
+                if (selectedItem.getQuantity().compareTo(addedQuantity)>0) {
+                    selectedItem.setQuantity(selectedItem.getQuantity().subtract(addedQuantity));
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("");
@@ -318,7 +319,7 @@ public class NewDistributionController implements Initializable {
 
                 if (existingItem != null) {
                     // Το είδος υπάρχει, ενημερώστε το quantity
-                    float newQuantity = existingItem.getQuantity() + addedQuantity;
+                    BigDecimal newQuantity = existingItem.getQuantity().add(addedQuantity);
                     existingItem.setQuantity(newQuantity);
 
                     // Αφαιρέστε το υπάρχον αντικείμενο από τον πίνακα
@@ -386,7 +387,7 @@ public class NewDistributionController implements Initializable {
 
             // Προσθέστε το quantity του επιλεγμένου αντικειμένου στην αρχική λίστα
             if (originalItem != null) {
-                originalItem.setQuantity(originalItem.getQuantity() + selectedProduct.getQuantity());
+                originalItem.setQuantity(originalItem.getQuantity().add(selectedProduct.getQuantity()));
                 tfTotalQuantity.setText(String.valueOf(originalItem.getQuantity()));
             }
         }
@@ -411,7 +412,7 @@ public class NewDistributionController implements Initializable {
 
             // Προσθέστε το quantity του επιλεγμένου αντικειμένου στην αρχική λίστα
             if (originalItem != null) {
-                originalItem.setQuantity(originalItem.getQuantity() + selectedProduct.getQuantity());
+                originalItem.setQuantity(originalItem.getQuantity().add(selectedProduct.getQuantity()));
             }
         }
     }

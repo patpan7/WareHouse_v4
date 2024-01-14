@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -31,11 +32,11 @@ public class ItemsController implements Initializable {
     StackPane stackPane;
     String server;
     @FXML
-    TableView <Item> itemsTable;
+    TableView<Item> itemsTable;
     @FXML
     TextField filterField;
     @FXML
-    ComboBox <Category> categoryFiled;
+    ComboBox<Category> categoryFiled;
 
     ObservableList<Category> observableListCat;
     List<Category> categories;
@@ -46,18 +47,18 @@ public class ItemsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.loadSetting("server");
         TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
-        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
+        codeColumn.setCellValueFactory(new PropertyValueFactory<>("item_code"));
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Διαθέσιμη Ποσότητα");
+        TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Διαθέσιμη Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
-        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
+        TableColumn<Item, BigDecimal> priceColumn = new TableColumn<>("Τιμή");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Προσθήκη των κολόνων στο TableView
@@ -90,12 +91,11 @@ public class ItemsController implements Initializable {
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValToSearch.toLowerCase();
 
-                if (Item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+                if (Item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true; // Filter matches first name.
                 } else if (String.valueOf(Item.getItem_code()).indexOf(lowerCaseFilter) != -1) {
                     return true; // Filter matches last name.
-                }
-                else if (Item.getUnit().toLowerCase().indexOf(lowerCaseFilter)!=-1)
+                } else if (Item.getUnit().toLowerCase().indexOf(lowerCaseFilter) != -1)
                     return true;
                 else
                     return false; // Does not match.
@@ -177,7 +177,7 @@ public class ItemsController implements Initializable {
 
     private void categoryInit() {
         categories = fetchCatFromMySQL();
-        categories.add(0,null);
+        categories.add(0, null);
         observableListCat = FXCollections.observableArrayList(categories);
         categoryFiled.setItems(observableListCat);
 
@@ -209,116 +209,116 @@ public class ItemsController implements Initializable {
     }
 
     private List<Item> fetchDataFromMySQL() {
-        String API_URL = "http://"+server+"/warehouse/itemsGetAll.php";
-            List<Item> Items = new ArrayList<>();
-            try {
-                URL url = new URL(API_URL);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
+        String API_URL = "http://" + server + "/warehouse/itemsGetAll.php";
+        List<Item> Items = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
-                int responseCode = connection.getResponseCode();
+            int responseCode = connection.getResponseCode();
 
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String line;
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
 
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-
-                    reader.close();
-
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    JsonNode jsonNode = objectMapper.readTree(response.toString());
-
-                    String status = jsonNode.get("status").asText();
-
-                    if ("success".equals(status)) {
-                        JsonNode messageNode = jsonNode.get("message");
-
-                        for (JsonNode itemNode : messageNode) {
-                            int code = itemNode.get("code").asInt();
-                            String name = itemNode.get("name").asText();
-                            float quantity = Float.parseFloat(itemNode.get("quantity").asText());
-                            String unit = itemNode.get("unit").asText();
-                            float price = Float.parseFloat(itemNode.get("price").asText());
-                            int category_code = itemNode.get("category_code").asInt();
-                            int enable = itemNode.get("enable").asInt();
-                            Item item = new Item(code, name, quantity, unit, price,category_code,enable);
-                            Items.add(item);
-                        }
-                    } else {
-                        String failMessage = jsonNode.get("message").asText();
-                        System.out.println("Failed: " + failMessage);
-                    }
-                } else {
-                    System.out.println("HTTP request failed with response code: " + responseCode);
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
                 }
 
-                connection.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                reader.close();
 
-            return Items;
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
 
-        }
+                String status = jsonNode.get("status").asText();
 
-        private List<Category> fetchCatFromMySQL(){
-            String API_URL = "http://"+server+"/warehouse/categoryGetAll.php";
-            List<Category> categories = new ArrayList<>();
-            try {
-                URL url = new URL(API_URL);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
 
-                int responseCode = connection.getResponseCode();
-
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-
-                    reader.close();
-
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    JsonNode jsonNode = objectMapper.readTree(response.toString());
-
-                    String status = jsonNode.get("status").asText();
-
-                    if ("success".equals(status)) {
-                        JsonNode messageNode = jsonNode.get("message");
-
-                        for (JsonNode itemNode : messageNode) {
-                            int code = itemNode.get("code").asInt();
-                            String name = itemNode.get("name").asText();
-
-                            Category category = new Category(code, name);
-                            categories.add(category);
-                        }
-                    } else {
-                        String failMessage = jsonNode.get("message").asText();
-                        System.out.println("Failed: " + failMessage);
+                    for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
+                        String name = itemNode.get("name").asText();
+                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
+                        String unit = itemNode.get("unit").asText();
+                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
+                        int category_code = itemNode.get("category_code").asInt();
+                        int enable = itemNode.get("enable").asInt();
+                        Item item = new Item(code, name, quantity, unit, price, category_code, enable);
+                        Items.add(item);
                     }
                 } else {
-                    System.out.println("HTTP request failed with response code: " + responseCode);
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
                 }
-
-                connection.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
             }
 
-            return categories;
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        return Items;
+
+    }
+
+    private List<Category> fetchCatFromMySQL() {
+        String API_URL = "http://" + server + "/warehouse/categoryGetAll.php";
+        List<Category> categories = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
+                        String name = itemNode.get("name").asText();
+
+                        Category category = new Category(code, name);
+                        categories.add(category);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
+    }
 
     private List<Unit> fetchUnitsFromMySQL() {
-        String API_URL = "http://"+server+"/warehouse/unitsGetAll.php";
+        String API_URL = "http://" + server + "/warehouse/unitsGetAll.php";
         List<Unit> Units = new ArrayList<>();
         try {
             URL url = new URL(API_URL);
@@ -382,7 +382,7 @@ public class ItemsController implements Initializable {
         TextField nameField = (TextField) dialog.getDialogPane().lookup("#tfName");
         TextField priceField = (TextField) dialog.getDialogPane().lookup("#tfPrice");
         ComboBox unitField = (ComboBox) dialog.getDialogPane().lookup("#tfUnit");
-        ComboBox <Category>  tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
+        ComboBox<Category> tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
         CheckBox tfEnable = (CheckBox) dialog.getDialogPane().lookup("#tfEnable");
 
         // Ορίζετε τιμές στα πεδία με βάση τα δεδομένα του επιλεγμένου προϊόντος
@@ -427,31 +427,31 @@ public class ItemsController implements Initializable {
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         Optional<ButtonType> result = dialog.showAndWait();
         // Ορίζετε τη συμπεριφορά του κουμπιού "OK" σε περίπτωση πατήματος
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Επιστρέφετε το αντικείμενο με τις ενημερωμένες τιμές
-                System.out.println("Πατήθηκε το ΟΚ");
-                int enable = 0;
-                if (tfEnable.isSelected())
-                    enable = 1;
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Επιστρέφετε το αντικείμενο με τις ενημερωμένες τιμές
+            System.out.println("Πατήθηκε το ΟΚ");
+            int enable = 0;
+            if (tfEnable.isSelected())
+                enable = 1;
 
-                updateRequest(selectedProduct.getItem_code(), nameField.getText(), Float.parseFloat(priceField.getText()), unitField.getValue().toString(), categoryCode.get(),enable);
-                // Ενημέρωση του επιλεγμένου αντικειμένου στη λίστα
-                selectedProduct.setName(nameField.getText());
-                selectedProduct.setPrice(Float.parseFloat(priceField.getText()));
-                selectedProduct.setUnit(unitField.getValue().toString());
-                selectedProduct.setCategory_code(categoryCode.get());
-                if (tfEnable.isSelected())
-                   selectedProduct.setEnable(1);
-                else
-                    selectedProduct.setEnable(0);
-                // Ανανέωση του TableView
+            updateRequest(selectedProduct.getItem_code(), nameField.getText(), BigDecimal.valueOf(Long.parseLong(priceField.getText())), unitField.getValue().toString(), categoryCode.get(), enable);
+            // Ενημέρωση του επιλεγμένου αντικειμένου στη λίστα
+            selectedProduct.setName(nameField.getText());
+            selectedProduct.setPrice(BigDecimal.valueOf(Long.parseLong(priceField.getText())));
+            selectedProduct.setUnit(unitField.getValue().toString());
+            selectedProduct.setCategory_code(categoryCode.get());
+            if (tfEnable.isSelected())
+                selectedProduct.setEnable(1);
+            else
+                selectedProduct.setEnable(0);
+            // Ανανέωση του TableView
 //                itemsTable.refresh();
-                tableInit();
+            tableInit();
 
-                // Ενημέρωση του φίλτρου με βάση την επιλεγμένη κατηγορία
-                Category selectedCategory = categoryFiled.getValue();
-                updateFilteredItems(selectedCategory);
-            }
+            // Ενημέρωση του φίλτρου με βάση την επιλεγμένη κατηγορία
+            Category selectedCategory = categoryFiled.getValue();
+            updateFilteredItems(selectedCategory);
+        }
     }
 
     public void itemAddNew(ActionEvent actionEvent) throws IOException {
@@ -467,7 +467,7 @@ public class ItemsController implements Initializable {
             unitComboBox.getItems().addAll(fetchUnitsFromMySQL());
             unitComboBox.getSelectionModel().selectFirst();
 
-            ComboBox <Category>  tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
+            ComboBox<Category> tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
 
             AtomicInteger categotyCode = new AtomicInteger(1);
             tfCategory.getItems().addAll(observableListCat);
@@ -517,7 +517,7 @@ public class ItemsController implements Initializable {
                 TextField tfName = (TextField) loader.getNamespace().get("tfName");
                 TextField tfPrice = (TextField) loader.getNamespace().get("tfPrice");
                 String name = tfName.getText();
-                Float price = Float.parseFloat(tfPrice.getText());
+                BigDecimal price = new BigDecimal(tfPrice.getText());
                 String unit = unitComboBox.getValue().toString();
                 CheckBox tfEnable = (CheckBox) loader.getNamespace().get("tfEnable");
                 int enable = 0;
@@ -525,16 +525,16 @@ public class ItemsController implements Initializable {
                     enable = 1;
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Επιβεβαίωση εισαγωγής:");
-                alert.setContentText("Όνομα: " + name+", Τιμή: "+price+", Μον.Μέτρησης: "+unit);
+                alert.setContentText("Όνομα: " + name + ", Τιμή: " + price + ", Μον.Μέτρησης: " + unit);
                 Optional<ButtonType> result2 = alert.showAndWait();
                 if (result2.isEmpty())
                     return;
                 else if (result2.get() == ButtonType.OK) {
-                    addNewRequest(name, price, unit,categotyCode.get(),enable);
+                    addNewRequest(name, price, unit, categotyCode.get(), enable);
                     // Επιλογή της κατηγορίας
                     Category selectedCategory = tfCategory.getValue();
                     int categoryCode = (selectedCategory != null) ? selectedCategory.getCode() : 0;
-                    Item newItem = new Item(name,unit,price,categoryCode);
+                    Item newItem = new Item(name, unit, price, categoryCode);
                     observableListItem.add(newItem);
                     // Ανανέωση του πίνακα
                     //itemsTable.refresh();
@@ -552,8 +552,8 @@ public class ItemsController implements Initializable {
 
     }
 
-    private void addNewRequest(String name, Float price, String unit, int category_code, int enable) {
-        String apiUrl = "http://"+server+"/warehouse/itemAdd.php";
+    private void addNewRequest(String name, BigDecimal price, String unit, int category_code, int enable) {
+        String apiUrl = "http://" + server + "/warehouse/itemAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -568,7 +568,7 @@ public class ItemsController implements Initializable {
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            Item itemData = new Item(name,unit,price,category_code,enable);
+            Item itemData = new Item(name, unit, price, category_code, enable);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);
@@ -649,7 +649,7 @@ public class ItemsController implements Initializable {
     }
 
     private void addNewCategoryRequest(String name) {
-        String apiUrl = "http://"+server+"/warehouse/categoryAdd.php";
+        String apiUrl = "http://" + server + "/warehouse/categoryAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -700,10 +700,10 @@ public class ItemsController implements Initializable {
     }
 
     @FXML
-    private void handleEditOption (ActionEvent event) throws IOException {
+    private void handleEditOption(ActionEvent event) throws IOException {
         Item selectedItem = itemsTable.getSelectionModel().getSelectedItem();
 
-        if(selectedItem == null){
+        if (selectedItem == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Προσοχή");
             alert.setContentText("Δεν έχει επιλεγέι είδος!");
@@ -715,8 +715,8 @@ public class ItemsController implements Initializable {
 
     }
 
-    private void updateRequest(int code, String name, Float price, String unit, int category_code, int enable) {
-        String apiUrl = "http://"+server+"/warehouse/itemUpdate.php";
+    private void updateRequest(int code, String name, BigDecimal price, String unit, int category_code, int enable) {
+        String apiUrl = "http://" + server + "/warehouse/itemUpdate.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -731,7 +731,7 @@ public class ItemsController implements Initializable {
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            Item itemData = new Item(code,name,unit,price,category_code,enable);
+            Item itemData = new Item(code, name, unit, price, category_code, enable);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);

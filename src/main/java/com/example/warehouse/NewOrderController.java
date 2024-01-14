@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -118,13 +119,13 @@ public class NewOrderController implements Initializable {
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
-        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
+        TableColumn<Item, BigDecimal> priceColumn = new TableColumn<>("Τιμή");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Προσθήκη των κολόνων στο TableView
@@ -177,9 +178,9 @@ public class NewOrderController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        float quantity = Float.parseFloat(itemNode.get("quantity").asText());
+                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
                         String unit = itemNode.get("unit").asText();
-                        float price = Float.parseFloat(itemNode.get("price").asText());
+                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
                         int category_code = itemNode.get("category_code").asInt();
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1){
@@ -208,9 +209,9 @@ public class NewOrderController implements Initializable {
             autocomplete();
             ObservableList<Item> items = orderTable.getItems();
             if (!items.contains(selectedItem)) {
-                selectedItem.setQuantity(Float.parseFloat(tfQuantity.getText()));
+                selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()));
 
-                // Προσθέστε το νέο αντικείμενο στη λίστα
+                // Προσθέστε το νέο αντικείμενο στη λίσταitem
                 items.add(selectedItem);
 
                 tfName.setText("");
@@ -228,7 +229,7 @@ public class NewOrderController implements Initializable {
                 if (existingItem != null) {
                     // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
                     items.remove(existingItem);
-                    existingItem.setQuantity(existingItem.getQuantity() + Float.parseFloat(tfQuantity.getText()));
+                    existingItem.setQuantity(existingItem.getQuantity().add(new BigDecimal(tfQuantity.getText())));
                     items.add(existingItem);
                     tfName.setText("");
                     tfName.requestFocus();

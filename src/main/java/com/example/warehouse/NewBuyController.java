@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -147,16 +148,16 @@ public class NewBuyController implements Initializable {
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Item, Float> quantityColumn = new TableColumn<>("Ποσότητα");
+        TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
 
-        TableColumn<Item, Float> priceColumn = new TableColumn<>("Τιμή");
+        TableColumn<Item, BigDecimal> priceColumn = new TableColumn<>("Τιμή");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        TableColumn<Item, Float> totalColumn = new TableColumn<>("Σύνολο");
+        TableColumn<Item, BigDecimal> totalColumn = new TableColumn<>("Σύνολο");
         totalColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
 
 
@@ -301,11 +302,11 @@ public class NewBuyController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        float quantity = 0.0F;
+                        BigDecimal quantity = BigDecimal.ZERO;
                         String unit = itemNode.get("unit").asText();
-                        float price = Float.parseFloat(itemNode.get("price").asText());
+                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
                         int category_code = itemNode.get("category_code").asInt();
-                        float sum = 0.0F;
+                        BigDecimal sum = BigDecimal.ZERO;
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1) {
                             Item item = new Item(code, name, quantity, unit, price, category_code, sum);
@@ -328,14 +329,14 @@ public class NewBuyController implements Initializable {
     }
 
     public void addRow() {
-        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && Float.parseFloat(tfPrice.getText()) > 0) {
+        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && BigDecimal.valueOf(Long.parseLong(tfPrice.getText())).compareTo(BigDecimal.ZERO) > 0) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
             ObservableList<Item> items = orderTable.getItems();
             if (!items.contains(selectedItem)) {
-                selectedItem.setQuantity(Float.parseFloat(tfQuantity.getText()));
-                selectedItem.setPrice(Float.parseFloat(tfPrice.getText()));
-                selectedItem.setSum(selectedItem.getQuantity() * selectedItem.getPrice());
+                selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()));
+                selectedItem.setPrice(new BigDecimal(tfPrice.getText()));
+                selectedItem.setSum(selectedItem.getQuantity().multiply(selectedItem.getPrice()));
                 // Προσθέστε το νέο αντικείμενο στη λίστα
                 items.add(selectedItem);
 
@@ -344,7 +345,7 @@ public class NewBuyController implements Initializable {
                 tfQuantity.setText("");
                 tfUnit.setText("");
                 tfPrice.setText("");
-                totalSum += selectedItem.getSum();
+                totalSum += selectedItem.getSum().floatValue();
                 tfSum.setText(String.valueOf(totalSum));
 
             } else {
@@ -358,16 +359,16 @@ public class NewBuyController implements Initializable {
                 if (existingItem != null) {
                     // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
                     items.remove(existingItem);
-                    totalSum -= existingItem.getSum();
-                    existingItem.setQuantity(existingItem.getQuantity() + Float.parseFloat(tfQuantity.getText()));
-                    existingItem.setSum(existingItem.getQuantity() * existingItem.getPrice());
+                    totalSum -= existingItem.getSum().floatValue();
+                    existingItem.setQuantity(existingItem.getQuantity().add(new BigDecimal(tfQuantity.getText())));
+                    existingItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
                     items.add(existingItem);
                     tfName.setText("");
                     tfName.requestFocus();
                     tfQuantity.setText("");
                     tfUnit.setText("");
                     tfPrice.setText("");
-                    totalSum += existingItem.getSum();
+                    totalSum += existingItem.getSum().floatValue();
                     tfSum.setText(String.valueOf(totalSum));
                 }
             }
@@ -384,7 +385,7 @@ public class NewBuyController implements Initializable {
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
-            totalSum -= selectedProduct.getSum();
+            totalSum -= selectedProduct.getSum().floatValue();
             tfSum.setText(String.valueOf(totalSum));
         }
     }
@@ -403,7 +404,7 @@ public class NewBuyController implements Initializable {
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
-            totalSum -= selectedProduct.getSum();
+            totalSum -= selectedProduct.getSum().floatValue();
             tfSum.setText(String.valueOf(totalSum));
         }
     }
@@ -423,7 +424,7 @@ public class NewBuyController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("");
                     alert.setContentText("Το τιμολόγιο είναι κενό!");
-                    Optional<ButtonType> result2 = alert.showAndWaieditt();
+                    Optional<ButtonType> result2 = alert.showAndWait();
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
