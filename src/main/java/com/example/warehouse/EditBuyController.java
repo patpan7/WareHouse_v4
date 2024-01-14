@@ -51,6 +51,9 @@ public class EditBuyController implements Initializable {
         this.selectedBuy = selectedItem;
     }
 
+    public EditBuyController() {
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.loadSetting("server");

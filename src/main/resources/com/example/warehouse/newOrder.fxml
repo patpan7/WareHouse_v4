@@ -20,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="stackPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.NewOrderController">
+           xmlns:fx="http://javafx.com/fxml/1">
     <BorderPane minHeight="800.0" minWidth="1200.0">
         <top>
             <HBox alignment="CENTER" BorderPane.alignment="CENTER">
@@ -124,8 +124,8 @@
                     <contextMenu>
                         <ContextMenu>
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#editRow" text="Επεξεργασία"/>
-                                <MenuItem mnemonicParsing="false" onAction="#deleteRow" text="Διαγραφή"/>
+                                <MenuItem fx:id="editMenu" mnemonicParsing="false" onAction="#editRow" text="Επεξεργασία"/>
+                                <MenuItem fx:id="deleteMenu" mnemonicParsing="false" onAction="#deleteRow" text="Διαγραφή"/>
                             </items>
                         </ContextMenu>
                     </contextMenu>
