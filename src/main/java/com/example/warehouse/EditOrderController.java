@@ -57,10 +57,12 @@ public class EditOrderController implements Initializable {
     List<Item> editedList;
     List<Item> newList;
     List<Item> deletedList;
+    List<Item> dbList;
     Order selectedOrder;
-    List<Item> items1;
-    Item selectedItem;
-    int origin = 0;
+    List<Item> itemsAutoComplete;
+    int origin = 1;
+    Item selectedProduct;
+    Item autoCompleteItem;
     String server;
 
     public EditOrderController(Order selectedOrder) {
@@ -73,7 +75,7 @@ public class EditOrderController implements Initializable {
         editedList = new ArrayList<>();
         newList = new ArrayList<>();
         deletedList = new ArrayList<>();
-        items1 = fetchDataAutoCompleteFromMySQL();
+        itemsAutoComplete = fetchDataAutoCompleteFromMySQL();
         // Ενεργοποίηση αυτόματης συμπλήρωσης στο TextField με βάση το όνομα του είδους
         TextFields.bindAutoCompletion(tfName, request -> {
             String filter = request.getUserText().toUpperCase();
@@ -86,7 +88,7 @@ public class EditOrderController implements Initializable {
                 }
             });
             String newValToSearch = new String(chars);
-            List<Item> filteredList = items1.stream()
+            List<Item> filteredList = itemsAutoComplete.stream()
                     .filter(item -> item.getName().toUpperCase().contains(newValToSearch))
                     .collect(Collectors.toList());
 
@@ -169,9 +171,9 @@ public class EditOrderController implements Initializable {
     }
 
     private void tableInit() {
-        List<Item> items1 = fetchDataFromMySQL();
+        dbList = fetchDataFromMySQL();
         // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
-        observableListItem = FXCollections.observableArrayList(items1);
+        observableListItem = FXCollections.observableArrayList(dbList);
         orderTable.setItems(observableListItem);
     }
 
@@ -231,18 +233,19 @@ public class EditOrderController implements Initializable {
         return items;
     }
 
-    void autocomplete(){
-        for (Item item : items1) {
+    void autocomplete() {
+        for (Item item : itemsAutoComplete) {
             if (item.getName().equalsIgnoreCase(tfName.getText())) {
                 tfUnit.setText(item.getUnit());
-                selectedItem = item;
+                if (origin == 1)
+                    selectedProduct = item;
             }
         }
         tfQuantity.requestFocus();
     }
 
     private List<Item> fetchDataAutoCompleteFromMySQL() {
-        String API_URL = "http://"+server+"/warehouse/itemsGetAll.php";
+        String API_URL = "http://" + server + "/warehouse/itemsGetAll.php";
         List<Item> Items = new ArrayList<>();
         try {
             URL url = new URL(API_URL);
@@ -278,8 +281,8 @@ public class EditOrderController implements Initializable {
                         BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
                         int category_code = itemNode.get("category_code").asInt();
                         int enable = itemNode.get("enable").asInt();
-                        if (enable == 1){
-                            Item item = new Item(code, name, quantity, unit, price,category_code);
+                        if (enable == 1) {
+                            Item item = new Item(code, name, quantity, unit, price, category_code);
                             Items.add(item);
                         }
                     }
@@ -300,58 +303,65 @@ public class EditOrderController implements Initializable {
 
     public void addRow() {
         editMenu.setDisable(false);
-        System.out.println(origin+" add");
+        //selectedProduct.print();
         if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty()) {
-            // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
-            //ObservableList<Item> items = orderTable.getItems();
-            if (!observableListItem.contains(selectedItem)) {
-                selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()));
 
-                // Προσθέστε το νέο αντικείμενο στη λίσταitem
-                observableListItem.add(selectedItem);
-                if (origin == 1)
-                    newList.add(selectedItem);
-                else if (origin == 2) {
-                    int index = observableListItem.indexOf(selectedItem);
-                    selectedItem.setCode(observableListItem.get(index).getCode());
-                    editedList.add(selectedItem);
-                }
-                origin = 0;
-                tfName.setText("");
-                tfName.requestFocus();
-                tfQuantity.setText("");
-                tfUnit.setText("");
-            } else {
-                // Το selectedItem υπάρχει ήδη στη λίστα
-                // Βρείτε το υπάρχον αντικείμενο στη λίστα
+            String itemName = tfName.getText();
+            BigDecimal quantity = new BigDecimal(tfQuantity.getText());
+
+            if (observableListItem.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
+                System.out.println("to eidos einai ston pinaka");
                 Item existingItem = observableListItem.stream()
-                        .filter(item -> item.equals(selectedItem))
+                        .filter(item -> item.getName().equalsIgnoreCase(itemName))
                         .findFirst()
                         .orElse(null);
 
-                if (existingItem != null) {
-                    // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
+                if (dbList.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))){
+                    System.out.println("to eidos einai ston pinaka kai einai palio");
                     observableListItem.remove(existingItem);
-                    existingItem.setQuantity(existingItem.getQuantity().add(new BigDecimal(tfQuantity.getText())));
+                    existingItem.setQuantity(existingItem.getQuantity().add(quantity));
                     observableListItem.add(existingItem);
-                    if (origin == 1)
-                        newList.add(existingItem);
-                    else if (origin == 2)
-                        editedList.add(existingItem);
-                    origin = 0;
-                    tfName.setText("");
-                    tfName.requestFocus();
-                    tfQuantity.setText("");
-                    tfUnit.setText("");
+                    editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
+                    editedList.add(existingItem);
+                    existingItem.print();
+                } else {
+                    System.out.println("to eidos einai ston pinaka kai einai kainourio");
+                    observableListItem.remove(existingItem);
+                    existingItem.setQuantity(existingItem.getQuantity().add(quantity));
+                    observableListItem.add(existingItem);
+                    newList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
+                    newList.add(existingItem);
+                    existingItem.print();
+                }
+            } else {
+                System.out.println("to eidos den einai ston pinaka");
+                if (dbList.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))){
+                    System.out.println("to eidos den einai ston pinaka kai einai palio");
+                    selectedProduct.setQuantity(quantity);
+                    observableListItem.add(selectedProduct);
+                    editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
+                    editedList.add(selectedProduct);
+                    selectedProduct.print();
+                } else {
+                    System.out.println("to eidos den einai ston pinaka kai einai kainourio");
+                    selectedProduct.setQuantity(quantity);
+                    observableListItem.add(selectedProduct);
+                    newList.add(selectedProduct);
+                    selectedProduct.print();
                 }
             }
+
+            tfName.setText("");
+            tfName.requestFocus();
+            tfQuantity.setText("");
+            tfUnit.setText("");
         }
     }
 
     public void deleteRow() {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
-        Item selectedProduct = orderTable.getSelectionModel().getSelectedItem();
+        selectedProduct = orderTable.getSelectionModel().getSelectedItem();
 
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
@@ -361,7 +371,6 @@ public class EditOrderController implements Initializable {
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
             deletedList.add(selectedProduct);
-            newList.remove(selectedProduct);
             editedList.remove(selectedProduct);
         }
     }
@@ -369,13 +378,14 @@ public class EditOrderController implements Initializable {
     public void editRow() {
         editMenu.setDisable(true);
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
-        Item selectedProduct = orderTable.getSelectionModel().getSelectedItem();
+        selectedProduct = orderTable.getSelectionModel().getSelectedItem();
+        selectedProduct.print();
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
-            if (newList.contains(selectedProduct))
-                origin = 1;
-            else
-                origin = 2;
+//            if (newList.contains(selectedProduct))
+//                origin = 1;
+//            else
+//                origin = 2;
             System.out.println(origin);
             tfName.setText(selectedProduct.getName());
             tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
@@ -421,14 +431,91 @@ public class EditOrderController implements Initializable {
                 Optional<ButtonType> result2 = alert.showAndWait();
             }
 
-            if (!editedList.isEmpty()) {
-                updateRequest(editedList);
-                System.out.println("edit list");
+            if (editedList.isEmpty() && newList.isEmpty() && deletedList.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("");
+                alert.setContentText("Δεν υπάρχουν αλλαγές!");
+                Optional<ButtonType> result2 = alert.showAndWait();
+            } else {
+                if (!editedList.isEmpty()) {
+                    updateRequest(editedList);
+                    System.out.println("Λίστα επεξεργασίας");
+                }
+                if (!newList.isEmpty()) {
+                    addNewRequest(newList, selectedOrder.getDate());
+                    System.out.println("Νέα λίστα");
+                }
+                if (!deletedList.isEmpty()) {
+                    deleteRequest(deletedList);
+                    System.out.println("Διαγραμμένη λίστα");
+                }
             }
-            if (!newList.isEmpty()){
-                addNewRequest(newList, selectedOrder.getDate());
-                System.out.println("new list");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteRequest(List<Item> deletedList) {
+        String apiUrl = "http://" + server + "/warehouse/orderDelete.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            // Προσθήκη της λίστας με τα είδη στο JSON
+            jsonRequest.putPOJO("deletedList", deletedList);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
             }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response);
+                if (responseCode == 200) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        orderTable.getItems().clear();
+                        orderTable.refresh();
+                        mainMenuClick(new ActionEvent());
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -501,7 +588,7 @@ public class EditOrderController implements Initializable {
     }
 
     private void addNewRequest(List<Item> tableView, String date) {
-        String apiUrl = "http://"+server+"/warehouse/orderAdd.php";
+        String apiUrl = "http://" + server + "/warehouse/orderAdd.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -548,7 +635,7 @@ public class EditOrderController implements Initializable {
                 }
 
                 System.out.println("Response: " + response);
-                if (responseCode == 200){
+                if (responseCode == 200) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("");
                     alert.setContentText(response.toString());
@@ -556,6 +643,7 @@ public class EditOrderController implements Initializable {
                     if (result2.get() == ButtonType.OK) {
                         orderTable.getItems().clear();
                         orderTable.refresh();
+                        mainMenuClick(new ActionEvent());
                     }
 
                 }

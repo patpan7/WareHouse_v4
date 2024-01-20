@@ -169,13 +169,12 @@ public class Item {
     }
 
     public void print() {
-//        System.out.println("Code: " + code);
-//        System.out.println("Name: " + name);
+        System.out.println("Code: " + code);
+        System.out.println("Name: " + name);
         System.out.println("Quantity: " + quantity);
-//        System.out.println("Unit: " + unit);
-//        System.out.println("Price: " + price);
-//        System.out.println("Category Code: " + category_code);
-//        System.out.println("Sum: " + sum);
-//        System.out.println("Category: " + cat);
+        System.out.println("Unit: " + unit);
+        System.out.println("Price: " + price);
+        System.out.println("Category Code: " + category_code);
+        System.out.println("Sum: " + sum);
     }
 }
