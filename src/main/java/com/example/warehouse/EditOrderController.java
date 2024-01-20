@@ -60,9 +60,7 @@ public class EditOrderController implements Initializable {
     List<Item> dbList;
     Order selectedOrder;
     List<Item> itemsAutoComplete;
-    int origin = 1;
     Item selectedProduct;
-    Item autoCompleteItem;
     String server;
 
     public EditOrderController(Order selectedOrder) {
@@ -237,7 +235,6 @@ public class EditOrderController implements Initializable {
         for (Item item : itemsAutoComplete) {
             if (item.getName().equalsIgnoreCase(tfName.getText())) {
                 tfUnit.setText(item.getUnit());
-                if (origin == 1)
                     selectedProduct = item;
             }
         }
@@ -319,30 +316,41 @@ public class EditOrderController implements Initializable {
 
                 if (dbList.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))){
                     System.out.println("to eidos einai ston pinaka kai einai palio");
-                    observableListItem.remove(existingItem);
-                    existingItem.setQuantity(existingItem.getQuantity().add(quantity));
-                    observableListItem.add(existingItem);
+                    Item insertItem = null;
+                    for (Item item : dbList)
+                        if (item.getName().equals(itemName))
+                            insertItem = item;
+                    observableListItem.remove(insertItem);
+                    insertItem.setQuantity(existingItem.getQuantity().add(quantity));
+                    observableListItem.add(insertItem);
                     editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
-                    editedList.add(existingItem);
-                    existingItem.print();
+                    editedList.add(insertItem);
                 } else {
                     System.out.println("to eidos einai ston pinaka kai einai kainourio");
-                    observableListItem.remove(existingItem);
-                    existingItem.setQuantity(existingItem.getQuantity().add(quantity));
-                    observableListItem.add(existingItem);
+                    Item insertItem = null;
+                    for (Item item : newList)
+                        if (item.getName().equals(itemName))
+                            insertItem = item;
+                    observableListItem.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
+                    orderTable.refresh();
+                    insertItem.setQuantity(existingItem.getQuantity().add(quantity));
+                    insertItem.print();
+                    observableListItem.add(insertItem);
                     newList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
-                    newList.add(existingItem);
-                    existingItem.print();
+                    newList.add(insertItem);
                 }
             } else {
                 System.out.println("to eidos den einai ston pinaka");
                 if (dbList.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))){
                     System.out.println("to eidos den einai ston pinaka kai einai palio");
-                    selectedProduct.setQuantity(quantity);
-                    observableListItem.add(selectedProduct);
+                    Item insertItem = null;
+                    for (Item item : dbList)
+                        if (item.getName().equals(itemName))
+                            insertItem = item;
+                    insertItem.setQuantity(quantity);
+                    observableListItem.add(insertItem);
                     editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
-                    editedList.add(selectedProduct);
-                    selectedProduct.print();
+                    editedList.add(insertItem);
                 } else {
                     System.out.println("to eidos den einai ston pinaka kai einai kainourio");
                     selectedProduct.setQuantity(quantity);
@@ -382,11 +390,6 @@ public class EditOrderController implements Initializable {
         selectedProduct.print();
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
-//            if (newList.contains(selectedProduct))
-//                origin = 1;
-//            else
-//                origin = 2;
-            System.out.println(origin);
             tfName.setText(selectedProduct.getName());
             tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
             tfUnit.setText(selectedProduct.getUnit());
