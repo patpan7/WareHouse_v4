@@ -332,7 +332,6 @@ public class EditOrderController implements Initializable {
                         if (item.getName().equals(itemName))
                             insertItem = item;
                     observableListItem.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
-                    orderTable.refresh();
                     insertItem.setQuantity(existingItem.getQuantity().add(quantity));
                     insertItem.print();
                     observableListItem.add(insertItem);
@@ -359,7 +358,7 @@ public class EditOrderController implements Initializable {
                     selectedProduct.print();
                 }
             }
-
+            orderTable.refresh();
             tfName.setText("");
             tfName.requestFocus();
             tfQuantity.setText("");
