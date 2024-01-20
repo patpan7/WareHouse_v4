@@ -50,8 +50,6 @@ public class EditOrderController implements Initializable {
     TableView<Item> orderTable;
     @FXML
     MenuItem editMenu;
-    @FXML
-    MenuItem deleteMenu;
 
     private ObservableList<Item> observableListItem;
     List<Item> editedList;
@@ -137,16 +135,16 @@ public class EditOrderController implements Initializable {
 
         TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Ποσότητα");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BigDecimalStringConverter()));
-        quantityColumn.setOnEditCommit(event -> {
-            Item editedItem = event.getRowValue();
-            BigDecimal newQuantity = event.getNewValue();
-
-            if (newQuantity != editedItem.getQuantity()) {
-                editedItem.setQuantity(newQuantity);
-                editedList.add(editedItem);
-            }
-        });
+//        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BigDecimalStringConverter()));
+//        quantityColumn.setOnEditCommit(event -> {
+//            Item editedItem = event.getRowValue();
+//            BigDecimal newQuantity = event.getNewValue();
+//
+//            if (newQuantity != editedItem.getQuantity()) {
+//                editedItem.setQuantity(newQuantity);
+//                editedList.add(editedItem);
+//            }
+//        });
 
         TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));

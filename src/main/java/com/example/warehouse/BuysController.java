@@ -34,8 +34,6 @@ public class BuysController implements Initializable {
     public MenuItem editOption;
     @FXML
     StackPane stackPane;
-    private Stage stage;
-    private Scene scene;
     private Parent root;
     @FXML
     TableView<Buys> buysTable;
@@ -101,9 +99,9 @@ public class BuysController implements Initializable {
     }
 
     private void tableInit() {
-        List<Buys> orders1 = fetchDataFromMySQL();
+        List<Buys> buys1 = fetchDataFromMySQL();
         // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
-        observableList = FXCollections.observableArrayList(orders1);
+        observableList = FXCollections.observableArrayList(buys1);
         buysTable.setItems(observableList);
     }
 
@@ -140,13 +138,14 @@ public class BuysController implements Initializable {
                     JsonNode messageNode = jsonNode.get("message");
 
                     for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
                         String date = itemNode.get("date").asText();
                         String invoice = itemNode.get("invoice").asText();
                         Float total = Float.parseFloat(itemNode.get("total").asText());
                         int suppliercode = itemNode.get("suppliercode").asInt();
 
-                        Buys buy = new Buys (name,date, invoice, total,suppliercode);
+                        Buys buy = new Buys (code, name,date, invoice, total,suppliercode);
                         buys.add(buy);
                     }
                 } else {
@@ -177,7 +176,7 @@ public class BuysController implements Initializable {
         if(selectedOrder == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Προσοχή");
-            alert.setContentText("Δεν έχει επιλεγέι είδος!");
+            alert.setContentText("Δεν έχει επιλεγεί αγορά!");
             Optional<ButtonType> result = alert.showAndWait();
             return;
         }
@@ -187,7 +186,7 @@ public class BuysController implements Initializable {
 
     private void openEditDialog(Buys selectedItem) throws IOException {
         // Δημιουργία νέου FXMLLoader
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("editBuy.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("newBuy.fxml"));
         loader.setController(new EditBuyController(selectedItem));
         root = loader.load();
         stackPane.getChildren().clear();

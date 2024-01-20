@@ -1,19 +1,26 @@
 package com.example.warehouse;
 
 public class Buys {
+    int code;
     String name;
     String date;
     String invoice;
     Float total;
     int suppliercode;
 
-    public Buys(String name, String date, String invoice, Float total, int suppliercode) {
+    public Buys(int code, String name, String date, String invoice, Float total, int suppliercode) {
+        this.code = code;
         this.name = name;
         this.date = date;
         this.invoice = invoice;
         this.total = total;
         this.suppliercode = suppliercode;
     }
+
+    public int getCode() {return code;}
+
+    public void setCode(int code) {this.code = code;}
+
     public String getName() {
         return name;
     }

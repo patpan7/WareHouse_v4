@@ -35,8 +35,6 @@ import java.util.stream.Collectors;
 public class OrdersController implements Initializable {
     @FXML
     StackPane stackPane;
-    private Stage stage;
-    private Scene scene;
     private Parent root;
     @FXML
     TableView <Order> ordersTable;
@@ -175,7 +173,7 @@ public class OrdersController implements Initializable {
         if(selectedOrder == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Προσοχή");
-            alert.setContentText("Δεν έχει επιλεγέι είδος!");
+            alert.setContentText("Δεν έχει επιλεγεί παραγγελία!");
             Optional<ButtonType> result = alert.showAndWait();
             return;
         }
