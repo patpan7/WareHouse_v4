@@ -3,8 +3,6 @@ package com.example.warehouse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.itextpdf.html2pdf.ConverterProperties;
-import com.itextpdf.html2pdf.HtmlConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,13 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.util.converter.BigDecimalStringConverter;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.*;
@@ -69,13 +63,14 @@ public class EditBuyController implements Initializable {
     List<Item> deletedList;
     List<Item> dbList;
     Buys selectedBuy;
+    Buys editedBuy;
     List<Item> itemsAutoComplete;
     Item selectedProduct;
     float totalSum = 0.0F;
     String server;
 
-    public EditBuyController(Buys selectedItem) {
-        this.selectedBuy = selectedItem;
+    public EditBuyController(Buys selectedBuy) {
+        this.selectedBuy = selectedBuy;
     }
 
     @Override
@@ -183,7 +178,6 @@ public class EditBuyController implements Initializable {
         sumColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
 
 
-
         // Προσθήκη των κολόνων στο TableView
         buyTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn, sumColumn);
         tableInit();
@@ -193,6 +187,7 @@ public class EditBuyController implements Initializable {
 
         tfDate.setValue(localDate);
         tfSum.setText(String.valueOf(selectedBuy.getTotal()));
+        totalSum = selectedBuy.getTotal();
     }
 
     private void tableInit() {
@@ -291,7 +286,7 @@ public class EditBuyController implements Initializable {
     }
 
     private List<Item> fetchDataFromMySQL() {
-        String API_URL = "http://"+server+"/warehouse/itemsGetAllBuy.php";
+        String API_URL = "http://" + server + "/warehouse/itemsGetAllBuy.php";
         List<Item> items = new ArrayList<>();
         try {
             URL url = new URL(API_URL + "?invoice=" + selectedBuy.getInvoice() + "&supplier=" + selectedBuy.getSuppliercode());
@@ -328,7 +323,7 @@ public class EditBuyController implements Initializable {
                         String unit = itemNode.get("unit").asText();
                         BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
                         BigDecimal sum = BigDecimal.valueOf(itemNode.get("sum").asDouble());
-                        Item item = new Item(code,item_code, name, quantity, unit,price,sum);
+                        Item item = new Item(code, item_code, name, quantity, unit, price, sum);
                         items.add(item);
                     }
                 } else {
@@ -417,6 +412,7 @@ public class EditBuyController implements Initializable {
         }
         return Items;
     }
+
     public void addRow() {
         editMenu.setDisable(false);
         //selectedProduct.print();
@@ -425,6 +421,7 @@ public class EditBuyController implements Initializable {
 
             String itemName = tfName.getText();
             BigDecimal quantity = new BigDecimal(tfQuantity.getText());
+            BigDecimal price = new BigDecimal(tfPrice.getText());
 
             if (observableListItem.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
                 System.out.println("to eidos einai ston pinaka");
@@ -433,17 +430,20 @@ public class EditBuyController implements Initializable {
                         .findFirst()
                         .orElse(null);
 
-                if (dbList.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))){
+                if (dbList.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
                     System.out.println("to eidos einai ston pinaka kai einai palio");
                     Item insertItem = null;
                     for (Item item : dbList)
                         if (item.getName().equals(itemName))
                             insertItem = item;
                     observableListItem.remove(insertItem);
+                    totalSum -= existingItem.getSum().floatValue();
                     insertItem.setQuantity(existingItem.getQuantity().add(quantity));
+                    insertItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
                     observableListItem.add(insertItem);
                     editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
                     editedList.add(insertItem);
+                    totalSum += insertItem.getSum().floatValue();
                 } else {
                     System.out.println("to eidos einai ston pinaka kai einai kainourio");
                     Item insertItem = null;
@@ -451,30 +451,38 @@ public class EditBuyController implements Initializable {
                         if (item.getName().equals(itemName))
                             insertItem = item;
                     observableListItem.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
+                    totalSum -= existingItem.getSum().floatValue();
                     insertItem.setQuantity(existingItem.getQuantity().add(quantity));
-                    insertItem.print();
+                    insertItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
                     observableListItem.add(insertItem);
+                    buyTable.refresh();
                     newList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
                     newList.add(insertItem);
+                    totalSum += insertItem.getSum().floatValue();
                 }
             } else {
                 System.out.println("to eidos den einai ston pinaka");
-                if (dbList.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))){
+                if (dbList.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
                     System.out.println("to eidos den einai ston pinaka kai einai palio");
                     Item insertItem = null;
                     for (Item item : dbList)
                         if (item.getName().equals(itemName))
                             insertItem = item;
                     insertItem.setQuantity(quantity);
+                    insertItem.setSum(quantity.multiply(price));
                     observableListItem.add(insertItem);
                     editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
                     editedList.add(insertItem);
+                    totalSum += insertItem.getSum().floatValue();
                 } else {
                     System.out.println("to eidos den einai ston pinaka kai einai kainourio");
                     selectedProduct.setQuantity(quantity);
+                    selectedProduct.setPrice(price);
+                    selectedProduct.setSum(quantity.multiply(price));
                     observableListItem.add(selectedProduct);
                     newList.add(selectedProduct);
                     selectedProduct.print();
+                    totalSum += selectedProduct.getSum().floatValue();
                 }
             }
             buyTable.refresh();
@@ -482,6 +490,8 @@ public class EditBuyController implements Initializable {
             tfName.requestFocus();
             tfQuantity.setText("");
             tfUnit.setText("");
+            tfPrice.setText("");
+            tfSum.setText(String.valueOf(totalSum));
         }
     }
 
@@ -498,6 +508,8 @@ public class EditBuyController implements Initializable {
             items.remove(selectedProduct);
             deletedList.add(selectedProduct);
             editedList.remove(selectedProduct);
+            totalSum -= selectedProduct.getSum().floatValue();
+            tfSum.setText(String.valueOf(totalSum));
         }
     }
 
@@ -522,12 +534,197 @@ public class EditBuyController implements Initializable {
     }
 
     public void saveAction(ActionEvent actionEvent) {
-        if (!editedList.isEmpty())
-            updateRequest(editedList);
+        if (tfSupplier.getValue() != null) {
+            if (!tfInvoice.getText().isEmpty()) {
+                if (!buyTable.getItems().isEmpty()) {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    String newDate = dtf.format(tfDate.getValue());
+                    ObservableList<Item> items = buyTable.getItems();
+                    int newSupplierCode = tfSupplier.getValue().getCode();
+                    String newInvoice = tfInvoice.getText();
+                    //addNewRequest(items, suppliercode, date, invoice, totalSum);
+                    if (!newInvoice.equals(selectedBuy.getInvoice()) || newSupplierCode != selectedBuy.getSuppliercode() || !newDate.equals(selectedBuy.getDate()))
+                        updateInvoice(newInvoice, newSupplierCode, newDate, selectedBuy.getCode());
+                    if (editedList.isEmpty() && newList.isEmpty() && deletedList.isEmpty()) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("");
+                        alert.setContentText("Δεν υπάρχουν αλλαγές!");
+                        Optional<ButtonType> result2 = alert.showAndWait();
+                    } else {
+                        if (!editedList.isEmpty()) {
+                            updateRequest(editedList, newSupplierCode, newDate, newInvoice);
+                            System.out.println("Λίστα επεξεργασίας");
+                        }
+                        if (!newList.isEmpty()) {
+                            addNewRequest(newList, newSupplierCode, newDate, newInvoice);
+                            System.out.println("Νέα λίστα");
+                        }
+                        if (!deletedList.isEmpty()) {
+                            deleteRequest(deletedList);
+                            System.out.println("Διαγραμμένη λίστα");
+                        }
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("");
+                    alert.setContentText("Το τιμολόγιο είναι κενό!");
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("");
+                alert.setContentText("Ο αριθμός τιμολογίου είναι κενός!");
+                Optional<ButtonType> result2 = alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("");
+            alert.setContentText("Δεν έχει επιλεγεί Προμηθευτής!");
+            Optional<ButtonType> result2 = alert.showAndWait();
+        }
+    }
+
+    private void updateInvoice(String newInvoice, int newSupplierCode, String newDate, int code) {
+        String apiUrl = "http://" + server + "/warehouse/invoiceUpdate.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            jsonRequest.put("invoice", newInvoice);
+            jsonRequest.put("supplierCode", newSupplierCode);
+            jsonRequest.put("date", newDate);
+            jsonRequest.put("totalSum", totalSum);
+            jsonRequest.put("code", code);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+                if (responseCode == 200) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        buyTable.getItems().clear();
+                        buyTable.refresh();
+                        mainMenuClick(new ActionEvent());
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addNewRequest(List<Item> newList, int supplierCode, String date, String invoice) {
+        String apiUrl = "http://" + server + "/warehouse/buyAdd2.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            // Προσθήκη της λίστας με τα είδη στο JSON
+            jsonRequest.putPOJO("newList", newList);
+
+            jsonRequest.put("date", date); // Προσαρμόστε την ημερομηνία όπως χρειάζεται
+            jsonRequest.put("supplierCode", supplierCode);
+            jsonRequest.put("invoice", invoice);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+                if (responseCode == 200) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        buyTable.getItems().clear();
+                        buyTable.refresh();
+                        mainMenuClick(new ActionEvent());
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void deleteRequest(List<Item> deletedList) {
-        String apiUrl = "http://" + server + "/warehouse/orderDelete.php";
+        String apiUrl = "http://" + server + "/warehouse/buyDelete.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -592,8 +789,8 @@ public class EditBuyController implements Initializable {
         }
     }
 
-    private void updateRequest(List<Item> editedList) {
-        String apiUrl = "http://"+server+"/warehouse/buyEdit.php";
+    private void updateRequest(List<Item> editedList, int newSupplierCode, String newDate, String newInvoice) {
+        String apiUrl = "http://" + server + "/warehouse/buyUpdate.php";
 
         try {
             URL url = new URL(apiUrl);
@@ -612,6 +809,10 @@ public class EditBuyController implements Initializable {
 
             // Προσθήκη της λίστας με τα είδη στο JSON
             jsonRequest.putPOJO("editedList", editedList);
+
+            jsonRequest.put("date", newDate); // Προσαρμόστε την ημερομηνία όπως χρειάζεται
+            jsonRequest.put("supplierCode", newSupplierCode);
+            jsonRequest.put("invoice", newInvoice);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(jsonRequest);
@@ -637,7 +838,7 @@ public class EditBuyController implements Initializable {
                 }
 
                 System.out.println("Response: " + response.toString());
-                if (responseCode == 200){
+                if (responseCode == 200) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("");
                     alert.setContentText(response.toString());

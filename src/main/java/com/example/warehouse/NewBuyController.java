@@ -55,7 +55,7 @@ public class NewBuyController implements Initializable {
     @FXML
     TextField tfSum;
     @FXML
-    TableView<Item> orderTable;
+    TableView<Item> buyTable;
 
     List<Supplier> suppliers;
     ObservableList<Supplier> observableListSup;
@@ -162,8 +162,8 @@ public class NewBuyController implements Initializable {
 
 
         // Προσθήκη των κολόνων στο TableView
-        orderTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn, totalColumn);
-        orderTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        buyTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn, totalColumn);
+        buyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
     }
 
@@ -332,7 +332,7 @@ public class NewBuyController implements Initializable {
         if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && BigDecimal.valueOf(Long.parseLong(tfPrice.getText())).compareTo(BigDecimal.ZERO) > 0) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
-            ObservableList<Item> items = orderTable.getItems();
+            ObservableList<Item> items = buyTable.getItems();
             if (!items.contains(selectedItem)) {
                 selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()));
                 selectedItem.setPrice(new BigDecimal(tfPrice.getText()));
@@ -377,11 +377,11 @@ public class NewBuyController implements Initializable {
 
     public void deleteRow(ActionEvent event) {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
-        Item selectedProduct = orderTable.getSelectionModel().getSelectedItem();
+        Item selectedProduct = buyTable.getSelectionModel().getSelectedItem();
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
-            ObservableList<Item> items = orderTable.getItems();
+            ObservableList<Item> items = buyTable.getItems();
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
@@ -392,7 +392,7 @@ public class NewBuyController implements Initializable {
 
     public void editRow(ActionEvent event) {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
-        Item selectedProduct = orderTable.getSelectionModel().getSelectedItem();
+        Item selectedProduct = buyTable.getSelectionModel().getSelectedItem();
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
             tfName.setText(selectedProduct.getName());
@@ -400,7 +400,7 @@ public class NewBuyController implements Initializable {
             tfUnit.setText(selectedProduct.getUnit());
             tfPrice.setText(String.valueOf(selectedProduct.getPrice()));
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
-            ObservableList<Item> items = orderTable.getItems();
+            ObservableList<Item> items = buyTable.getItems();
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
@@ -413,10 +413,10 @@ public class NewBuyController implements Initializable {
     public void saveAction(ActionEvent event) {
         if (tfSupplier.getValue() != null) {
             if (!tfInvoice.getText().isEmpty()) {
-                if (!orderTable.getItems().isEmpty()) {
+                if (!buyTable.getItems().isEmpty()) {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     String date = dtf.format(tfDate.getValue());
-                    ObservableList<Item> items = orderTable.getItems();
+                    ObservableList<Item> items = buyTable.getItems();
                     int suppliercode = tfSupplier.getValue().getCode();
                     String invoice = tfInvoice.getText();
                     addNewRequest(items, suppliercode, date, invoice, totalSum);
@@ -511,8 +511,8 @@ public class NewBuyController implements Initializable {
     }
 
     public void clean() {
-        orderTable.getItems().clear();
-        orderTable.refresh();
+        buyTable.getItems().clear();
+        buyTable.refresh();
         totalSum = 0.0F;
         tfSum.setText("");
         tfSupplier.setValue(null);

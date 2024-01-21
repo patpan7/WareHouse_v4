@@ -164,8 +164,9 @@ public class BuysController implements Initializable {
     }
 
     public void buyAddNew(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newBuy.fxml"));
-        root = fxmlLoader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("newBuy.fxml"));
+        loader.setController(new NewBuyController());
+        root = loader.load();
         stackPane.getChildren().clear();
         stackPane.getChildren().add(root);
     }
