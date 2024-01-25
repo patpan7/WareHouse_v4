@@ -329,7 +329,7 @@ public class NewBuyController implements Initializable {
     }
 
     public void addRow() {
-        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && BigDecimal.valueOf(Long.parseLong(tfPrice.getText())).compareTo(BigDecimal.ZERO) > 0) {
+        if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && new BigDecimal(tfPrice.getText()).compareTo(BigDecimal.ZERO) > 0) {
             // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
             autocomplete();
             ObservableList<Item> items = buyTable.getItems();
@@ -419,6 +419,8 @@ public class NewBuyController implements Initializable {
                     ObservableList<Item> items = buyTable.getItems();
                     int suppliercode = tfSupplier.getValue().getCode();
                     String invoice = tfInvoice.getText();
+                    for (Item item : items)
+                        item.print();
                     addNewRequest(items, suppliercode, date, invoice, totalSum);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);

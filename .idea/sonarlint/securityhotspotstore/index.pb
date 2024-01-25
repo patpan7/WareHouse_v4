@@ -109,3 +109,8 @@ w
 G.idea/sonarlint/issuestore/f/f/ffdf7a45d622d4e0b14d4ec882e6930847fc9773,d\2\d297f344a341c4401981cad210bd6ce9108a9e1c
 e
 5src/main/java/com/example/warehouse/Distribution.java,a\1\a1dbecf6f7fe342ef15787afa9b3d35f92b6194e
+N
+src/main/java/module-info.java,1\c\1c89a5491fbfda3fb050196d6a239f20200296e7
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

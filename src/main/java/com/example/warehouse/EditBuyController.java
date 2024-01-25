@@ -544,7 +544,7 @@ public class EditBuyController implements Initializable {
                     String newInvoice = tfInvoice.getText();
                     //addNewRequest(items, suppliercode, date, invoice, totalSum);
                     if (!newInvoice.equals(selectedBuy.getInvoice()) || newSupplierCode != selectedBuy.getSuppliercode() || !newDate.equals(selectedBuy.getDate()))
-                        updateInvoice(newInvoice, newSupplierCode, newDate, selectedBuy.getCode());
+                        updateInvoice(newInvoice, newSupplierCode, newDate, selectedBuy.getCode(),selectedBuy.getSuppliercode(),selectedBuy.getTotal());
                     if (editedList.isEmpty() && newList.isEmpty() && deletedList.isEmpty()) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("");
@@ -584,7 +584,7 @@ public class EditBuyController implements Initializable {
         }
     }
 
-    private void updateInvoice(String newInvoice, int newSupplierCode, String newDate, int code) {
+    private void updateInvoice(String newInvoice, int newSupplierCode, String newDate, int code, int oldSupplierCode, Float oldTotal) {
         String apiUrl = "http://" + server + "/warehouse/invoiceUpdate.php";
 
         try {
@@ -607,6 +607,8 @@ public class EditBuyController implements Initializable {
             jsonRequest.put("date", newDate);
             jsonRequest.put("totalSum", totalSum);
             jsonRequest.put("code", code);
+            jsonRequest.put("oldSupplierCode", oldSupplierCode);
+            jsonRequest.put("oldTotal", oldTotal);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(jsonRequest);
