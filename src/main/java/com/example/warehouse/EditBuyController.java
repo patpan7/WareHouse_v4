@@ -545,6 +545,8 @@ public class EditBuyController implements Initializable {
                     //addNewRequest(items, suppliercode, date, invoice, totalSum);
                     if (!newInvoice.equals(selectedBuy.getInvoice()) || newSupplierCode != selectedBuy.getSuppliercode() || !newDate.equals(selectedBuy.getDate()))
                         updateInvoice(newInvoice, newSupplierCode, newDate, selectedBuy.getCode(),selectedBuy.getSuppliercode(),selectedBuy.getTotal());
+                    else
+                        updateInvoceSum(selectedBuy,totalSum);
                     if (editedList.isEmpty() && newList.isEmpty() && deletedList.isEmpty()) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("");
@@ -584,6 +586,73 @@ public class EditBuyController implements Initializable {
         }
     }
 
+    private void updateInvoceSum(Buys selectedBuy, float totalSum) {
+        String apiUrl = "http://" + server + "/warehouse/invoiceUpdateSum.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            jsonRequest.put("code", selectedBuy.getCode());
+            jsonRequest.put("supplierCode", selectedBuy.getSuppliercode());
+            jsonRequest.put("totalSum", totalSum);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+                if (responseCode == 200) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        buyTable.getItems().clear();
+                        buyTable.refresh();
+                        mainMenuClick(new ActionEvent());
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void updateInvoice(String newInvoice, int newSupplierCode, String newDate, int code, int oldSupplierCode, Float oldTotal) {
         String apiUrl = "http://" + server + "/warehouse/invoiceUpdate.php";
 
@@ -609,6 +678,7 @@ public class EditBuyController implements Initializable {
             jsonRequest.put("code", code);
             jsonRequest.put("oldSupplierCode", oldSupplierCode);
             jsonRequest.put("oldTotal", oldTotal);
+            jsonRequest.putPOJO("dbList", dbList);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(jsonRequest);
@@ -792,7 +862,7 @@ public class EditBuyController implements Initializable {
     }
 
     private void updateRequest(List<Item> editedList, int newSupplierCode, String newDate, String newInvoice) {
-        String apiUrl = "http://" + server + "/warehouse/buyUpdate.php";
+        String apiUrl = "http://" + server + "/warehouse/buyEdit.php";
 
         try {
             URL url = new URL(apiUrl);

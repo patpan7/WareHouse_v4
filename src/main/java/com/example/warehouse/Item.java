@@ -169,7 +169,7 @@ public class Item {
     }
 
     public void print() {
-        System.out.println("Code: " + code);
+        System.out.println("Code: " + item_code);
         System.out.println("Name: " + name);
         System.out.println("Quantity: " + quantity);
         System.out.println("Unit: " + unit);
