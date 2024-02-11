@@ -95,6 +95,14 @@ public class Item {
         this.enable = enable;
     }
 
+    public Item(int code, int itemCode, String name, BigDecimal quantity, String unit) {
+        this.code = code;
+        this.item_code = itemCode;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
+
     public int getEnable() {
         return enable;
     }

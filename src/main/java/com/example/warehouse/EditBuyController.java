@@ -529,7 +529,7 @@ public class EditBuyController implements Initializable {
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
             totalSum -= selectedProduct.getSum().floatValue();
-            tfSum.setText(String.valueOf(buyTable));
+            tfSum.setText(String.valueOf(totalSum));
         }
     }
 

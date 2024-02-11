@@ -267,7 +267,7 @@ public class NewDistributionController implements Initializable {
                         String name = itemNode.get("name").asText();
                         BigDecimal quantity = BigDecimal.valueOf(Long.parseLong(itemNode.get("quantity").asText()));
                         String unit = itemNode.get("unit").asText();
-                        BigDecimal price = BigDecimal.valueOf(Long.parseLong(itemNode.get("price").asText()));
+                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
                         int category_code = itemNode.get("category_code").asInt();
                         BigDecimal sum = BigDecimal.ZERO;
                         int enable = itemNode.get("enable").asInt();

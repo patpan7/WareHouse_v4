@@ -279,6 +279,7 @@ public class DistributionController implements Initializable {
 
     public void destributionAddNew(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newDistribution.fxml"));
+        fxmlLoader.setController(new NewDistributionController());
         root = fxmlLoader.load();
         stackPane.getChildren().clear();
         stackPane.getChildren().add(root);
@@ -381,7 +382,7 @@ public class DistributionController implements Initializable {
 
     private void openEditDialog(Distribution selectedItem) throws IOException {
         // Δημιουργία νέου FXMLLoader
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editDistribution.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newDistribution.fxml"));
         fxmlLoader.setController(new EditDistributionController(selectedItem));
         root = fxmlLoader.load();
         stackPane.getChildren().clear();
