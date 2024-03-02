@@ -213,7 +213,6 @@ public class EditDistributionController implements Initializable {
         if (tfQuantity.getText().isEmpty())
             tfQuantity.requestFocus();
     }
-
     private List<Item> fetchDataFromMySQL() {
         String API_URL = "http://" + server + "/warehouse/itemsGetAllDistribution.php";
         List<Item> items = new ArrayList<>();
@@ -388,7 +387,7 @@ public class EditDistributionController implements Initializable {
             BigDecimal addedQuantity = BigDecimal.valueOf(Long.parseLong(tfQuantity.getText()));
 
             if (quantity.compareTo(addedQuantity) > 0) {
-                quantity = quantity.subtract(addedQuantity);
+                //quantity = quantity.subtract(addedQuantity);
                 if (observableListItem.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
                     System.out.println("to eidos einai ston pinaka");
                     Item existingItem = observableListItem.stream()
@@ -403,8 +402,7 @@ public class EditDistributionController implements Initializable {
                             if (item.getName().equals(itemName))
                                 insertItem = item;
                         observableListItem.remove(insertItem);
-                        insertItem.setQuantity(existingItem.getQuantity().add(quantity));
-                        insertItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
+                        insertItem.setQuantity(existingItem.getQuantity().add(addedQuantity));
                         observableListItem.add(insertItem);
                         editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
                         editedList.add(insertItem);
@@ -415,8 +413,7 @@ public class EditDistributionController implements Initializable {
                             if (item.getName().equals(itemName))
                                 insertItem = item;
                         observableListItem.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
-                        insertItem.setQuantity(existingItem.getQuantity().add(quantity));
-                        insertItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
+                        insertItem.setQuantity(existingItem.getQuantity().add(addedQuantity));
                         observableListItem.add(insertItem);
                         distributionTable.refresh();
                         newList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
@@ -455,7 +452,7 @@ public class EditDistributionController implements Initializable {
             tfUnit.setText("");
         }
     }
-// TODO: Δεν λειτουργεί σωστά με τις ποσότητες και στην προσθήκη
+
     public void editRow(ActionEvent actionEvent) {
         editMenu.setDisable(true);
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
@@ -516,7 +513,28 @@ public class EditDistributionController implements Initializable {
                 String date = dtf.format(tfDate.getValue());
                 ObservableList<Item> items = distributionTable.getItems();
                 int departmentcode = tfDepartment.getValue().getCode();
-                addNewRequest(items,departmentcode,date);
+                //addNewRequest(items,departmentcode,date);
+                if (!tfDepartment.getValue().equals(selectedDistribution.getDepartment()) || !date.equals(selectedDistribution.getDate()))
+                    updateDepartment(departmentcode, date);
+                if (editedList.isEmpty() && newList.isEmpty() && deletedList.isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("");
+                    alert.setContentText("Δεν υπάρχουν αλλαγές!");
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                } else {
+                    if (!editedList.isEmpty()) {
+                        updateRequest(editedList, departmentcode, date);
+                        System.out.println("Λίστα επεξεργασίας");
+                    }
+                    if (!newList.isEmpty()) {
+                        addNewRequest(newList, newSupplierCode, newDate, newInvoice);
+                        System.out.println("Νέα λίστα");
+                    }
+                    if (!deletedList.isEmpty()) {
+                        deleteRequest(deletedList);
+                        System.out.println("Διαγραμμένη λίστα");
+                    }
+                }
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("");
@@ -528,6 +546,142 @@ public class EditDistributionController implements Initializable {
             alert.setTitle("");
             alert.setContentText("Δεν έχει επιλεγεί Τμήμα!");
             Optional<ButtonType> result2 = alert.showAndWait();
+        }
+    }
+
+    private void updateDepartment(int departmentCode, String date) {
+        String apiUrl = "http://" + server + "/warehouse/departmentUpdate.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            jsonRequest.put("departmentCode", departmentCode);
+            jsonRequest.put("date", date);
+            jsonRequest.putPOJO("dbList", dbList);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+                if (responseCode == 200) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        distributionTable.getItems().clear();
+                        distributionTable.refresh();
+                        mainMenuClick(new ActionEvent());
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateRequest(List<Item> editedList, int departmentCode, String date) {
+        String apiUrl = "http://" + server + "/warehouse/distributionEdit.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            // Προσθήκη της λίστας με τα είδη στο JSON
+            jsonRequest.putPOJO("editedList", editedList);
+
+            jsonRequest.put("date", date); // Προσαρμόστε την ημερομηνία όπως χρειάζεται
+            jsonRequest.put("departmentCode", departmentCode);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+                if (responseCode == 200) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        buyTable.getItems().clear();
+                        buyTable.refresh();
+                        mainMenuClick(new ActionEvent());
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
