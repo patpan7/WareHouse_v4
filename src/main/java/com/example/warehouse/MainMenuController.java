@@ -73,7 +73,7 @@ public class MainMenuController {
         stackPane.getChildren().add(root);
     }
 
-    public void departmentsClick(ActionEvent e) throws IOException {
+    public void returnsClick(ActionEvent e) throws IOException {
 //        root = FXMLLoader.load(getClass().getResource("returns.fxml"));
 //        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 //        scene = new Scene(root);

@@ -23,12 +23,12 @@ M	java:S106"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ø´ËÕØ1
 O
 java:S1172˜",Remove this unused method parameter "event".(ÇĞ¶Ëşÿÿÿÿ8ù´ËÕØ1
 9
-java:S3626º"Remove this redundant jump.(ûÁİ…8ÚÓõÕØ1
+java:S3626»"Remove this redundant jump.(ûÁİ…8ÚÓõÕØ1
 O
-java:S1172Ÿ"2Remove this unused method parameter "actionEvent".(£è8ÛÓõÕØ1
-H	java:S106°"+Replace this use of System.out by a logger.(‹Œ×¹8àÓõÕØ1
-H	java:S106ß"+Replace this use of System.out by a logger.(ÕºÅã8æÓõÕØ1
-G	java:S106è"+Replace this use of System.out by a logger.(ÁØÕx8èÓõÕØ1
-M	java:S106ó"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8êÓõÕØ1
+java:S1172 "2Remove this unused method parameter "actionEvent".(£è8ÛÓõÕØ1
+H	java:S106±"+Replace this use of System.out by a logger.(‹Œ×¹8àÓõÕØ1
+H	java:S106à"+Replace this use of System.out by a logger.(ÕºÅã8æÓõÕØ1
+G	java:S106é"+Replace this use of System.out by a logger.(ÁØÕx8èÓõÕØ1
+M	java:S106ô"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8êÓõÕØ1
 J
-java:S1172‡",Remove this unused method parameter "event".(™™È«8‹µËÕØ1
+java:S1172ˆ",Remove this unused method parameter "event".(™™È«8‹µËÕØ1

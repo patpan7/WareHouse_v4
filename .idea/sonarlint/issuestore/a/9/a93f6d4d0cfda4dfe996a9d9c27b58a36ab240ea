@@ -27,22 +27,22 @@ n	java:S117"QRename this local variable to match the regular expression '^[a
 s	java:S117Ã"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8ù³¢‚à1
 n	java:S117Ä"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8û³¢‚à1
 s	java:S117å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8û³¢‚à1
-f
-java:S2259•"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ğ¯ƒà1
-f
-java:S2259 "HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ğ¯ƒà1
-h
-java:S2259 "JA "NullPointerException" could be thrown; "existingItem" is nullable here.(ƒå­Ñ8ï¯ƒà1
 h
 java:S2259•"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(ƒå­Ñ8ğ¯ƒà1
 k
 java:S2259®"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(œïôüüÿÿÿÿ8ñ¯ƒà1
-l
-java:S3655¡"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8½¢‚à1
+f
+java:S2259•"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ğ¯ƒà1
+h
+java:S2259 "JA "NullPointerException" could be thrown; "existingItem" is nullable here.(ƒå­Ñ8ï¯ƒà1
+f
+java:S2259 "HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ğ¯ƒà1
 l
 java:S3655Ü"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8³ùÍ‚à1
 l
 java:S3655æ"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8½¢‚à1
+l
+java:S3655¡"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8½¢‚à1
 l
 java:S3655¦"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ñŞ‚à1
 o

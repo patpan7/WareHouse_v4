@@ -1,129 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.ScrollPane?>
-<StackPane fx:id="stackPane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.MainMenuController"
-           stylesheets="@external.css">
+<StackPane fx:id="stackPane" prefHeight="800.0" prefWidth="1200.0" stylesheets="@external.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.MainMenuController">
     <ScrollPane fitToHeight="true" fitToWidth="true">
         <BorderPane fx:id="rootPane" StackPane.alignment="CENTER">
             <center>
                 <GridPane alignment="TOP_CENTER" hgap="50.0" vgap="50.0" BorderPane.alignment="TOP_CENTER">
                     <columnConstraints>
-                        <ColumnConstraints/>
-                        <ColumnConstraints/>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints/>
-                        <RowConstraints/>
-                        <RowConstraints/>
-                        <RowConstraints/>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
                     </rowConstraints>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false"
-                            onAction="#productClick" styleClass="click-button" text="Αποθήκη" textAlignment="CENTER">
+                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#productClick" styleClass="click-button" text="Αποθήκη" textAlignment="CENTER">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/products.png"/>
+                                <Image url="@icons/products.png" />
                             </ImageView>
                         </graphic>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false"
-                            onAction="#ordersClick" styleClass="click-button" text="Παραγγελίες" textAlignment="CENTER"
-                            GridPane.rowIndex="1">
+                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#ordersClick" styleClass="click-button" text="Παραγγελίες" textAlignment="CENTER" GridPane.rowIndex="1">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/order.png"/>
+                                <Image url="@icons/order.png" />
                             </ImageView>
                         </graphic>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false"
-                            onAction="#departmentsClick" styleClass="click-button" text="Επιστροφές"
-                            textAlignment="CENTER" GridPane.rowIndex="2">
+                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#returnsClick" styleClass="click-button" text="Επιστροφές" textAlignment="CENTER" GridPane.rowIndex="2">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/return.png"/>
+                                <Image url="@icons/return.png" />
                             </ImageView>
                         </graphic>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false"
-                            onAction="#suppliersClick" styleClass="click-button" text="Προμηθευτές"
-                            textAlignment="CENTER" GridPane.columnIndex="1">
+                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#suppliersClick" styleClass="click-button" text="Προμηθευτές" textAlignment="CENTER" GridPane.columnIndex="1">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/supplier.png"/>
+                                <Image url="@icons/supplier.png" />
                             </ImageView>
                         </graphic>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false"
-                            onAction="#buysClick" styleClass="click-button" text="Αγορές" textAlignment="CENTER"
-                            GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#buysClick" styleClass="click-button" text="Αγορές" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/buys.png"/>
+                                <Image url="@icons/buys.png" />
                             </ImageView>
                         </graphic>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false"
-                            onAction="#intrashipmentClick" styleClass="click-button" text="Ενδοδιακίνηση"
-                            textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#intrashipmentClick" styleClass="click-button" text="Ενδοδιακίνηση" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/transfer.png"/>
+                                <Image url="@icons/transfer.png" />
                             </ImageView>
                         </graphic>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false"
-                            onAction="#statisticsClick" styleClass="click-button" text="Στατιστηκά"
-                            textAlignment="CENTER" GridPane.rowIndex="3">
+                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#statisticsClick" styleClass="click-button" text="Στατιστηκά" textAlignment="CENTER" GridPane.rowIndex="3">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/statistics.png"/>
+                                <Image url="@icons/statistics.png" />
                             </ImageView>
                         </graphic>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false"
-                            onAction="#settingsClick" styleClass="click-button" text="Ρυθμίσεις" textAlignment="CENTER"
-                            GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#settingsClick" styleClass="click-button" text="Ρυθμίσεις" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/setting.png"/>
+                                <Image url="@icons/setting.png" />
                             </ImageView>
                         </graphic>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
                 </GridPane>
@@ -131,11 +106,11 @@
             <top>
                 <HBox alignment="CENTER" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
-                        <Insets bottom="20.0" top="10.0"/>
+                        <Insets bottom="20.0" top="10.0" />
                     </BorderPane.margin>
                     <Label styleClass="header-label" text="Warehouse v4">
                         <font>
-                            <Font size="38.0"/>
+                            <Font size="38.0" />
                         </font>
                     </Label>
                 </HBox>

@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.example.warehouse.DepartmentsController" stylesheets="@external.css">
+           fx:controller="com.example.warehouse.ReturnsController" stylesheets="@external.css">
     <BorderPane minHeight="800.0" minWidth="1200.0">
         <top>
             <HBox alignment="CENTER" BorderPane.alignment="CENTER">
@@ -114,7 +114,7 @@
                                     <Insets right="20.0"/>
                                 </padding>
                             </Label>
-                            <TableView fx:id="supReturnsTable" prefHeight="698.0" prefWidth="1200.0">
+                            <TableView fx:id="supReturnsTable" prefHeight="698.0" prefWidth="1200.0" stylesheets="@external.css" VBox.vgrow="ALWAYS">
                                 <contextMenu>
                                     <ContextMenu>
                                         <items>
@@ -137,7 +137,7 @@
                                     <Insets right="20.0"/>
                                 </padding>
                             </Label>
-                            <TableView fx:id="depReturnsTable" prefHeight="698.0" prefWidth="1200.0">
+                            <TableView fx:id="depReturnsTable" prefHeight="698.0" prefWidth="1200.0" stylesheets="@external.css" VBox.vgrow="ALWAYS">
                                 <contextMenu>
                                     <ContextMenu>
                                         <items>
