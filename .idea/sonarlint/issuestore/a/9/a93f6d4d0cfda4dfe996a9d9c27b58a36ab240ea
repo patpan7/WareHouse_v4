@@ -1,18 +1,129 @@
 
-_
-java:S1192–"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷
-k	java:S117{"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒÔ»Úúÿÿÿÿ
-g	java:S117°"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’
-w
-java:S1450%"aRemove the "observableListItem" field and declare it as a local variable in the relevant methods.(åÆä®
-E	java:S106"+Replace this use of System.out by a logger.(ŞÆ­Ûşÿÿÿÿ
-F	java:S106¢"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
-F	java:S106¥"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
-F	java:S106Õ"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ
-F	java:S106Ø"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ
+m
+java:S1192Ë"PDefine a constant instead of duplicating this literal "Response Code: " 4 times.(ÁØÕx8Í³¢‚à1
+k
+java:S1192Ù"HDefine a constant instead of duplicating this literal "http://" 7 times.(ƒÔ»Úúÿÿÿÿ8Ô³¢‚à1
+o
+java:S1192²"QDefine a constant instead of duplicating this literal "application/json" 4 times.(¿Å¨º8Ö³¢‚à1
+k
+java:S1192ó"HDefine a constant instead of duplicating this literal "success" 3 times.(Â¶×Áıÿÿÿÿ8×³¢‚à1
+j
+java:S1192ñ"GDefine a constant instead of duplicating this literal "status" 3 times.(øòÆÀûÿÿÿÿ8Ø³¢‚à1
+Œ
+java:S1192„"iDefine a constant instead of duplicating this literal "HTTP request failed with response code: " 3 times.(Ù£ˆùÿÿÿÿ8ß³¢‚à1
+n
+java:S1192Ö"KDefine a constant instead of duplicating this literal "Response: " 4 times.(ÍĞŒÙüÿÿÿÿ8æ³¢‚à1
+k
+java:S1192²"MDefine a constant instead of duplicating this literal "Content-Type" 4 times.(¿Å¨º8ç³¢‚à1
+l
+java:S1192"IDefine a constant instead of duplicating this literal "Failed: " 3 times.(êäöÿÿÿÿÿ8ç³¢‚à1
+g
+java:S1192•"IDefine a constant instead of duplicating this literal "quantity" 3 times.(ñÄëù8è³¢‚à1
+f
+java:S1192ô"HDefine a constant instead of duplicating this literal "message" 6 times.(Ï˜¯÷8é³¢‚à1
+s	java:S117Ù"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒÔ»Úúÿÿÿÿ8ó³¢‚à1
+s	java:S117ø"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–ë¼ûÿÿÿÿ8õ³¢‚à1
+n	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’8÷³¢‚à1
+s	java:S117Ã"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8ù³¢‚à1
+n	java:S117Ä"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8û³¢‚à1
+s	java:S117å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8û³¢‚à1
+f
+java:S2259•"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ğ¯ƒà1
+f
+java:S2259 "HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ğ¯ƒà1
+h
+java:S2259 "JA "NullPointerException" could be thrown; "existingItem" is nullable here.(ƒå­Ñ8ï¯ƒà1
+h
+java:S2259•"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(ƒå­Ñ8ğ¯ƒà1
+k
+java:S2259®"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(œïôüüÿÿÿÿ8ñ¯ƒà1
+l
+java:S3655¡"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8½¢‚à1
+l
+java:S3655Ü"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8³ùÍ‚à1
+l
+java:S3655æ"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8½¢‚à1
+l
+java:S3655¦"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ñŞ‚à1
+o
+java:S6204e"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ƒ¾¢‚à1
+L	java:S106z"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8–¾¢‚à1
+M	java:S106ƒ"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8œ¾¢‚à1
+M	java:S106İ"+Replace this use of System.out by a logger.(ŞÆ­Ûşÿÿÿÿ8™¿¢‚à1
+M	java:S106"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8è¿¢‚à1
+M	java:S106„"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8é¿¢‚à1
+b
+java:S1117"?Rename "departments" which hides the field declared at line 57.(ˆú•Ãÿÿÿÿÿ8ï¿¢‚à1
+M	java:S106´"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ƒÀ¢‚à1
+M	java:S106·"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8„À¢‚à1
+M	java:S106î"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8µÀ¢‚à1
+M	java:S106ñ"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8¸À¢‚à1
+u
+java:S3776û"RRefactor this method to reduce its Cognitive Complexity from 52 to the 15 allowed.(°Ö×ıÿÿÿÿ8ÊÀ¢‚à1
+^
+java:S1854¾";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8ÓÀ¢‚à1
+^	java:S125ÿ"<This block of commented-out lines of code should be removed.(¤Ë—²üÿÿÿÿ8¡ûœƒà1
+Y	java:S125†"<This block of commented-out lines of code should be removed.(ë¿¡µ8åÀ¢‚à1
+M	java:S106ˆ"+Replace this use of System.out by a logger.(Áƒ€“şÿÿÿÿ8éÀ¢‚à1
+H	java:S106"+Replace this use of System.out by a logger.(êËĞ®8ÿÀ¢‚à1
+M	java:S106š"+Replace this use of System.out by a logger.(À‘¾áøÿÿÿÿ8‡Á¢‚à1
+H	java:S106§"+Replace this use of System.out by a logger.(öÔŞ†8Á¢‚à1
+M	java:S106©"+Replace this use of System.out by a logger.(”çÙşûÿÿÿÿ8”Á¢‚à1
+G	java:S106³"+Replace this use of System.out by a logger.(²û’Q8™Á¢‚à1
+O
+java:S1481¾",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8¤Á¢‚à1
+U
+java:S1172È"2Remove this unused method parameter "actionEvent".(­—íİúÿÿÿÿ8©Á¢‚à1
+P
+java:S1172å"2Remove this unused method parameter "actionEvent".(ğ‚Á³8³Á¢‚à1
+^	java:S125õ"<This block of commented-out lines of code should be removed.(ÒÄôÅøÿÿÿÿ8Ú¤ƒà1
+u
+java:S3776ş"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(—Éïûÿÿÿÿ8ÖÁ¢‚à1
+W
+java:S1854ƒ"9Remove this useless assignment to local variable "items".(¾æºæ8×Á¢‚à1
+^
+java:S1854Œ";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8×Á¢‚à1
+^
+java:S1854Ÿ";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8×Á¢‚à1
+^
+java:S1854¥";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8×Á¢‚à1
+U
+java:S1172ş"2Remove this unused method parameter "actionEvent".(—Éïûÿÿÿÿ8ßÁ¢‚à1
 H
-java:S1172ã",Remove this unused method parameter "event".(Í»¬Äùÿÿÿÿ
-N
-java:S1172é"2Remove this unused method parameter "actionEvent".(‰Ú¨ûÿÿÿÿ
+java:S1481ƒ"*Remove this unused "items" local variable.(¾æºæ8åÁ¢‚à1
+^	java:S125…"<This block of commented-out lines of code should be removed.(ÜÓ¥°şÿÿÿÿ8çÁ¢‚à1
+y
+java:S2159†"VRemove this call to "equals"; comparisons between unrelated types always return false.(¼±Ÿ·ÿÿÿÿÿ8çÁ¢‚à1
+O
+java:S1481Œ",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8ïÁ¢‚à1
+M	java:S106"+Replace this use of System.out by a logger.(Äøû øÿÿÿÿ8ñÁ¢‚à1
+M	java:S106”"+Replace this use of System.out by a logger.( …üøıÿÿÿÿ8óÁ¢‚à1
+H	java:S106˜"+Replace this use of System.out by a logger.(ùÍÓ–8õÁ¢‚à1
+O
+java:S1481Ÿ",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8÷Á¢‚à1
+O
+java:S1481¥",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8ûÁ¢‚à1
+H	java:S106Á"+Replace this use of System.out by a logger.(ÕºÅã8…Â¢‚à1
+G	java:S106Ë"+Replace this use of System.out by a logger.(ÁØÕx8‹Â¢‚à1
+M	java:S106Ö"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8™Â¢‚à1
+H	java:S106†"+Replace this use of System.out by a logger.(ÕºÅã8ºÂ¢‚à1
+G	java:S106"+Replace this use of System.out by a logger.(ÁØÕx8¿Â¢‚à1
+M	java:S106›"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ÈÂ¢‚à1
+H	java:S106Ë"+Replace this use of System.out by a logger.(ÕºÅã8ßÂ¢‚à1
+G	java:S106Õ"+Replace this use of System.out by a logger.(ÁØÕx8ãÂ¢‚à1
+M	java:S106à"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8èÂ¢‚à1
+H	java:S106‹"+Replace this use of System.out by a logger.(ÕºÅã8ª†Ü‚à1
+G	java:S106•"+Replace this use of System.out by a logger.(ÁØÕx8¬†Ü‚à1
+M	java:S106 "+Replace this use of System.out by a logger.(ØˆÕüÿÿÿÿ8®†Ü‚à1
+b
+java:S4968½"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8ôÂ¢‚à1
+_
+java:S6353ß"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8¸Ã¢‚à1
+_
+java:S6353ß"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8¹Ã¢‚à1
 J
-java:S1172î",Remove this unused method parameter "event".(™™È«8ŠˆÉİÍ1
+java:S1172‹",Remove this unused method parameter "event".(™™È«8ÑÃ¢‚à1
+Q
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8¤²ƒà1
+é
+java:S6541û"ÅA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 70 to 64, Complexity from 15 to 14, Nesting Level from 6 to 2, Number of Variables from 19 to 6.(°Ö×ıÿÿÿÿ8îÃ¢‚à1

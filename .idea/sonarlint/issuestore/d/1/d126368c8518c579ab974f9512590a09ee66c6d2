@@ -40,22 +40,22 @@ m
 java:S1104%"PMake root a static final constant or non-public and provide accessors if needed.(Ş–›­8ƒ·ãÔØ1
 k
 java:S2259¹"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(½ëãĞøÿÿÿÿ8èºãÔØ1
+m
+java:S2259Æ"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(­ˆƒüÿÿÿÿ8çºãÔØ1
 k
 java:S2259Ç"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(½ëãĞøÿÿÿÿ8èºãÔØ1
 m
 java:S2259¸"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(­ˆƒüÿÿÿÿ8çºãÔØ1
-m
-java:S2259Æ"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(­ˆƒüÿÿÿÿ8çºãÔØ1
 e
 java:S2259×"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(áåR8èºãÔØ1
-l
-java:S3655€"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8èºãÔØ1
 l
 java:S3655"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8èºãÔØ1
 l
 java:S3655Ğ"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8èºãÔØ1
 l
 java:S3655–"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8èºãÔØ1
+l
+java:S3655€"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8èºãÔØ1
 l
 java:S3655È"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8èºãÔØ1
 t
