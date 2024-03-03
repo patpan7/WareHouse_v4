@@ -433,13 +433,14 @@ public class ItemsController implements Initializable {
             int enable = 0;
             if (tfEnable.isSelected())
                 enable = 1;
-
-            updateRequest(selectedProduct.getItem_code(), nameField.getText(), BigDecimal.valueOf(Long.parseLong(priceField.getText())), unitField.getValue().toString(), categoryCode.get(), enable);
+            BigDecimal price = new BigDecimal(priceField.getText());
+            updateRequest(selectedProduct.getItem_code(), nameField.getText(), price, unitField.getValue().toString(), categoryCode.get(), enable);
             // Ενημέρωση του επιλεγμένου αντικειμένου στη λίστα
             selectedProduct.setName(nameField.getText());
-            selectedProduct.setPrice(BigDecimal.valueOf(Long.parseLong(priceField.getText())));
+            selectedProduct.setPrice(price);
             selectedProduct.setUnit(unitField.getValue().toString());
             selectedProduct.setCategory_code(categoryCode.get());
+            selectedProduct.print();
             if (tfEnable.isSelected())
                 selectedProduct.setEnable(1);
             else
