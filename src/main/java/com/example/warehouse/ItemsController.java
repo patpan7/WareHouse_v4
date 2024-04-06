@@ -434,10 +434,11 @@ public class ItemsController implements Initializable {
             if (tfEnable.isSelected())
                 enable = 1;
 
-            updateRequest(selectedProduct.getItem_code(), nameField.getText(), BigDecimal.valueOf(Long.parseLong(priceField.getText())), unitField.getValue().toString(), categoryCode.get(), enable);
+            BigDecimal price = new BigDecimal(priceField.getText());
+            updateRequest(selectedProduct.getItem_code(), nameField.getText(), price, unitField.getValue().toString(), categoryCode.get(), enable);
             // Ενημέρωση του επιλεγμένου αντικειμένου στη λίστα
             selectedProduct.setName(nameField.getText());
-            selectedProduct.setPrice(BigDecimal.valueOf(Long.parseLong(priceField.getText())));
+            selectedProduct.setPrice(price);
             selectedProduct.setUnit(unitField.getValue().toString());
             selectedProduct.setCategory_code(categoryCode.get());
             if (tfEnable.isSelected())
@@ -446,7 +447,7 @@ public class ItemsController implements Initializable {
                 selectedProduct.setEnable(0);
             // Ανανέωση του TableView
 //                itemsTable.refresh();
-            tableInit();
+            //tableInit();
 
             // Ενημέρωση του φίλτρου με βάση την επιλεγμένη κατηγορία
             Category selectedCategory = categoryFiled.getValue();
@@ -517,7 +518,11 @@ public class ItemsController implements Initializable {
                 TextField tfName = (TextField) loader.getNamespace().get("tfName");
                 TextField tfPrice = (TextField) loader.getNamespace().get("tfPrice");
                 String name = tfName.getText();
-                BigDecimal price = new BigDecimal(tfPrice.getText());
+                BigDecimal price;
+                if (tfPrice.getText().isEmpty())
+                    price = new BigDecimal(0);
+                else
+                    price = new BigDecimal(tfPrice.getText());
                 String unit = unitComboBox.getValue().toString();
                 CheckBox tfEnable = (CheckBox) loader.getNamespace().get("tfEnable");
                 int enable = 0;
@@ -732,7 +737,7 @@ public class ItemsController implements Initializable {
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
             Item itemData = new Item(code, name, unit, price, category_code, enable);
-
+            itemData.print();
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);
 

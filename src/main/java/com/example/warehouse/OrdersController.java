@@ -22,13 +22,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -108,7 +106,7 @@ public class OrdersController implements Initializable {
         String API_URL = "http://"+server+"/warehouse/ordersGetAll.php";
         List<Order> orders = new ArrayList<>();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String dateFrom1 = dateFrom.getValue().format(formatter);
             String dateTo1 = dateTo.getValue().format(formatter);
             URL url = new URL(API_URL + "?dateFrom=" + dateFrom1 + "&dateTo=" + dateTo1);
@@ -140,7 +138,9 @@ public class OrdersController implements Initializable {
                         int totalProducts = itemNode.get("totalProducts").asInt();
                         String date = itemNode.get("date").asText();
 
-                        Order order = new Order(date, totalProducts);
+                        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                        String date2 = new SimpleDateFormat("dd/MM/yyyy").format(date1);
+                        Order order = new Order(date2, totalProducts);
                         orders.add(order);
                     }
                 } else {
@@ -154,6 +154,8 @@ public class OrdersController implements Initializable {
             connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return orders;
     }

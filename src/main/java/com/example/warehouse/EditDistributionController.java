@@ -27,6 +27,8 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -217,7 +219,9 @@ public class EditDistributionController implements Initializable {
         String API_URL = "http://" + server + "/warehouse/itemsGetAllDistribution.php";
         List<Item> items = new ArrayList<>();
         try {
-            URL url = new URL(API_URL + "?date=" + selectedDistribution.getDate() + "&department=" + selectedDistribution.getDepartment());
+            Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(selectedDistribution.getDate());
+            String date2 = new SimpleDateFormat("yyyy-MM-dd").format(date1);
+            URL url = new URL(API_URL + "?date=" + date2 + "&department=" + selectedDistribution.getDepartment());
             System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -263,6 +267,8 @@ public class EditDistributionController implements Initializable {
             connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return items;
     }
@@ -469,13 +475,14 @@ public class EditDistributionController implements Initializable {
             items.remove(selectedProduct);
 
             // Βρείτε το αντίστοιχο αντικείμενο στην αρχική λίστα
-            Item originalItem = dbList.stream()
+            Item originalItem = itemsAutoComplete.stream()
                     .filter(item -> item.getItem_code() == selectedProduct.getItem_code())
                     .findFirst()
                     .orElse(null);
 
             // Προσθέστε το quantity του επιλεγμένου αντικειμένου στην αρχική λίστα
             if (originalItem != null) {
+                originalItem.print();
                 originalItem.setQuantity(originalItem.getQuantity().add(selectedProduct.getQuantity()));
                 tfTotalQuantity.setText(String.valueOf(originalItem.getQuantity()));
             }
@@ -510,7 +517,7 @@ public class EditDistributionController implements Initializable {
     public void saveAction(ActionEvent actionEvent) {
         if (tfDepartment.getValue() != null){
             if (!distributionTable.getItems().isEmpty()){
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 String date = dtf.format(tfDate.getValue());
                 ObservableList<Item> items = distributionTable.getItems();
                 int departmentcode = tfDepartment.getValue().getCode();

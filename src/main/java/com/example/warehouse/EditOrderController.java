@@ -29,6 +29,8 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -178,7 +180,9 @@ public class EditOrderController implements Initializable {
         String API_URL = "http://" + server + "/warehouse/itemsGetAllOrder.php";
         List<Item> items = new ArrayList<>();
         try {
-            URL url = new URL(API_URL + "?date=" + selectedOrder.getDate());
+            Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(selectedOrder.getDate());
+            String date2 = new SimpleDateFormat("yyyy-MM-dd").format(date1);
+            URL url = new URL(API_URL + "?date=" + date2);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -225,6 +229,8 @@ public class EditOrderController implements Initializable {
             connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return items;
     }

@@ -21,12 +21,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class BuysController implements Initializable {
@@ -109,7 +108,7 @@ public class BuysController implements Initializable {
         String API_URL = "http://"+server+"/warehouse/buysGetAll.php";
         List<Buys> buys = new ArrayList<>();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String dateFrom1 = dateFrom.getValue().format(formatter);
             String dateTo1 = dateTo.getValue().format(formatter);
             URL url = new URL(API_URL + "?dateFrom=" + dateFrom1 + "&dateTo=" + dateTo1);
@@ -141,11 +140,13 @@ public class BuysController implements Initializable {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
                         String date = itemNode.get("date").asText();
+                        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                        String date2 = new SimpleDateFormat("dd/MM/yyyy").format(date1);
                         String invoice = itemNode.get("invoice").asText();
                         Float total = Float.parseFloat(itemNode.get("total").asText());
                         int suppliercode = itemNode.get("suppliercode").asInt();
 
-                        Buys buy = new Buys (code, name,date, invoice, total,suppliercode);
+                        Buys buy = new Buys (code, name,date2, invoice, total,suppliercode);
                         buys.add(buy);
                     }
                 } else {
@@ -159,6 +160,8 @@ public class BuysController implements Initializable {
             connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return buys;
     }

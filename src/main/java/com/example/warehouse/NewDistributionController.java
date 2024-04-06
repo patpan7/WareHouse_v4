@@ -420,7 +420,7 @@ public class NewDistributionController implements Initializable {
     public void saveAction(ActionEvent actionEvent) {
         if (tfDepartment.getValue() != null){
             if (!distributionTable.getItems().isEmpty()){
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     String date = dtf.format(tfDate.getValue());
                     ObservableList<Item> items = distributionTable.getItems();
                     int departmentcode = tfDepartment.getValue().getCode();

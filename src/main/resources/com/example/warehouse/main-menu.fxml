@@ -41,7 +41,7 @@
                             <Insets />
                         </GridPane.margin>
                     </Button>
-                    <Button contentDisplay="TOP" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#returnsClick" styleClass="click-button" text="Επιστροφές" textAlignment="CENTER" GridPane.rowIndex="2">
+                    <Button contentDisplay="TOP" disable="true" minHeight="100.0" minWidth="220.0" mnemonicParsing="false" onAction="#returnsClick" styleClass="click-button" text="Επιστροφές" textAlignment="CENTER" GridPane.rowIndex="2">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@icons/return.png" />

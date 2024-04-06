@@ -1,34 +1,35 @@
 
-g	java:S112d"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ö³ËÕØ1
+g	java:S112c"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ö³ËÕØ1
+h	java:S112á"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8¥ë¥ªë1
 k
-java:S1192¯"HDefine a constant instead of duplicating this literal "http://" 3 times.(Û‘ş®ùÿÿÿÿ8ù³ËÕØ1
+java:S1192®"HDefine a constant instead of duplicating this literal "http://" 3 times.(Û‘ş®ùÿÿÿÿ8ù³ËÕØ1
 f
-java:S1192Ì"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷8ù³ËÕØ1
-s	java:S117¯"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Û‘ş®ùÿÿÿÿ8ú³ËÕØ1
-n	java:S117å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’8ú³ËÕØ1
+java:S1192Ë"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷8ù³ËÕØ1
+s	java:S117®"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Û‘ş®ùÿÿÿÿ8ú³ËÕØ1
+n	java:S117ç"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’8ú³ËÕØ1
 c
-java:S1874J"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(Ó½ÕÙûÿÿÿÿ8Ç´ËÕØ1
+java:S1874I"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(Ó½ÕÙûÿÿÿÿ8Ç´ËÕØ1
 I
-java:S1602j",Remove useless curly braces around statement(ŒàñÈ8Ì´ËÕØ1
+java:S1602i",Remove useless curly braces around statement(ŒàñÈ8Ì´ËÕØ1
 N
-java:S1602n",Remove useless curly braces around statement(£ÖÂîùÿÿÿÿ8Í´ËÕØ1
+java:S1602m",Remove useless curly braces around statement(£ÖÂîùÿÿÿÿ8Í´ËÕØ1
 I
-java:S1602r",Remove useless curly braces around statement(³ŒÔæ8Î´ËÕØ1
-G	java:S106"+Replace this use of System.out by a logger.(è‹µ¸8Î´ËÕØ1
-H	java:S106€"+Replace this use of System.out by a logger.(ı¢©¥8Ï´ËÕØ1
+java:S1602q",Remove useless curly braces around statement(³ŒÔæ8Î´ËÕØ1
+G	java:S106~"+Replace this use of System.out by a logger.(è‹µ¸8Î´ËÕØ1
+G	java:S106"+Replace this use of System.out by a logger.(ı¢©¥8Ï´ËÕØ1
 M	java:S106×"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ô´ËÕØ1
 M	java:S106Ú"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ô´ËÕØ1
-M	java:S106Š"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ø´ËÕØ1
-M	java:S106"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ø´ËÕØ1
+M	java:S106Œ"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ø´ËÕØ1
+M	java:S106"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ø´ËÕØ1
 O
-java:S1172˜",Remove this unused method parameter "event".(ÇĞ¶Ëşÿÿÿÿ8ù´ËÕØ1
+java:S1172š",Remove this unused method parameter "event".(ÇĞ¶Ëşÿÿÿÿ8ù´ËÕØ1
 9
-java:S3626»"Remove this redundant jump.(ûÁİ…8ÚÓõÕØ1
+java:S3626½"Remove this redundant jump.(ûÁİ…8ÚÓõÕØ1
 O
-java:S1172 "2Remove this unused method parameter "actionEvent".(£è8ÛÓõÕØ1
-H	java:S106±"+Replace this use of System.out by a logger.(‹Œ×¹8àÓõÕØ1
-H	java:S106à"+Replace this use of System.out by a logger.(ÕºÅã8æÓõÕØ1
-G	java:S106é"+Replace this use of System.out by a logger.(ÁØÕx8èÓõÕØ1
-M	java:S106ô"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8êÓõÕØ1
+java:S1172¢"2Remove this unused method parameter "actionEvent".(£è8ÛÓõÕØ1
+H	java:S106³"+Replace this use of System.out by a logger.(‹Œ×¹8àÓõÕØ1
+H	java:S106â"+Replace this use of System.out by a logger.(ÕºÅã8æÓõÕØ1
+G	java:S106ë"+Replace this use of System.out by a logger.(ÁØÕx8èÓõÕØ1
+M	java:S106ö"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8êÓõÕØ1
 J
-java:S1172ˆ",Remove this unused method parameter "event".(™™È«8‹µËÕØ1
+java:S1172Š",Remove this unused method parameter "event".(™™È«8‹µËÕØ1

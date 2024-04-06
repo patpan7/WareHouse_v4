@@ -537,7 +537,7 @@ public class EditBuyController implements Initializable {
         if (tfSupplier.getValue() != null) {
             if (!tfInvoice.getText().isEmpty()) {
                 if (!buyTable.getItems().isEmpty()) {
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     String newDate = dtf.format(tfDate.getValue());
                     ObservableList<Item> items = buyTable.getItems();
                     int newSupplierCode = tfSupplier.getValue().getCode();

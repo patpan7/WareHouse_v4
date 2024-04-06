@@ -294,7 +294,7 @@ public class NewOrderController implements Initializable {
 
                     System.out.println("PDF created successfully: " + outputFile.getAbsolutePath());
                 }
-                dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 String date = dtf.format(orderDate.getValue());
                 System.out.println(date);
                 ObservableList<Item> items = orderTable.getItems();

@@ -21,8 +21,6 @@ g
 7src/main/java/com/example/warehouse/BuysController.java,6\1\61f738214beb17637bbd265fa03cfc753ac865b0
 a
 1src/main/java/com/example/warehouse/Category.java,f\f\ffdf7a45d622d4e0b14d4ec882e6930847fc9773
-n
->src/main/java/com/example/warehouse/DepartmentsController.java,1\f\1fe29eb9479f421f5cd71f36763ad6a9502ee192
 a
 1src/main/java/com/example/warehouse/MainMenu.java,9\a\9a692a09840eb890ab08b14aa2638a6aa3b6efd7
 l
@@ -57,8 +55,6 @@ Q.idea/sonarlint/securityhotspotstore/6/a/6a27f053fdcedd510e93ece66150e76cbad68b
 Q.idea/sonarlint/securityhotspotstore/6/1/61f738214beb17637bbd265fa03cfc753ac865b0,0\8\08c2c304b2a16953422abaedb0f938d1edcf5b2e
 Å
 Q.idea/sonarlint/securityhotspotstore/9/a/9a692a09840eb890ab08b14aa2638a6aa3b6efd7,4\0\40f87d8145a0b5916347353f12dcecfd5511f03a
-Å
-Q.idea/sonarlint/securityhotspotstore/1/f/1fe29eb9479f421f5cd71f36763ad6a9502ee192,8\6\86cab77b5298bee61ad4ab145b96b545469e5fe0
 Å
 Q.idea/sonarlint/securityhotspotstore/9/c/9ccfb67239851759fef1e060f300470c20636603,e\c\ece68e4f691b4b2b8aea8d1c90c02e0b352c2fe0
 Å

@@ -24,12 +24,11 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DistributionController implements Initializable {
     @FXML
@@ -175,7 +174,7 @@ public class DistributionController implements Initializable {
         String API_URL = "http://"+server+"/warehouse/distributionGetAll.php";
         List<Distribution> distributions = new ArrayList<>();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String dateFrom1 = dateFrom.getValue().format(formatter);
             String dateTo1 = dateTo.getValue().format(formatter);
             URL url = new URL(API_URL + "?dateFrom=" + dateFrom1 + "&dateTo=" + dateTo1);
@@ -206,8 +205,9 @@ public class DistributionController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         String department = itemNode.get("department").asText();
                         String date = itemNode.get("date").asText();
-
-                        Distribution distribution = new Distribution(department,date);
+                        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                        String date2 = new SimpleDateFormat("dd/MM/yyyy").format(date1);
+                        Distribution distribution = new Distribution(department,date2);
                         distributions.add(distribution);
                     }
                 } else {
@@ -221,6 +221,8 @@ public class DistributionController implements Initializable {
             connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return distributions;
     }
