@@ -3,29 +3,29 @@ h	java:S112€"FDefine and throw a dedicated exception instead of using a gener
 R
 java:S3740€"/Provide the parametrized type for this generic.(„ÕêØüÿÿÿÿ8ßõ™©ë1
 R
-java:S3740Ó"/Provide the parametrized type for this generic.(ù«Íàûÿÿÿÿ8ßõ™©ë1
+java:S3740Ó"/Provide the parametrized type for this generic.(ù«Íàûÿÿÿÿ8±‘²®ë1
 m
-java:S1192Í"PDefine a constant instead of duplicating this literal "Response Code: " 3 times.(ÁØÕx8áõ™©ë1
+java:S1192Í"PDefine a constant instead of duplicating this literal "Response Code: " 3 times.(ÁØÕx8´‘²®ë1
 k
 java:S1192Ô"HDefine a constant instead of duplicating this literal "http://" 6 times.(è¤Á‹øÿÿÿÿ8áõ™©ë1
 y
 java:S1192°"[Define a constant instead of duplicating this literal "Î Î±Ï„Î®Î¸Î·ÎºÎµ Ï„Î¿ ÎŸÎš" 3 times.(‹Œ×¹8âõ™©ë1
+Œ
+java:S1192€"iDefine a constant instead of duplicating this literal "HTTP request failed with response code: " 3 times.(Ù£ˆùÿÿÿÿ8âõ™©ë1
+n
+java:S1192Ø"KDefine a constant instead of duplicating this literal "Response: " 3 times.(ÍĞŒÙüÿÿÿÿ8µ‘²®ë1
+k
+java:S1192¹"MDefine a constant instead of duplicating this literal "Content-Type" 3 times.(¿Å¨º8¶‘²®ë1
+l
+java:S1192ı"IDefine a constant instead of duplicating this literal "Failed: " 3 times.(êäöÿÿÿÿÿ8âõ™©ë1
 o
-java:S1192¹"QDefine a constant instead of duplicating this literal "application/json" 3 times.(¿Å¨º8âõ™©ë1
+java:S1192¹"QDefine a constant instead of duplicating this literal "application/json" 3 times.(¿Å¨º8¶‘²®ë1
+f
+java:S1192î"HDefine a constant instead of duplicating this literal "message" 6 times.(Ï˜¯÷8âõ™©ë1
 k
 java:S1192í"HDefine a constant instead of duplicating this literal "success" 3 times.(Â¶×Áıÿÿÿÿ8âõ™©ë1
 j
 java:S1192ë"GDefine a constant instead of duplicating this literal "status" 3 times.(øòÆÀûÿÿÿÿ8âõ™©ë1
-Œ
-java:S1192€"iDefine a constant instead of duplicating this literal "HTTP request failed with response code: " 3 times.(Ù£ˆùÿÿÿÿ8âõ™©ë1
-n
-java:S1192Ø"KDefine a constant instead of duplicating this literal "Response: " 3 times.(ÍĞŒÙüÿÿÿÿ8âõ™©ë1
-k
-java:S1192¹"MDefine a constant instead of duplicating this literal "Content-Type" 3 times.(¿Å¨º8âõ™©ë1
-l
-java:S1192ı"IDefine a constant instead of duplicating this literal "Failed: " 3 times.(êäöÿÿÿÿÿ8âõ™©ë1
-f
-java:S1192î"HDefine a constant instead of duplicating this literal "message" 6 times.(Ï˜¯÷8âõ™©ë1
 m	java:S117J"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÂÜÙğ8äõ™©ë1
 m	java:S117Q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±Õèë8äõ™©ë1
 s	java:S117Ô"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8åõ™©ë1
@@ -34,8 +34,8 @@ s	java:S117ö"QRename this local variable to match the regular expression '^[a
 n	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òåÈ±8åõ™©ë1
 s	java:S117Á"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿºøìüÿÿÿÿ8åõ™©ë1
 s	java:S117Â"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áêöóøÿÿÿÿ8åõ™©ë1
-m	java:S117°"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß’æ|8åõ™©ë1
-n	java:S117Ó"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿ¿îæ8åõ™©ë1
+m	java:S117°"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß’æ|8¾‘²®ë1
+n	java:S117Ó"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿ¿îæ8¿‘²®ë1
 t
 java:S3776/"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(•‘İŸüÿÿÿÿ8ùö™©ë1
 ^
@@ -60,31 +60,31 @@ M	java:S106æ"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8Æ÷™©ë1
 M	java:S106é"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8Ç÷™©ë1
 Y	java:S125¦"<This block of commented-out lines of code should be removed.(Ã§®Ä8Ü÷™©ë1
 H	java:S106°"+Replace this use of System.out by a logger.(‹Œ×¹8İ÷™©ë1
-Y	java:S125Á"<This block of commented-out lines of code should be removed.(ºÒé‹8á÷™©ë1
+Y	java:S125Á"<This block of commented-out lines of code should be removed.(ºÒé‹8È–²®ë1
 p
-java:S3776Ê"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(²íÍÎ8â÷™©ë1
+java:S3776Ê"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(²íÍÎ8É–²®ë1
 9
-java:S3626˜"Remove this redundant jump.(ûÁİ…8ã÷™©ë1
+java:S3626˜"Remove this redundant jump.(ûÁİ…8Ë–²®ë1
 P
-java:S1172Ê"2Remove this unused method parameter "actionEvent".(²íÍÎ8ä÷™©ë1
-H	java:S106…"+Replace this use of System.out by a logger.(‹Œ×¹8ì÷™©ë1
-Y	java:S125¡"<This block of commented-out lines of code should be removed.(ºÒé‹8ñ÷™©ë1
-H	java:S106Ä"+Replace this use of System.out by a logger.(ÕºÅã8ó÷™©ë1
-G	java:S106Í"+Replace this use of System.out by a logger.(ÁØÕx8ô÷™©ë1
-M	java:S106Ø"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8õ÷™©ë1
+java:S1172Ê"2Remove this unused method parameter "actionEvent".(²íÍÎ8¸ø™©ë1
+H	java:S106…"+Replace this use of System.out by a logger.(‹Œ×¹8„ø™©ë1
+Y	java:S125¡"<This block of commented-out lines of code should be removed.(ºÒé‹8Û–²®ë1
+H	java:S106Ä"+Replace this use of System.out by a logger.(ÕºÅã8…ø™©ë1
+G	java:S106Í"+Replace this use of System.out by a logger.(ÁØÕx8á–²®ë1
+M	java:S106Ø"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ã–²®ë1
 9
-java:S3626ş"Remove this redundant jump.(ûÁİ…8ö÷™©ë1
+java:S3626ş"Remove this redundant jump.(ûÁİ…8ä–²®ë1
 U
-java:S1172ã"2Remove this unused method parameter "actionEvent".(±óà½üÿÿÿÿ8÷÷™©ë1
-H	java:S106ô"+Replace this use of System.out by a logger.(‹Œ×¹8ù÷™©ë1
-H	java:S106¤"+Replace this use of System.out by a logger.(ÕºÅã8ı÷™©ë1
-G	java:S106­"+Replace this use of System.out by a logger.(ÁØÕx8ı÷™©ë1
-M	java:S106¸"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ÿ÷™©ë1
+java:S1172ã"2Remove this unused method parameter "actionEvent".(±óà½üÿÿÿÿ8å–²®ë1
+H	java:S106ô"+Replace this use of System.out by a logger.(‹Œ×¹8ç–²®ë1
+H	java:S106¤"+Replace this use of System.out by a logger.(ÕºÅã8ì–²®ë1
+G	java:S106­"+Replace this use of System.out by a logger.(ÁØÕx8í–²®ë1
+M	java:S106¸"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ï–²®ë1
 ]
-java:S1854Ë":Remove this useless assignment to local variable "result".(Ãë¿²şÿÿÿÿ8€ø™©ë1
+java:S1854Ë":Remove this useless assignment to local variable "result".(Ãë¿²şÿÿÿÿ8ğ–²®ë1
 N
-java:S1481Ë"+Remove this unused "result" local variable.(Ãë¿²şÿÿÿÿ8ø™©ë1
-G	java:S106ğ"+Replace this use of System.out by a logger.(ÁØÕx8„ø™©ë1
-M	java:S106û"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8…ø™©ë1
+java:S1481Ë"+Remove this unused "result" local variable.(Ãë¿²şÿÿÿÿ8ñ–²®ë1
+G	java:S106ğ"+Replace this use of System.out by a logger.(ÁØÕx8õ–²®ë1
+M	java:S106û"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ö–²®ë1
 U
-java:S1172§"2Remove this unused method parameter "actionEvent".(ã¹ú£ûÿÿÿÿ8¸ø™©ë1
+java:S1172§"2Remove this unused method parameter "actionEvent".(ã¹ú£ûÿÿÿÿ8ş–²®ë1

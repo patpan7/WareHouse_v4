@@ -114,3 +114,11 @@ c
 3src/main/java/com/example/warehouse/Department.java,8\c\8c1795a618c727a4687dfeceeadd5bb125d3f8a1
 j
 :src/main/java/com/example/warehouse/ReturnsController.java,1\6\165819ceff80cc0b626dd1f65c3b6bf12e59bc06
+h
+8src/main/java/com/example/warehouse/ItemsStatistics.java,6\d\6de2c98730a523dab2265d57a8ed30408ace869f
+m
+=src/main/java/com/example/warehouse/StatisticsController.java,b\d\bd91df8bf399a696917b18d8f52fdd7c3c8f3693
+m
+=src/main/java/com/example/warehouse/DepartmentStatistics.java,b\9\b9a305e5b6df29da90d5a79e702aa18daea2a72f
+l
+<src/main/java/com/example/warehouse/SuppliersStatistics.java,7\d\7d5afeaca96b9a6788cd86880b01880ca87d2b91
