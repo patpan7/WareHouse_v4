@@ -45,24 +45,24 @@
             <Insets right="20.0" top="10.0" />
          </opaqueInsets>
          <VBox.margin>
-            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            <Insets left="20.0" right="20.0" top="10.0" />
          </VBox.margin>
         </HBox>
 
         <!-- Κουμπιά για την εμφάνιση των πανελ -->
         <HBox alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" onAction="#itemStatisticsClick" styleClass="click-button" text="Αποθήκη" HBox.hgrow="ALWAYS">
+                <Button fx:id="btnItems" cache="true" mnemonicParsing="false" onAction="#itemStatisticsClick" styleClass="click-button" text="Αποθήκη" HBox.hgrow="ALWAYS">
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#suppliersStatisticsClick" styleClass="click-button" text="Προμηθευτές">
+                <Button fx:id="btnSuppliers" mnemonicParsing="false" onAction="#suppliersStatisticsClick" styleClass="click-button" text="Προμηθευτές">
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#departmentStatisticsClick" styleClass="click-button" text="Τμήματα">
+                <Button fx:id="btnDepartments" mnemonicParsing="false" onAction="#departmentStatisticsClick" styleClass="click-button" text="Τμήματα">
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                     </HBox.margin>

@@ -7,6 +7,7 @@ public class Buys {
     String invoice;
     Float total;
     int suppliercode;
+    int totalinvoices;
 
     public Buys(int code, String name, String date, String invoice, Float total, int suppliercode) {
         this.code = code;
@@ -15,6 +16,13 @@ public class Buys {
         this.invoice = invoice;
         this.total = total;
         this.suppliercode = suppliercode;
+    }
+
+    public Buys(int code, String name, int totalInvoices, Float total) {
+        this.suppliercode = code;
+        this.name = name;
+        this.totalinvoices = totalInvoices;
+        this.total = total;
     }
 
     public int getCode() {return code;}
@@ -59,6 +67,14 @@ public class Buys {
 
     public void setSuppliercode(int suppliercode) {
         this.suppliercode = suppliercode;
+    }
+
+    public int getTotalinvoices() {
+        return totalinvoices;
+    }
+
+    public void setTotalinvoices(int totalinvoices) {
+        this.totalinvoices = totalinvoices;
     }
 }
 

@@ -47,7 +47,7 @@ java:S1126b"AReplace this if-then-else statement by a single return statement.(
 O
 java:S1602‡",Remove useless curly braces around statement(²»”úùÿÿÿÿ8‰÷™©ë1
 v
-java:S1602’"SRemove useless curly braces around statement and then remove useless return keyword(êˆµŽúÿÿÿÿ8‹÷™©ë1
+java:S1602’"SRemove useless curly braces around statement and then remove useless return keyword(êˆµŽúÿÿÿÿ8ÑÝ—Àí1
 X	java:S125£"<This block of commented-out lines of code should be removed.(¹ð¹8÷™©ë1
 ^	java:S125¨"<This block of commented-out lines of code should be removed.(æãùþúÿÿÿÿ8÷™©ë1
 M	java:S106ý"+Replace this use of System.out by a logger.(êŽäöÿÿÿÿÿ8»÷™©ë1

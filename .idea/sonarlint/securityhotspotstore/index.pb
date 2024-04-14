@@ -23,8 +23,6 @@ a
 1src/main/java/com/example/warehouse/Category.java,f\f\ffdf7a45d622d4e0b14d4ec882e6930847fc9773
 a
 1src/main/java/com/example/warehouse/MainMenu.java,9\a\9a692a09840eb890ab08b14aa2638a6aa3b6efd7
-l
-<src/main/java/com/example/warehouse/StatistcsController.java,9\c\9ccfb67239851759fef1e060f300470c20636603
 a
 1src/main/java/com/example/warehouse/Supplier.java,f\4\f4955761c36c8427b8b707ea9ee3e2aa0906209f
 l
@@ -55,8 +53,6 @@ Q.idea/sonarlint/securityhotspotstore/6/a/6a27f053fdcedd510e93ece66150e76cbad68b
 Q.idea/sonarlint/securityhotspotstore/6/1/61f738214beb17637bbd265fa03cfc753ac865b0,0\8\08c2c304b2a16953422abaedb0f938d1edcf5b2e
 
 Q.idea/sonarlint/securityhotspotstore/9/a/9a692a09840eb890ab08b14aa2638a6aa3b6efd7,4\0\40f87d8145a0b5916347353f12dcecfd5511f03a
-
-Q.idea/sonarlint/securityhotspotstore/9/c/9ccfb67239851759fef1e060f300470c20636603,e\c\ece68e4f691b4b2b8aea8d1c90c02e0b352c2fe0
 
 Q.idea/sonarlint/securityhotspotstore/8/d/8ddef345d60a27be0795dfdb4975a680889131b0,7\4\748ceabc5af021166079f40a606c1d75989498d1
 w
