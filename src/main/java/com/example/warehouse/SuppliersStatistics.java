@@ -84,6 +84,35 @@ public class SuppliersStatistics implements Initializable {
         filteredData = new FilteredList<>(observableList, b -> true); // Δημιουργία του φιλτραρισμένου δεδομένου
         statisticsTable.setItems(filteredData); // Χρήση του φιλτραρισμένου δεδομένου για την ενημέρωση του πίνακα
     }
+    /*
+        private void tableInit() {
+        if (supplierList == null) {
+            supplierInit();
+        }
+        fetchDataFromMySQLIfNeeded(); // Νέα γραμμή
+
+        // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
+        observableListItem = FXCollections.observableArrayList(allItems);
+        filteredData = new FilteredList<>(observableListItem, b -> true);
+        TreeItem<Item> root = new TreeItem<>();
+        root.setExpanded(true);
+        for (Supplier supplier : supplierList) {
+            FilteredList<Item> itemsForSuppliers = filteredData.filtered(item -> item.getSupplier().equals(supplier.getName()));
+
+            // Εάν ο προμηθευτής έχει είδη, προσθέστε το στο δέντρο
+            if (!itemsForSuppliers.isEmpty()) {
+                TreeItem<Item> supplierNode = new TreeItem<>(new Item("Προμηθευτής: "+supplier.getName()));
+                for (Item item : itemsForSuppliers) {
+                    supplierNode.getChildren().add(new TreeItem<>(item));
+                }
+                root.getChildren().add(supplierNode);
+            }
+        }
+        statisticsTable.setRoot(root);
+        root.setExpanded(true);
+        statisticsTable.setShowRoot(false);
+    }
+     */
 
     private List<Buys> fetchDataFromMySQL() {
         String API_URL = "http://"+server+"/warehouse/suppliersStatistics.php";

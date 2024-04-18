@@ -1,11 +1,19 @@
 package com.example.warehouse;
 
+import java.math.BigDecimal;
+
 public class Supplier {
     int code;
     String name;
     String phone;
     float turnover;
     int enable;
+
+    int item_code;
+    double total_quantity;
+    BigDecimal total_sum;
+    BigDecimal average_price;
+    String unit;
 
     public Supplier() {
     }
@@ -36,6 +44,19 @@ public class Supplier {
         this.name = name;
         this.phone = phone;
         this.enable = enable;
+    }
+
+    public Supplier(String name) {
+        this.name = name;
+    }
+
+    public Supplier(int itemCode, String supplierName, double totalQuantity, BigDecimal totalSum, BigDecimal averagePrice, String unit) {
+        this.item_code = itemCode;
+        this.name = supplierName;
+        this.total_quantity = totalQuantity;
+        this.total_sum = totalSum;
+        this.average_price = averagePrice;
+        this.unit = unit;
     }
 
     public int getCode() {
@@ -76,5 +97,45 @@ public class Supplier {
 
     public void setEnable(int enable) {
         this.enable = enable;
+    }
+
+    public int getItem_code() {
+        return item_code;
+    }
+
+    public void setItem_code(int item_code) {
+        this.item_code = item_code;
+    }
+
+    public double getTotal_quantity() {
+        return total_quantity;
+    }
+
+    public void setTotal_quantity(double total_quantity) {
+        this.total_quantity = total_quantity;
+    }
+
+    public BigDecimal getTotal_sum() {
+        return total_sum;
+    }
+
+    public void setTotal_sum(BigDecimal total_sum) {
+        this.total_sum = total_sum;
+    }
+
+    public BigDecimal getAverage_price() {
+        return average_price;
+    }
+
+    public void setAverage_price(BigDecimal average_price) {
+        this.average_price = average_price;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

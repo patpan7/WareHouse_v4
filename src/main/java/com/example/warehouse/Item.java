@@ -13,6 +13,7 @@ public class Item {
     BigDecimal sum = BigDecimal.ZERO;
     int enable;
     String department;
+    String supplier;
 
     public Item() {
     }
@@ -116,6 +117,32 @@ public class Item {
         this.name = name;
     }
 
+    public Item(int code, String name, BigDecimal quantity, String unit, BigDecimal price, BigDecimal totalSum, int categoryCode, String supplierName) {
+        this.code = code;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.price = price;
+        this.sum = totalSum;
+        this.category_code = categoryCode;
+        this.supplier = supplierName;
+    }
+
+    public Item(int code, String name, int category_code) {
+        this.code = code;
+        this.name = name;
+        this.category_code = category_code;
+    }
+
+    public Item(int itemCode, String supplierName, BigDecimal totalQuantity, BigDecimal totalSum, BigDecimal averagePrice, String unit) {
+        this.item_code = itemCode;
+        this.name = supplierName;
+        this.quantity = totalQuantity;
+        this.sum = totalSum;
+        this.price = averagePrice;
+        this.unit = unit;
+    }
+
     public int getEnable() {
         return enable;
     }
@@ -195,6 +222,14 @@ public class Item {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
     }
 
     public void print() {

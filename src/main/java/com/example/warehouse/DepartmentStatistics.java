@@ -7,9 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 
 import java.io.BufferedReader;
@@ -21,7 +19,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -86,11 +83,7 @@ public class DepartmentStatistics implements Initializable {
 
         departmentInit();
         departmentField.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) {
-                updateFilteredItems(null); // Αν η νέα επιλογή είναι null, επαναφέρετε όλα τα δεδομένα
-            } else {
-                updateFilteredItems(newValue); // Κανονική ενημέρωση με βάση τη νέα επιλογή
-            }
+            updateFilteredItems(newValue); // Κανονική ενημέρωση με βάση τη νέα επιλογή
         });
 
 
@@ -121,7 +114,7 @@ public class DepartmentStatistics implements Initializable {
 
             // Εάν το τμήμα έχει είδη, προσθέστε το στο δέντρο
             if (!itemsForDepartment.isEmpty()) {
-                TreeItem<Item> departmentNode = new TreeItem<>(new Item(department.getName()));
+                TreeItem<Item> departmentNode = new TreeItem<>(new Item("Τμήμα: "+department.getName()));
 
                 for (Item item : itemsForDepartment) {
                     departmentNode.getChildren().add(new TreeItem<>(item));
@@ -136,8 +129,6 @@ public class DepartmentStatistics implements Initializable {
         statisticsTable.setRoot(root);
         // Ανοίγει τα παιδιά του κάθε τμήματος
         root.setExpanded(true);
-
-        statisticsTable.setRoot(root);
         statisticsTable.setShowRoot(false);
 
         for (TreeItem<Item> item : root.getChildren()) {
@@ -306,7 +297,7 @@ public class DepartmentStatistics implements Initializable {
 
     private void updateFilteredItems(Department selectedDepartment) {
         //fetchDataFromMySQLIfNeeded();
-        if (selectedDepartment == null) {
+        if (selectedDepartment.getName().equals("")) {
             // Αν δεν υπάρχει επιλεγμένη κατηγορία, εμφάνιση όλων των ειδών
             filteredData.setPredicate(item -> true);
         } else {
@@ -331,7 +322,7 @@ public class DepartmentStatistics implements Initializable {
             FilteredList<Item> itemsForDepartment = filteredData.filtered(item -> item.getDepartment().equals(department.getName()));
 
             if (!itemsForDepartment.isEmpty()) {
-                TreeItem<Item> departmentNode = new TreeItem<>(new Item(department.getName()));
+                TreeItem<Item> departmentNode = new TreeItem<>(new Item("Τμήμα: "+department.getName()));
 
                 for (Item item : itemsForDepartment) {
                     departmentNode.getChildren().add(new TreeItem<>(item));

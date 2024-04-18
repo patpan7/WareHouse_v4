@@ -60,10 +60,10 @@
                     <ComboBox fx:id="departmentField" prefHeight="51.0" prefWidth="300.0" />
                 </HBox>
             </VBox>
-            <TreeTableView fx:id="statisticsTable" styleClass="table-view" stylesheets="@external.css" VBox.vgrow="ALWAYS">
-                <columnResizePolicy>
-                    <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                </columnResizePolicy>
+            <TreeTableView fx:id="statisticsTable" showRoot="false" stylesheets="@modena.css" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+               <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
             </TreeTableView>
         </VBox>
     </center>

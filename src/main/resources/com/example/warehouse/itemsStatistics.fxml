@@ -77,11 +77,11 @@
                     <ComboBox fx:id="categoryFiled" prefHeight="51.0" prefWidth="300.0" />
                 </HBox>
             </VBox>
-            <TableView fx:id="statisticsTable" stylesheets="@external.css" VBox.vgrow="ALWAYS">
+            <TreeTableView fx:id="statisticsTable" showRoot="false" VBox.vgrow="ALWAYS">
                 <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
-            </TableView>
+            </TreeTableView>
         </VBox>
     </center>
 </BorderPane>

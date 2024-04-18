@@ -2,6 +2,7 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.StackPane;
 
 import java.io.BufferedReader;
@@ -26,7 +28,7 @@ public class ItemsStatistics implements Initializable {
 
     String server;
     @FXML
-    TableView<Item> statisticsTable;
+    TreeTableView<Item> statisticsTable;
     @FXML
     TextField filterField;
     @FXML
@@ -40,6 +42,9 @@ public class ItemsStatistics implements Initializable {
     List<Category> categories;
     ObservableList<Item> observableListItem;
     FilteredList<Item> filteredData;
+    List<Supplier> supplierList;
+    List<Item> allItems;
+    List<Item> itemSuppliersStatistics;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.loadSetting("server");
@@ -50,70 +55,106 @@ public class ItemsStatistics implements Initializable {
         // Σημερινή ημερομηνία
         dateTo.setValue(LocalDate.now());
 
-        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
-        codeColumn.setCellValueFactory(new PropertyValueFactory<>("item_code"));
+        TreeTableColumn<Item, Integer> codeColumn = new TreeTableColumn<>("Κωδικός");
+        codeColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
+        codeColumn.setCellFactory(column -> new TreeTableCell<Item, Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
 
-        TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        TableColumn<Item, BigDecimal> quantityColumn = new TableColumn<>("Συνολική Ποσότητα");
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
-        TableColumn<Item, String> unitColumn = new TableColumn<>("Μονάδα");
-        unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
-
-        TableColumn<Item, BigDecimal> priceColumn = new TableColumn<>("Τιμή");
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        statisticsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
-        tableInit();
-
-        statisticsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        // Wrap the ObservableList in a FilteredList (initially display all data).
-        filteredData = new FilteredList<>(observableListItem, b -> true);
-
-        // 2. Set the filter Predicate whenever the filter changes.
-        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(Item -> {
-                // If filter text is empty, display all persons.
-
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
+                // Ελέγξτε αν η τιμή του κωδικού είναι μηδενική και αποκρύψτε το κελί αν είναι
+                if (empty || item == null || item == 0) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(String.valueOf(item));
                 }
-
-                String ValToSearch = newValue.toUpperCase();
-                char[] chars = ValToSearch.toCharArray();
-                for (int i = 0; i < chars.length; i++) {
-                    Character repl = ENGLISH_TO_GREEK.get(chars[i]);
-                    if (repl != null) {
-                        chars[i] = repl;
-                    }
-                }
-                String newValToSearch = new String(chars);
-
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValToSearch.toLowerCase();
-
-                if (Item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; // Filter matches first name.
-                } else if (String.valueOf(Item.getItem_code()).indexOf(lowerCaseFilter) != -1) {
-                    return true; // Filter matches last name.
-                } else if (Item.getUnit().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                    return true;
-                else
-                    return false; // Does not match.
-            });
+            }
         });
 
-        // 3. Wrap the FilteredList in a SortedList.
-        SortedList<Item> sortedData = new SortedList<>(filteredData);
 
-        // 4. Bind the SortedList comparator to the TableView comparator.
-        // 	  Otherwise, sorting the TableView would have no effect.
-        sortedData.comparatorProperty().bind(statisticsTable.comparatorProperty());
+        TreeTableColumn<Item, String> nameColumn = new TreeTableColumn<>("Όνομα");
+        nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
 
-        // 5. Add sorted (and filtered) data to the table.
-        statisticsTable.setItems(sortedData);
+        TreeTableColumn<Item, BigDecimal> quantityColumn = new TreeTableColumn<>("Συνολική Ποσότητα");
+        quantityColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("quantity"));
+
+        TreeTableColumn<Item, BigDecimal> totalSumColumn = new TreeTableColumn<>("Συνολικό Κόστος");
+        totalSumColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("sum"));
+        totalSumColumn.setCellFactory(column -> new TreeTableCell<Item, BigDecimal>() {
+            @Override
+            protected void updateItem(BigDecimal item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Ελέγξτε αν η τιμή είναι μηδενική ή κενή και αποκρύψτε το κελί αν είναι
+                if (empty || item == null || item.equals(BigDecimal.ZERO)) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
+
+        TreeTableColumn<Item, String> unitColumn = new TreeTableColumn<>("Μονάδα");
+        unitColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("unit"));
+
+        TreeTableColumn<Item, BigDecimal> priceColumn = new TreeTableColumn<>("Μέση τιμή");
+        priceColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("price"));
+
+
+        statisticsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn,totalSumColumn, unitColumn, priceColumn);
+
+        supplierInit();
+
+        tableInit();
+//TODO: Η λειτουργία είναι σωστή. Πρέπει να φτιαχτεί όταν αλλάζεις ημερομηνία να δουλεύει σωστά και όταν επιλέγω κατηγορία.
+
+//        // Wrap the ObservableList in a FilteredList (initially display all data).
+//        filteredData = new FilteredList<>(observableListItem, b -> true);
+//
+//        // 2. Set the filter Predicate whenever the filter changes.
+//        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            filteredData.setPredicate(Item -> {
+//                // If filter text is empty, display all persons.
+//
+//                if (newValue == null || newValue.isEmpty()) {
+//                    return true;
+//                }
+//
+//                String ValToSearch = newValue.toUpperCase();
+//                char[] chars = ValToSearch.toCharArray();
+//                for (int i = 0; i < chars.length; i++) {
+//                    Character repl = ENGLISH_TO_GREEK.get(chars[i]);
+//                    if (repl != null) {
+//                        chars[i] = repl;
+//                    }
+//                }
+//                String newValToSearch = new String(chars);
+//
+//                // Compare first name and last name of every person with filter text.
+//                String lowerCaseFilter = newValToSearch.toLowerCase();
+//
+//                if (Item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+//                    return true; // Filter matches first name.
+//                } else if (String.valueOf(Item.getItem_code()).indexOf(lowerCaseFilter) != -1) {
+//                    return true; // Filter matches last name.
+//                } else if (Item.getUnit().toLowerCase().indexOf(lowerCaseFilter) != -1)
+//                    return true;
+//                else
+//                    return false; // Does not match.
+//            });
+//        });
+//
+//        // 3. Wrap the FilteredList in a SortedList.
+//        SortedList<Item> sortedData = new SortedList<>(filteredData);
+//
+//        // 4. Bind the SortedList comparator to the TableView comparator.
+//        // 	  Otherwise, sorting the TableView would have no effect.
+//        sortedData.comparatorProperty().bind((ObservableValue<? extends Comparator<? super Item>>) statisticsTable.comparatorProperty());
+//
+//        // 5. Add sorted (and filtered) data to the table.
+//        statisticsTable.setItems(sortedData);
 
         categoryInit();
         categoryFiled.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -131,12 +172,52 @@ public class ItemsStatistics implements Initializable {
     }
 
     private void tableInit() {
-        List<Item> items1 = fetchDataFromMySQL();
-        // Προσθήκη των προϊόντων στο ObservableList για την παρακολούθηση των αλλαγών
-        observableListItem = FXCollections.observableArrayList(items1);
-        statisticsTable.setItems(observableListItem);
-        categoryFiled.getSelectionModel().select(0);
+        if (allItems == null) {
+            fetchItemsFromMySQLIfNeeded();
+        }
+
+        if (itemSuppliersStatistics == null) {
+            fetchitemsStatisticsFromMySQLIfNeeded();
+        }
+
+        TreeItem<Item> root = new TreeItem<>();
+        root.setExpanded(true);
+
+        for (Item item : allItems) {
+            // Έλεγχος αν υπάρχουν αγορές για το συγκεκριμένο είδος
+            boolean hasPurchases = false;
+            for (Item purchase : itemSuppliersStatistics) {
+                if (purchase.getItem_code() == item.getCode()) {
+                    hasPurchases = true;
+                    break;
+                }
+            }
+
+            // Προσθήκη του είδους στο δέντρο μόνο αν υπάρχουν αγορές για αυτό
+            if (hasPurchases) {
+                TreeItem<Item> itemNode = new TreeItem<>(item);
+
+                for (Item purchase : itemSuppliersStatistics) {
+                    if (purchase.getItem_code() == item.getCode()) {
+                        purchase.setName("    "+purchase.name);
+                        TreeItem<Item> purchaseNode = new TreeItem<>(purchase);
+                        itemNode.getChildren().add(purchaseNode);
+                    }
+                }
+
+                root.getChildren().add(itemNode);
+            }
+        }
+
+        statisticsTable.setRoot(root);
+        statisticsTable.setShowRoot(false);
+        for (TreeItem<Item> item : root.getChildren()) {
+            // Ανοίγει τα παιδιά του κάθε τμήματος
+            item.setExpanded(true);
+        }
     }
+
+
 
     private void categoryInit() {
         categories = fetchCatFromMySQL();
@@ -171,15 +252,30 @@ public class ItemsStatistics implements Initializable {
         });
     }
 
-    private List<Item> fetchDataFromMySQL() {
-        String API_URL = "http://" + server + "/warehouse/itemsStatistics.php";
+    private void supplierInit() {
+        supplierList = fetchSupFromMySQL();
+        if (supplierList.isEmpty()) {
+            System.out.println("Η λίστα των Προμηθευτών είναι κενή.");
+        }
+    }
+
+    private void fetchItemsFromMySQLIfNeeded() {
+        if (allItems == null) {
+            allItems = fetchItemsFromMySQL();
+        }
+    }
+
+    private void fetchitemsStatisticsFromMySQLIfNeeded() {
+        if (itemSuppliersStatistics == null)
+            itemSuppliersStatistics = fetchitemsStatisticsFromMySQL();
+    }
+
+    private List<Item> fetchItemsFromMySQL() {
+        String API_URL = "http://" + server + "/warehouse/itemsGetAll.php";
         List<Item> Items = new ArrayList<>();
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String dateFrom1 = dateFrom.getValue().format(formatter);
-            String dateTo1 = dateTo.getValue().format(formatter);
 
-            URL url = new URL(API_URL + "?dateFrom=" + dateFrom1 + "&dateTo=" + dateTo1);
+            URL url = new URL(API_URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -207,11 +303,8 @@ public class ItemsStatistics implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
-                        String unit = itemNode.get("unit").asText();
-                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
                         int category_code = itemNode.get("category_code").asInt();
-                        Item item = new Item(code, name, quantity, unit, price, category_code);
+                        Item item = new Item(code, name,category_code);
                         Items.add(item);
                     }
                 } else {
@@ -229,6 +322,66 @@ public class ItemsStatistics implements Initializable {
 
         return Items;
 
+    }
+
+    private List<Item> fetchitemsStatisticsFromMySQL() {
+        String API_URL = "http://" + server + "/warehouse/itemsStatistics.php";
+        List<Item> Items = new ArrayList<>();
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String dateFrom1 = dateFrom.getValue().format(formatter);
+            String dateTo1 = dateTo.getValue().format(formatter);
+
+            URL url = new URL(API_URL + "?dateFrom=" + dateFrom1 + "&dateTo=" + dateTo1);
+            System.out.println(url);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        int item_code = itemNode.get("code").asInt();
+                        String supplier_name = itemNode.get("supplier_name").asText();
+                        BigDecimal total_quantity = BigDecimal.valueOf(itemNode.get("total_quantity").asDouble());
+                        BigDecimal total_sum = BigDecimal.valueOf(itemNode.get("total_sum").asDouble());
+                        BigDecimal average_price = BigDecimal.valueOf(itemNode.get("average_price").asDouble());
+                        String unit = itemNode.get("unit").asText();
+                        Item item = new Item(item_code, supplier_name, total_quantity, total_sum, average_price, unit);
+                        Items.add(item);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Items;
     }
 
     private List<Category> fetchCatFromMySQL() {
@@ -281,6 +434,57 @@ public class ItemsStatistics implements Initializable {
         }
 
         return categories;
+    }
+
+    private List<Supplier> fetchSupFromMySQL(){
+        String API_URL = "http://"+server+"/warehouse/suppliersGetAll.php";
+        List<Supplier> suppliers = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        String name = itemNode.get("name").asText();
+
+                        Supplier supplier = new Supplier(name);
+                        suppliers.add(supplier);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return suppliers;
     }
 
     private void updateFilteredItems(Category selectedCategory) {
