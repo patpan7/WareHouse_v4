@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -52,6 +53,8 @@ public class NewBuyController implements Initializable {
     TextField tfQuantity;
     @FXML
     TextField tfPrice;
+    @FXML
+    TextField tfTotalPrice;
     @FXML
     TextField tfSum;
     @FXML
@@ -144,6 +147,16 @@ public class NewBuyController implements Initializable {
                 System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
             }
         });
+
+        tfTotalPrice.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                BigDecimal totalPrice = new BigDecimal(newValue);
+                BigDecimal quantity = new BigDecimal(tfQuantity.getText());
+                BigDecimal price = totalPrice.divide(quantity, RoundingMode.HALF_UP);
+                tfPrice.setText(price.toString());
+            }
+        });
+
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

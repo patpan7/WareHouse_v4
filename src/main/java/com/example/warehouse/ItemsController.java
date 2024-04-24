@@ -446,7 +446,7 @@ public class ItemsController implements Initializable {
             else
                 selectedProduct.setEnable(0);
             // Ανανέωση του TableView
-//                itemsTable.refresh();
+            itemsTable.refresh();
             //tableInit();
 
             // Ενημέρωση του φίλτρου με βάση την επιλεγμένη κατηγορία

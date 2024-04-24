@@ -4,6 +4,7 @@ module com.example.warehouse {
     requires com.fasterxml.jackson.databind;
     requires org.controlsfx.controls;
     requires html2pdf;
+    //requires html2pdf;
 
 
     opens com.example.warehouse to javafx.fxml;

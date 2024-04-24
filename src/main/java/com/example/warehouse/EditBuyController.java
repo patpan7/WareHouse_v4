@@ -20,6 +20,7 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -322,7 +323,7 @@ public class EditBuyController implements Initializable {
                         BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
                         String unit = itemNode.get("unit").asText();
                         BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
-                        BigDecimal sum = BigDecimal.valueOf(itemNode.get("sum").asDouble());
+                        BigDecimal sum = BigDecimal.valueOf(itemNode.get("sum").asDouble()).setScale(2, RoundingMode.HALF_UP);
                         Item item = new Item(code, item_code, name, quantity, unit, price, sum);
                         items.add(item);
                     }
@@ -420,8 +421,8 @@ public class EditBuyController implements Initializable {
             autocomplete();
 
             String itemName = tfName.getText();
-            BigDecimal quantity = new BigDecimal(tfQuantity.getText());
-            BigDecimal price = new BigDecimal(tfPrice.getText());
+            BigDecimal quantity = new BigDecimal(tfQuantity.getText()).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal price = new BigDecimal(tfPrice.getText()).setScale(2, RoundingMode.HALF_UP);
 
             if (observableListItem.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
                 System.out.println("to eidos einai ston pinaka");

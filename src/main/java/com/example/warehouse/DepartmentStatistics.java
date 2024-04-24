@@ -218,7 +218,7 @@ public class DepartmentStatistics implements Initializable {
 
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
-                        String name = itemNode.get("name").asText();
+                        String name = "    "+itemNode.get("name").asText();
                         BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
                         String unit = itemNode.get("unit").asText();
                         String department = itemNode.get("depname").asText();

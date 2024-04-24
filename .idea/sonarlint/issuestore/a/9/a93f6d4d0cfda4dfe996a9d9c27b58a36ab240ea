@@ -29,23 +29,23 @@ s	java:S117É"QRename this local variable to match the regular expression '^[a
 n	java:S117Ê"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üŽûÛ8»Ÿß«ë1
 s	java:S117ë"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8»Ÿß«ë1
 f
-java:S2259¦"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ë ß«ë1
-f
 java:S2259›"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ê ß«ë1
-k
-java:S2259´"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(œïôüüÿÿÿÿ8ë ß«ë1
-h
-java:S2259¦"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(ƒå­Ñ8ë ß«ë1
 h
 java:S2259›"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(ƒå­Ñ8ë ß«ë1
-l
-java:S3655¨"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ë ß«ë1
-l
-java:S3655­"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ë ß«ë1
+h
+java:S2259¦"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(ƒå­Ñ8ë ß«ë1
+f
+java:S2259¦"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(ƒå­Ñ8ë ß«ë1
+k
+java:S2259´"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(œïôüüÿÿÿÿ8ë ß«ë1
 l
 java:S3655í"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ë ß«ë1
 l
 java:S3655ã"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ë ß«ë1
+l
+java:S3655­"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ë ß«ë1
+l
+java:S3655¨"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ë ß«ë1
 o
 java:S6204g"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8ø ß«ë1
 L	java:S106|"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8û ß«ë1

@@ -23,27 +23,27 @@ s	java:S117Ô"QRename this local variable to match the regular expression '^[a
 s	java:S117ù"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8Û†Òªë1
 n	java:S117ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üŽûÛ8Û†Òªë1
 s	java:S117›"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8Û†Òªë1
+m
+java:S2259È"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(½ëãÐøÿÿÿÿ8ˆ‡¢êð1
+k
+java:S2259Ó"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(½ëãÐøÿÿÿÿ8‡‡¢êð1
+m
+java:S2259Ó"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(½ëãÐøÿÿÿÿ8ˆ‡¢êð1
 e
-java:S2259á"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(áŽåR8ªˆÒªë1
+java:S2259á"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(áŽåR8†‡¢êð1
 k
-java:S2259Ó"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(½ëãÐøÿÿÿÿ8ªˆÒªë1
-k
-java:S2259È"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(½ëãÐøÿÿÿÿ8ªˆÒªë1
-m
-java:S2259Ó"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(½ëãÐøÿÿÿÿ8ªˆÒªë1
-m
-java:S2259È"JA "NullPointerException" could be thrown; "existingItem" is nullable here.(½ëãÐøÿÿÿÿ8ªˆÒªë1
+java:S2259È"HA "NullPointerException" could be thrown; "insertItem" is nullable here.(½ëãÐøÿÿÿÿ8†‡¢êð1
 l
-java:S3655Ä"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ªˆÒªë1
+java:S3655‚"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8‰‡¢êð1
 l
-java:S3655‚"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ªˆÒªë1
+java:S3655‰"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8‹‡¢êð1
 l
-java:S3655‰"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ªˆÒªë1
+java:S3655Ä"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8Š‡¢êð1
 U
-java:S2589‹"7Remove this expression which always evaluates to "true"(Ÿ…¼ª8ªˆÒªë1
+java:S2589‹"7Remove this expression which always evaluates to "true"(Ÿ…¼ª8®‡¢êð1
 E	java:S108U")Either remove or fill this block of code.(å¥ž‡8·ˆÒªë1
 o
-java:S6204["RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8¸ˆÒªë1
+java:S6204["RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8Ë‡¢êð1
 L	java:S106q"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8»ˆÒªë1
 L	java:S106y"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8¼ˆÒªë1
 Y	java:S125Œ"<This block of commented-out lines of code should be removed.(¾ŠåÏ8¿ˆÒªë1
@@ -92,8 +92,8 @@ java:S4968Ý"?Replace this type parametrization by the 'final' type `String`.(€
 J
 java:S1172ð",Remove this unused method parameter "event".(™™È«8Ë‰Òªë1
 k
-java:S1128"IRemove this unused import 'javafx.scene.control.cell.TextFieldTableCell'.(¦’âÄùÿÿÿÿ8áßÕªë1
+java:S1128"IRemove this unused import 'javafx.scene.control.cell.TextFieldTableCell'.(¦’âÄùÿÿÿÿ8Æ”Îëð1
 Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8áßÕªë1
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8Æ”Îëð1
 n
-java:S1128"LRemove this unused import 'javafx.util.converter.BigDecimalStringConverter'.(ô˜Ý÷ýÿÿÿÿ8áßÕªë1
+java:S1128"LRemove this unused import 'javafx.util.converter.BigDecimalStringConverter'.(ô˜Ý÷ýÿÿÿÿ8Ç”Îëð1

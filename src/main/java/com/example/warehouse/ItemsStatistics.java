@@ -2,22 +2,19 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.layout.StackPane;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -108,7 +105,6 @@ public class ItemsStatistics implements Initializable {
         supplierInit();
 
         tableInit();
-//TODO: Η λειτουργία είναι σωστή. Πρέπει να φτιαχτεί όταν αλλάζεις ημερομηνία να δουλεύει σωστά και όταν επιλέγω κατηγορία.
 
 //        // Wrap the ObservableList in a FilteredList (initially display all data).
 //        filteredData = new FilteredList<>(observableListItem, b -> true);
@@ -172,13 +168,12 @@ public class ItemsStatistics implements Initializable {
     }
 
     private void tableInit() {
-        if (allItems == null) {
-            fetchItemsFromMySQLIfNeeded();
-        }
 
-        if (itemSuppliersStatistics == null) {
-            fetchitemsStatisticsFromMySQLIfNeeded();
-        }
+        allItems = fetchItemsFromMySQL();
+        itemSuppliersStatistics = fetchitemsStatisticsFromMySQL();
+
+        observableListItem = FXCollections.observableArrayList(allItems);
+        filteredData = new FilteredList<>(observableListItem, b -> true);
 
         TreeItem<Item> root = new TreeItem<>();
         root.setExpanded(true);
@@ -199,7 +194,7 @@ public class ItemsStatistics implements Initializable {
 
                 for (Item purchase : itemSuppliersStatistics) {
                     if (purchase.getItem_code() == item.getCode()) {
-                        purchase.setName("    "+purchase.name);
+                        purchase.setName(purchase.name);
                         TreeItem<Item> purchaseNode = new TreeItem<>(purchase);
                         itemNode.getChildren().add(purchaseNode);
                     }
@@ -259,16 +254,6 @@ public class ItemsStatistics implements Initializable {
         }
     }
 
-    private void fetchItemsFromMySQLIfNeeded() {
-        if (allItems == null) {
-            allItems = fetchItemsFromMySQL();
-        }
-    }
-
-    private void fetchitemsStatisticsFromMySQLIfNeeded() {
-        if (itemSuppliersStatistics == null)
-            itemSuppliersStatistics = fetchitemsStatisticsFromMySQL();
-    }
 
     private List<Item> fetchItemsFromMySQL() {
         String API_URL = "http://" + server + "/warehouse/itemsGetAll.php";
@@ -360,10 +345,10 @@ public class ItemsStatistics implements Initializable {
 
                     for (JsonNode itemNode : messageNode) {
                         int item_code = itemNode.get("code").asInt();
-                        String supplier_name = itemNode.get("supplier_name").asText();
+                        String supplier_name = "    " + itemNode.get("supplier_name").asText();
                         BigDecimal total_quantity = BigDecimal.valueOf(itemNode.get("total_quantity").asDouble());
-                        BigDecimal total_sum = BigDecimal.valueOf(itemNode.get("total_sum").asDouble());
-                        BigDecimal average_price = BigDecimal.valueOf(itemNode.get("average_price").asDouble());
+                        BigDecimal total_sum = BigDecimal.valueOf(itemNode.get("total_sum").asDouble()).setScale(2, RoundingMode.HALF_UP);
+                        BigDecimal average_price = BigDecimal.valueOf(itemNode.get("average_price").asDouble()).setScale(2, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
                         Item item = new Item(item_code, supplier_name, total_quantity, total_sum, average_price, unit);
                         Items.add(item);
@@ -494,8 +479,50 @@ public class ItemsStatistics implements Initializable {
         } else {
             // Φιλτράρισμα των ειδών με βάση την επιλεγμένη κατηγορία
             filteredData.setPredicate(item -> {
+                System.out.println("Filtering " + item.getCategory_code() + " with " + selectedCategory.getCode());
                 return item.getCategory_code() == selectedCategory.getCode();
             });
+        }
+        TreeItem<Item> root = statisticsTable.getRoot();
+        root.getChildren().clear();
+        tableInitFiltered();
+    }
+
+    private void tableInitFiltered() {
+        TreeItem<Item> root = new TreeItem<>();
+        root.setExpanded(true);
+
+        for (Item item : filteredData) {
+            // Έλεγχος αν υπάρχουν αγορές για το συγκεκριμένο είδος
+            boolean hasPurchases = false;
+            for (Item purchase : itemSuppliersStatistics) {
+                if (purchase.getItem_code() == item.getCode()) {
+                    hasPurchases = true;
+                    break;
+                }
+            }
+
+            // Προσθήκη του είδους στο δέντρο μόνο αν υπάρχουν αγορές για αυτό
+            if (hasPurchases) {
+                TreeItem<Item> itemNode = new TreeItem<>(item);
+
+                for (Item purchase : itemSuppliersStatistics) {
+                    if (purchase.getItem_code() == item.getCode()) {
+                        purchase.setName(purchase.name);
+                        TreeItem<Item> purchaseNode = new TreeItem<>(purchase);
+                        itemNode.getChildren().add(purchaseNode);
+                    }
+                }
+
+                root.getChildren().add(itemNode);
+            }
+        }
+
+        statisticsTable.setRoot(root);
+        statisticsTable.setShowRoot(false);
+        for (TreeItem<Item> item : root.getChildren()) {
+            // Ανοίγει τα παιδιά του κάθε τμήματος
+            item.setExpanded(true);
         }
     }
 

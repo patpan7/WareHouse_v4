@@ -54,7 +54,7 @@
                             <Insets right="20.0" />
                         </padding>
                     </Label>
-                    <TextField fx:id="filterField" prefHeight="45.0" prefWidth="300.0">
+                    <TextField fx:id="filterField" disable="true" prefHeight="45.0" prefWidth="300.0">
                         <opaqueInsets>
                             <Insets />
                         </opaqueInsets>
