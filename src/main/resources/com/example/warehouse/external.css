@@ -225,7 +225,6 @@
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 12, 0.0 , 0 , 8 );
 }
 .auto-complete-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
-    -fx-padding: 4 0 4 5;
     /* No alternate highlighting */
     -fx-background: -fx-control-inner-background;
 }
@@ -240,6 +239,16 @@
 }
 .auto-complete-popup > .list-view > .placeholder > .label {
     -fx-text-fill: derive(-fx-control-inner-background,-30%);
+}
+.auto-complete-popup > .list-view > .virtual-flow {
+    -fx-background-color: transparent; /* Καθαρίζει το φόντο για να εμφανίσει το scroll bar */
+    -fx-padding: 0; /* Αφαιρεί το padding για να περιορίσει τον χώρο */
+    -fx-max-width: 100%; /* Βεβαιωθείτε ότι η ευρεία εμφάνιση του virtual-flow είναι περιορισμένη */
+    -fx-max-height: 100%; /* Βεβαιωθείτε ότι το virtual-flow δεν θα υπερβεί το πλάτος της περιοχής σας */
+    -fx-min-width: 0; /* Βεβαιωθείτε ότι το virtual-flow μπορεί να σμικρυνθεί κατά την ανάγκη */
+    -fx-min-height: 0; /* Βεβαιωθείτε ότι το virtual-flow μπορεί να σμικρυνθεί κατά την ανάγκη */
+    -fx-overflow-y: scroll; /* Εμφανίζει την κάθετη μπάρα κύλισης */
+    -fx-overflow-x: hidden; /* Αποκρύπτει την οριζόντια μπάρα κύλισης, αν χρειαστεί */
 }
 
 //------------------List----------------

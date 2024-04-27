@@ -1,35 +1,44 @@
 
-s	java:S117–"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8ØƒÎ1
-n	java:S117—"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8û°Ğ©ë1
-s	java:S117¸"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8ØƒÎ1
+s	java:S117£"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8ØƒÎ1
+n	java:S117¤"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8û°Ğ©ë1
+s	java:S117Å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8ØƒÎ1
 l
-java:S3655‘"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8‡ÿÍëğ1
+java:S3655"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8‡ÿÍëğ1
+t
+java:S37768"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(•‘İŸüÿÿÿÿ8Æ€ÊŒò1
+L	java:S106P"+Replace this use of System.out by a logger.(ğæ³ëüÿÿÿÿ8îƒÎ1
+L	java:S106Q"+Replace this use of System.out by a logger.(Û­Æıÿÿÿÿ8îƒÎ1
 o
-java:S6204I"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8„€Îëğ1
-L	java:S106_"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8îƒÎ1
-L	java:S106g"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8îƒÎ1
-]	java:S125s"<This block of commented-out lines of code should be removed.(Êõ¥‡ÿÿÿÿÿ8ïƒÎ1
-^	java:S125„"<This block of commented-out lines of code should be removed.(‘™ë„ûÿÿÿÿ8ñƒÎ1
+java:S6204W"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ã¤£’8Ï€ÊŒò1
+X	java:S125["<This block of commented-out lines of code should be removed.(ƒ“ô‡8ÁİËŒò1
+L	java:S106l"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8ƒÎ1
+L	java:S106t"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8ƒÎ1
+^	java:S125€"<This block of commented-out lines of code should be removed.(Êõ¥‡ÿÿÿÿÿ8ïƒÎ1
+^	java:S125‘"<This block of commented-out lines of code should be removed.(‘™ë„ûÿÿÿÿ8ñƒÎ1
 _
-java:S1874†"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ÒîÊò8ñƒÎ1
-M	java:S106Á"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ƒÎ1
-M	java:S106Ä"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ƒÎ1
+java:S1874“"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ÒîÊò8ñƒÎ1
+M	java:S106Î"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8˜ƒÎ1
+M	java:S106Ñ"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8™ƒÎ1
 ^
-java:S1854²";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8”ƒÎ1
-H	java:S106§"+Replace this use of System.out by a logger.(úÕĞ8˜ƒÎ1
-H	java:S106«"+Replace this use of System.out by a logger.(²¨ç÷8™ƒÎ1
+java:S1854¿";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8”ƒÎ1
+H	java:S106´"+Replace this use of System.out by a logger.(úÕĞ8ŸƒÎ1
+H	java:S106¸"+Replace this use of System.out by a logger.(²¨ç÷8 ƒÎ1
 O
-java:S1481²",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8šƒÎ1
+java:S1481¿",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8šƒÎ1
 O
-java:S1481Ì",Remove this unused "ignored" local variable.(ÌåÎèüÿÿÿÿ8œƒÎ1
-H	java:S106ö"+Replace this use of System.out by a logger.(ÕºÅã8ŸƒÎ1
-G	java:S106€"+Replace this use of System.out by a logger.(ÁØÕx8 ƒÎ1
-M	java:S106‹"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8¡ƒÎ1
+java:S1481Ù",Remove this unused "ignored" local variable.(ÌåÎèüÿÿÿÿ8œƒÎ1
+H	java:S106ƒ"+Replace this use of System.out by a logger.(ÕºÅã8¡ƒÎ1
+G	java:S106"+Replace this use of System.out by a logger.(ÁØÕx8–ÊŒò1
+M	java:S106˜"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8–ÊŒò1
+n
+java:S1172ï"KRemove these unused method parameters "observable", "oldValue", "newValue".(€£¨úÿÿÿÿ8üİËŒò1
 b
-java:S4968Á"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8¦ƒÎ1
+java:S4968ï"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8¦ƒÎ1
 J
-java:S1172Õ",Remove this unused method parameter "event".(™™È«8¨ƒÎ1
+java:S1172ƒ",Remove this unused method parameter "event".(™™È«8¨ƒÎ1
 K
-java:S1128".Remove this unused import 'javafx.scene.Node'.(ÑÖ¬ï8è‚Îëğ1
+java:S1128".Remove this unused import 'javafx.scene.Node'.(ÑÖ¬ï8¡ËŒò1
 Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8é‚Îëğ1
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8¡ËŒò1
+O
+java:S1144ï",Remove this unused private "changed" method.(€£¨úÿÿÿÿ8…ŞËŒò1

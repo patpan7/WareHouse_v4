@@ -118,3 +118,9 @@ m
 =src/main/java/com/example/warehouse/DepartmentStatistics.java,b\9\b9a305e5b6df29da90d5a79e702aa18daea2a72f
 l
 <src/main/java/com/example/warehouse/SuppliersStatistics.java,7\d\7d5afeaca96b9a6788cd86880b01880ca87d2b91
+\
+,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
+h
+8src/main/java/com/example/warehouse/BigDecimalPrice.java,c\f\cfd028c06069debd7e781e82f15ad8864028d337
+k
+;src/main/java/com/example/warehouse/BigDecimalQuantity.java,7\c\7c75c405fa4ea708ba6b3a3b9f6309e31033a969
