@@ -1,32 +1,32 @@
 
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñ­Ô¹8šË´šï1
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñ­Ô¹8›Ë´šï1
-l	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªèj8›Ë´šï1
-m	java:S117'"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(È²¿ı8›Ë´šï1
-r	java:S117."QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯µÍÆùÿÿÿÿ8›Ë´šï1
-m	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³êí8›Ë´šï1
-m	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³êí8›Ë´šï1
-l	java:S117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùÖ®e8›Ë´šï1
-r	java:S117I"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±äÜ™üÿÿÿÿ8›Ë´šï1
-r	java:S117I"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±äÜ™üÿÿÿÿ8›Ë´šï1
-r	java:S117S"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Éäşÿÿÿÿ8›Ë´šï1
-r	java:S117S"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Éäşÿÿÿÿ8›Ë´šï1
-m	java:S117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï¤•ü8›Ë´šï1
-s	java:S117ƒ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹Ûÿ¯şÿÿÿÿ8›Ë´šï1
-n	java:S117³"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥ªì‹8›Ë´šï1
-n	java:S117Ç"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8›Ë´šï1
-p	java:S116"TRename this field "item_code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡º¶×8£Ë´šï1
-y	java:S116"XRename this field "category_code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æü½‘şÿÿÿÿ8£Ë´šï1
-]	java:S107x"AConstructor has 8 parameters, which is greater than 7 authorized.(¶£ ï8¥Ë´šï1
-k	java:S100š"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑÆæ‡8¨Ë´šï1
-p	java:S100®"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï“ÑÓùÿÿÿÿ8©Ë´šï1
-k	java:S100³"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥ªì‹8©Ë´šï1
-k	java:S100Ç"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8ªË´šï1
-M	java:S106ì"+Replace this use of System.out by a logger.(ÏÜ°“úÿÿÿÿ8­Ë´šï1
-M	java:S106í"+Replace this use of System.out by a logger.(ë÷‹Ûÿÿÿÿÿ8­Ë´šï1
-M	java:S106î"+Replace this use of System.out by a logger.(çñ¿âûÿÿÿÿ8­Ë´šï1
-H	java:S106ï"+Replace this use of System.out by a logger.(Î¿—†8­Ë´šï1
-H	java:S106ğ"+Replace this use of System.out by a logger.(Ò‚Àï8­Ë´šï1
-H	java:S106ñ"+Replace this use of System.out by a logger.(óšÎÛ8­Ë´šï1
-M	java:S106ò"+Replace this use of System.out by a logger.(ÜÇçˆÿÿÿÿÿ8®Ë´šï1
-M	java:S106ó"+Replace this use of System.out by a logger.(Îëß³úÿÿÿÿ8®Ë´šï1
+“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñ­Ô¹8¿¥Í‘ò1J$20251707-ed18-4e59-a47b-cfc3cf661f1e
+“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñ­Ô¹8¿¥Í‘ò1J$85b14c9e-c435-4e3d-8d5c-117ecf7f473e
+’	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªèj8¿¥Í‘ò1J$51c6f8a8-3772-4f46-84b4-f62c179f79fe
+“	java:S117'"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(È²¿ı8¿¥Í‘ò1J$91c5a2df-e17d-4d78-ac46-7118a22be782
+˜	java:S117."QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯µÍÆùÿÿÿÿ8¿¥Í‘ò1J$26f594cf-7170-4061-b5e2-802975c12c76
+“	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³êí8¿¥Í‘ò1J$02acd679-4672-41e6-b9ab-b41083fb4dcc
+“	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³êí8¿¥Í‘ò1J$06242c12-a210-4c71-953c-7ebdbb6cbfdc
+’	java:S117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùÖ®e8¿¥Í‘ò1J$0ddb6fba-b27a-42c9-9274-4cf32a280178
+˜	java:S117I"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±äÜ™üÿÿÿÿ8¿¥Í‘ò1J$18359abf-4116-4ea5-b305-f87996a5c16b
+˜	java:S117I"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±äÜ™üÿÿÿÿ8¿¥Í‘ò1J$d2f2efb9-fc37-4f24-b708-1904eccfb0dd
+˜	java:S117S"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Éäşÿÿÿÿ8¿¥Í‘ò1J$4a763dab-2b40-494e-b656-02adaa875c1b
+˜	java:S117S"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Éäşÿÿÿÿ8¿¥Í‘ò1J$103222b4-ebf0-4f7f-ab98-cfca83545ca5
+“	java:S117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï¤•ü8¿¥Í‘ò1J$e5bd17b4-99b5-44fc-930a-34bfb18809a0
+™	java:S117ƒ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹Ûÿ¯şÿÿÿÿ8À¥Í‘ò1J$4ed7c1e0-44bc-4a11-a846-71f7586a348a
+”	java:S117³"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥ªì‹8À¥Í‘ò1J$3cc07aa5-2616-4b1d-9d88-b72ccf6ce231
+”	java:S117Ç"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8À¥Í‘ò1J$85408945-129b-4a77-93af-a6bf1c63010a
+–	java:S116"TRename this field "item_code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡º¶×8²âò1J$c28e728c-0b71-4760-a4c0-36af652ddeee
+Ÿ	java:S116"XRename this field "category_code" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æü½‘şÿÿÿÿ8Ç¥Í‘ò1J$b8b6e425-1bd0-4837-84c1-fbc7c2d214b0
+ƒ	java:S107x"AConstructor has 8 parameters, which is greater than 7 authorized.(¶£ ï8É¥Í‘ò1J$e40ab1d0-2e36-4747-827e-2f178412b5c0
+‘	java:S100š"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÑÆæ‡8Ì¥Í‘ò1J$388bdfb1-f2c1-47ac-bcbc-5fb35bbd471f
+–	java:S100®"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï“ÑÓùÿÿÿÿ8Í¥Í‘ò1J$6e5d3ebc-e428-4e23-9925-d7011f323061
+‘	java:S100³"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥ªì‹8Í¥Í‘ò1J$755c8274-a02d-46a8-bae6-b239ed520846
+‘	java:S100Ç"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÚ»•8Î¥Í‘ò1J$fe098bd0-c5d6-4ffa-a3b5-b94378b3bbf8
+s	java:S106ì"+Replace this use of System.out by a logger.(ÏÜ°“úÿÿÿÿ8ºâò1J$592ca204-fd0d-4e52-8bf4-df0058ea2781
+s	java:S106í"+Replace this use of System.out by a logger.(ë÷‹Ûÿÿÿÿÿ8ºâò1J$9550bb9d-bb02-4500-966c-9005713c3f31
+s	java:S106î"+Replace this use of System.out by a logger.(çñ¿âûÿÿÿÿ8ºâò1J$cfc78734-43a5-437f-9522-fb2a70a8e9bc
+n	java:S106ï"+Replace this use of System.out by a logger.(Î¿—†8ºâò1J$98e605dd-35cf-4b90-99a3-1dc5403b9ad4
+n	java:S106ğ"+Replace this use of System.out by a logger.(Ò‚Àï8ºâò1J$7a481069-6753-43b0-a15d-7af8a2e4c81b
+n	java:S106ñ"+Replace this use of System.out by a logger.(óšÎÛ8ºâò1J$f11b7c38-f185-40ca-be6b-fe6207877c99
+s	java:S106ò"+Replace this use of System.out by a logger.(ÜÇçˆÿÿÿÿÿ8ºâò1J$e0e1ede9-d505-45b3-be3f-4166bb92859b
+s	java:S106ó"+Replace this use of System.out by a logger.(Îëß³úÿÿÿÿ8ºâò1J$20e30669-60ca-47ed-8d2d-a3702de0dfc5

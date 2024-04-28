@@ -20,6 +20,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -41,7 +43,7 @@ public class SuppliersController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
 
         TableColumn<Supplier, String> codeColumn = new TableColumn<>("Κωδικός");
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -186,7 +188,7 @@ public class SuppliersController implements Initializable {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
                         String phone = itemNode.get("phone").asText();
-                        float turnover = Float.parseFloat(itemNode.get("turnover").asText());
+                        BigDecimal turnover = new BigDecimal(itemNode.get("turnover").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int enable = itemNode.get("enable").asInt();
                         Supplier supplier = new Supplier(code, name, phone,turnover,enable);
                         Suppliers.add(supplier);

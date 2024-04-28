@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -40,7 +41,7 @@ public class DepartmentStatistics implements Initializable {
     private List<Item> allItems;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
 
         LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
         dateFrom.setValue(firstDayOfMonth);
@@ -219,7 +220,7 @@ public class DepartmentStatistics implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = "    "+itemNode.get("name").asText();
-                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
+                        BigDecimal quantity = new BigDecimal(itemNode.get("quantity").asText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
                         String department = itemNode.get("depname").asText();
                         Item item = new Item(code, name, quantity, unit,department);

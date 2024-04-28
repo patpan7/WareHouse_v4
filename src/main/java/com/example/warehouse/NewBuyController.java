@@ -65,12 +65,12 @@ public class NewBuyController implements Initializable {
     List<Item> itemsAutoComplete;
     Item selectedItem;
 
-    float totalSum = 0.0F;
+    BigDecimal totalSum = null;
     String server;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
 
         supplierInit();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -164,9 +164,9 @@ public class NewBuyController implements Initializable {
 
         tfTotalPrice.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
-                BigDecimal totalPrice = new BigDecimal(newValue);
-                BigDecimal quantity = new BigDecimal(tfQuantity.getText());
-                BigDecimal price = totalPrice.divide(quantity, RoundingMode.HALF_UP);
+                BigDecimal totalPrice = new BigDecimal(newValue).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                BigDecimal quantity = new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
+                BigDecimal price = totalPrice.divide(quantity).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                 tfPrice.setText(price.toString());
             }
         });
@@ -201,6 +201,7 @@ public class NewBuyController implements Initializable {
                 if (tfPrice.getText().isEmpty())
                     tfPrice.setText(String.valueOf(item.getPrice()));
                 selectedItem = item;
+                selectedItem.print();
             }
         }
         if (tfQuantity.getText().isEmpty())
@@ -274,7 +275,7 @@ public class NewBuyController implements Initializable {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
                         String phone = itemNode.get("phone").asText();
-                        float turnover = Float.parseFloat(itemNode.get("turnover").asText());
+                        BigDecimal turnover = new BigDecimal(itemNode.get("turnover").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1) {
                             Supplier supplier = new Supplier(code, name, phone, turnover);
@@ -329,11 +330,11 @@ public class NewBuyController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        BigDecimal quantity = BigDecimal.ZERO;
+                        BigDecimal quantity = new BigDecimal("").setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
-                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
+                        BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         int category_code = itemNode.get("category_code").asInt();
-                        BigDecimal sum = BigDecimal.ZERO;
+                        BigDecimal sum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1) {
                             Item item = new Item(code, name, quantity, unit, price, category_code, sum);
@@ -361,9 +362,10 @@ public class NewBuyController implements Initializable {
             autocomplete();
             ObservableList<Item> items = buyTable.getItems();
             if (!items.contains(selectedItem)) {
-                selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()));
-                selectedItem.setPrice(new BigDecimal(tfPrice.getText()));
+                selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP));
+                selectedItem.setPrice(new BigDecimal(tfPrice.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP));
                 selectedItem.setSum(selectedItem.getQuantity().multiply(selectedItem.getPrice()));
+                System.out.println(selectedItem.getSum()+"");
                 // Προσθέστε το νέο αντικείμενο στη λίστα
                 items.add(selectedItem);
 
@@ -372,7 +374,12 @@ public class NewBuyController implements Initializable {
                 tfQuantity.setText("");
                 tfUnit.setText("");
                 tfPrice.setText("");
-                totalSum += selectedItem.getSum().floatValue();
+                if (!tfSum.getText().isEmpty()) {
+                    totalSum.equals(totalSum.add(selectedItem.getSum()));
+                } else {
+                    totalSum = selectedItem.getSum();
+                }
+
                 tfSum.setText(String.valueOf(totalSum));
 
             } else {
@@ -386,8 +393,9 @@ public class NewBuyController implements Initializable {
                 if (existingItem != null) {
                     // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
                     items.remove(existingItem);
-                    totalSum -= existingItem.getSum().floatValue();
-                    existingItem.setQuantity(existingItem.getQuantity().add(new BigDecimal(tfQuantity.getText())));
+                    totalSum.equals(totalSum.subtract(selectedItem.getSum()));
+                    existingItem.setQuantity(existingItem.getQuantity().add(new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP)));
+
                     existingItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
                     items.add(existingItem);
                     tfName.setText("");
@@ -395,7 +403,7 @@ public class NewBuyController implements Initializable {
                     tfQuantity.setText("");
                     tfUnit.setText("");
                     tfPrice.setText("");
-                    totalSum += existingItem.getSum().floatValue();
+                    totalSum.equals(totalSum.add(selectedItem.getSum()));
                     tfSum.setText(String.valueOf(totalSum));
                 }
             }
@@ -412,7 +420,7 @@ public class NewBuyController implements Initializable {
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
-            totalSum -= selectedProduct.getSum().floatValue();
+            totalSum.equals(totalSum.subtract(selectedItem.getSum()));
             tfSum.setText(String.valueOf(totalSum));
         }
     }
@@ -431,7 +439,7 @@ public class NewBuyController implements Initializable {
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
-            totalSum -= selectedProduct.getSum().floatValue();
+            totalSum.equals(totalSum.subtract(selectedItem.getSum()));
             tfSum.setText(String.valueOf(totalSum));
         }
     }
@@ -470,7 +478,7 @@ public class NewBuyController implements Initializable {
 
     }
 
-    private void addNewRequest(ObservableList<Item> items, int supplierCode, String date, String invoice, float totalSum) {
+    private void addNewRequest(ObservableList<Item> items, int supplierCode, String date, String invoice, BigDecimal totalSum) {
         String apiUrl = "http://" + server + "/warehouse/buyAdd.php";
 
         try {
@@ -542,7 +550,7 @@ public class NewBuyController implements Initializable {
     public void clean() {
         buyTable.getItems().clear();
         buyTable.refresh();
-        totalSum = 0.0F;
+        totalSum = new BigDecimal("0");
         tfSum.setText("");
         tfSupplier.setValue(null);
         tfInvoice.setText("");

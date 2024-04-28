@@ -1,16 +1,18 @@
 package com.example.warehouse;
 
+import java.math.BigDecimal;
+
 public class Distribution {
     int code;
     int item_code;
     String name;
-    float quantity;
+    BigDecimal quantity;
     String date;
     String unit;
     String department;
 
 
-    public Distribution(int code, int item_code, String name, float quantity, String date, String unit, String department) {
+    public Distribution(int code, int item_code, String name, BigDecimal quantity, String date, String unit, String department) {
         this.code = code;
         this.item_code = item_code;
         this.name = name;
@@ -49,11 +51,11 @@ public class Distribution {
         this.name = name;
     }
 
-    public float getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

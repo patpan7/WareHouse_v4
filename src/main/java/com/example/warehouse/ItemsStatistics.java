@@ -44,8 +44,7 @@ public class ItemsStatistics implements Initializable {
     List<Item> itemSuppliersStatistics;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
-
+        server = AppSettings.getInstance().server;
         LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
         dateFrom.setValue(firstDayOfMonth);
 
@@ -346,9 +345,9 @@ public class ItemsStatistics implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int item_code = itemNode.get("code").asInt();
                         String supplier_name = "    " + itemNode.get("supplier_name").asText();
-                        BigDecimal total_quantity = BigDecimal.valueOf(itemNode.get("total_quantity").asDouble());
-                        BigDecimal total_sum = BigDecimal.valueOf(itemNode.get("total_sum").asDouble()).setScale(2, RoundingMode.HALF_UP);
-                        BigDecimal average_price = BigDecimal.valueOf(itemNode.get("average_price").asDouble()).setScale(2, RoundingMode.HALF_UP);
+                        BigDecimal total_quantity = new BigDecimal(itemNode.get("total_quantity").asText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
+                        BigDecimal total_sum = new BigDecimal(itemNode.get("total_sum").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                        BigDecimal average_price = new BigDecimal(itemNode.get("average_price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
                         Item item = new Item(item_code, supplier_name, total_quantity, total_sum, average_price, unit);
                         Items.add(item);

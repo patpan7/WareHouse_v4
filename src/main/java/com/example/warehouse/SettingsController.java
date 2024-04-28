@@ -30,6 +30,12 @@ public class SettingsController implements Initializable {
     @FXML
     TextField tfServer;
     @FXML
+    TextField tfQuantity;
+    @FXML
+    TextField tfPrice;
+    @FXML
+    TextField tfTotal;
+    @FXML
     ListView <Unit> listUnits;
     ObservableList<Unit> observableList;
     String server;
@@ -38,9 +44,15 @@ public class SettingsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.loadSetting("server");
+        int quantity = Integer.parseInt(AppSettings.loadSetting("QuantityDecimals"));
+        int price = Integer.parseInt(AppSettings.loadSetting("PriceDecimals"));
+        int total = Integer.parseInt(AppSettings.loadSetting("TotalDecimals"));
         // Φόρτωση παραμέτρου
-        String server = AppSettings.loadSetting("server");
+        //String server = AppSettings.loadSetting("server");
         tfServer.setText(server);
+        tfQuantity.setText(String.valueOf(quantity));
+        tfPrice.setText(String.valueOf(price));
+        tfTotal.setText(String.valueOf(total));
         listInit();
     }
 
@@ -105,8 +117,11 @@ public class SettingsController implements Initializable {
     }
 
     public void saveSettings(ActionEvent event) throws IOException {
+
         AppSettings.saveSetting("server", tfServer.getText());
-        //mainMenuClick(event);
+        AppSettings.saveSetting("QuantityDecimals", tfQuantity.getText());
+        AppSettings.saveSetting("PriceDecimals", tfPrice.getText());
+        AppSettings.saveSetting("TotalDecimals", tfTotal.getText());
     }
 
     public void unitAddNew(ActionEvent actionEvent) {

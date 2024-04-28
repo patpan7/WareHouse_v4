@@ -13,6 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -40,7 +42,7 @@ public class SuppliersStatistics implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
 
         LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
         dateFrom.setValue(firstDayOfMonth);
@@ -151,7 +153,7 @@ public class SuppliersStatistics implements Initializable {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
                         int totalInvoices = itemNode.get("totalInvoices").asInt();
-                        Float total = Float.parseFloat(itemNode.get("total").asText());
+                        BigDecimal total = new BigDecimal(itemNode.get("total").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
 
                         Buys buy = new Buys (code, name, totalInvoices, total);
                         buys.add(buy);
@@ -237,7 +239,7 @@ public class SuppliersStatistics implements Initializable {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
                         String phone = itemNode.get("phone").asText();
-                        float turnover = Float.parseFloat(itemNode.get("turnover").asText());
+                        BigDecimal turnover = new BigDecimal(itemNode.get("turnover").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1) {
                             Supplier supplier = new Supplier(code, name, phone, turnover);

@@ -10,7 +10,7 @@ public class Item {
     String unit;
     BigDecimal price;
     int category_code;
-    BigDecimal sum = BigDecimal.ZERO;
+    BigDecimal sum = new BigDecimal("0");
     int enable;
     String department;
     String supplier;

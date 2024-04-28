@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -46,7 +47,8 @@ public class ItemsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
+
         TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("item_code"));
 
@@ -248,9 +250,9 @@ public class ItemsController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
+                        BigDecimal quantity = new BigDecimal(itemNode.get("quantity").asText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
-                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
+                        BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         int category_code = itemNode.get("category_code").asInt();
                         int enable = itemNode.get("enable").asInt();
                         Item item = new Item(code, name, quantity, unit, price, category_code, enable);
@@ -442,7 +444,7 @@ public class ItemsController implements Initializable {
             if (tfEnable.isSelected())
                 enable = 1;
 
-            BigDecimal price = new BigDecimal(priceField.getText());
+            BigDecimal price = new BigDecimal(priceField.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
             updateRequest(selectedProduct.getItem_code(), nameField.getText(), price, unitField.getValue().toString(), categoryCode.get(), enable);
             // Ενημέρωση του επιλεγμένου αντικειμένου στη λίστα
             selectedProduct.setName(nameField.getText());
@@ -528,9 +530,9 @@ public class ItemsController implements Initializable {
                 String name = tfName.getText();
                 BigDecimal price;
                 if (tfPrice.getText().isEmpty())
-                    price = new BigDecimal(0);
+                    price = new BigDecimal("0");
                 else
-                    price = new BigDecimal(tfPrice.getText());
+                    price = new BigDecimal(tfPrice.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                 String unit = unitComboBox.getValue().toString();
                 CheckBox tfEnable = (CheckBox) loader.getNamespace().get("tfEnable");
                 int enable = 0;

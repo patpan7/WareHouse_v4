@@ -1,37 +1,37 @@
 
-g	java:S112~"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8şõÉãÍ1
-k
-java:S1192"HDefine a constant instead of duplicating this literal "http://" 3 times.(£ÙóÏÿÿÿÿÿ8€öÉãÍ1
-m	java:S117B"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šÃñ8öÉãÍ1
-s	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ÙóÏÿÿÿÿÿ8öÉãÍ1
-n	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áá‡¨8öÉãÍ1
+	java:S112€"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8şõÉãÍ1J$47ae6510-30c3-4cf6-b7ba-c24e3df823cc
+‘
+java:S1192Ÿ"HDefine a constant instead of duplicating this literal "http://" 3 times.(£ÙóÏÿÿÿÿÿ8€öÉãÍ1J$84606f45-dfb1-493d-8518-09bf66afd99b
+“	java:S117D"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šÃñ8öÉãÍ1J$c6046a08-e5c7-468c-acbe-89aecb569b98
+™	java:S117Ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ÙóÏÿÿÿÿÿ8öÉãÍ1J$e6c89d6f-1b68-46fe-82bc-85cec311b824
+”	java:S117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áá‡¨8öÉãÍ1J$ce9f4fe6-2dc5-4653-b9c6-a0a9d55ed9ba
+š
+java:S3776-"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(•‘İŸüÿÿÿÿ8¨öÉãÍ1J$9f25d2bd-9da7-403d-ab67-b946f4516410
+„
+java:S1874?"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ñ¼è8ªöÉãÍ1J$2af01844-637e-43d6-bf6e-13252333ee82
 t
-java:S3776+"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(•‘İŸüÿÿÿÿ8¨öÉãÍ1
-^
-java:S1874="ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ñ¼è8ªöÉãÍ1
-N
-java:S1602A",Remove useless curly braces around statement(ÚÆŒÅÿÿÿÿÿ8«öÉãÍ1
-c
-java:S1126`"AReplace this if-then-else statement by a single return statement.(í»×Æüÿÿÿÿ8­öÉãÍ1
-M	java:S106Ä"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ĞöÉãÍ1
-M	java:S106Ç"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ĞöÉãÍ1
-`
-java:S1126ã"BReplace this if-then-else statement by a single method invocation.(ÈÏå¶8Ø…ËãÍ1
-H	java:S106î"+Replace this use of System.out by a logger.(‹Œ×¹8ÙöÉãÍ1
-9
-java:S3626”"Remove this redundant jump.(ûÁİ…8ÚöÉãÍ1
-U
-java:S1172÷"2Remove this unused method parameter "actionEvent".(ë‹Ù­ùÿÿÿÿ8ÚöÉãÍ1
-H	java:S106ˆ"+Replace this use of System.out by a logger.(‹Œ×¹8ÜöÉãÍ1
-G	java:S106½"+Replace this use of System.out by a logger.(ÁØÕx8ßöÉãÍ1
-M	java:S106È"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8àöÉãÍ1
-]
-java:S1854Û":Remove this useless assignment to local variable "result".(Ãë¿²şÿÿÿÿ8àöÉãÍ1
-N
-java:S1481Û"+Remove this unused "result" local variable.(Ãë¿²şÿÿÿÿ8áöÉãÍ1
-G	java:S106€"+Replace this use of System.out by a logger.(ÁØÕx8ãöÉãÍ1
-M	java:S106‹"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ãöÉãÍ1
-J
-java:S1172Ø",Remove this unused method parameter "event".(™™È«8èöÉãÍ1
-Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8»éÕŒò1
+java:S1602C",Remove useless curly braces around statement(ÚÆŒÅÿÿÿÿÿ8«öÉãÍ1J$2aa20987-69d1-4b7b-bdee-b469a8ac3a08
+‰
+java:S1126b"AReplace this if-then-else statement by a single return statement.(í»×Æüÿÿÿÿ8­öÉãÍ1J$949a951b-1945-4a39-8538-0f31e0138ef2
+s	java:S106Æ"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8ĞöÉãÍ1J$5986b056-0a54-4099-a4ab-d211226f38e6
+s	java:S106É"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ĞöÉãÍ1J$b38d34d4-81b2-467e-8667-0cd954a0188f
+†
+java:S1126å"BReplace this if-then-else statement by a single method invocation.(ÈÏå¶8Ø…ËãÍ1J$edc6d809-876b-4734-b2b3-20ee0edaa868
+n	java:S106ğ"+Replace this use of System.out by a logger.(‹Œ×¹8ÙöÉãÍ1J$e134636e-2143-4180-a358-c6add4976f4d
+_
+java:S3626–"Remove this redundant jump.(ûÁİ…8ÚöÉãÍ1J$cf2ca594-848d-4e51-a2d8-473db7e4027f
+{
+java:S1172ù"2Remove this unused method parameter "actionEvent".(ë‹Ù­ùÿÿÿÿ8ÚöÉãÍ1J$22912c2c-0dca-461a-bf24-eba9c63c6d94
+n	java:S106Š"+Replace this use of System.out by a logger.(‹Œ×¹8ÜöÉãÍ1J$c03187cb-014b-4c6f-9f08-ee9304716ca0
+m	java:S106¿"+Replace this use of System.out by a logger.(ÁØÕx8ßöÉãÍ1J$6b9b1e07-df33-40c5-a09b-868363811e42
+s	java:S106Ê"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8àöÉãÍ1J$73959a7a-b22b-425f-b9be-79252377c344
+ƒ
+java:S1854İ":Remove this useless assignment to local variable "result".(Ãë¿²şÿÿÿÿ8àöÉãÍ1J$653e6e1a-1502-4dd6-83eb-483a35173776
+t
+java:S1481İ"+Remove this unused "result" local variable.(Ãë¿²şÿÿÿÿ8áöÉãÍ1J$02aa6f31-a02a-4947-a9f8-75b19b6cdb19
+m	java:S106‚"+Replace this use of System.out by a logger.(ÁØÕx8ãöÉãÍ1J$f4a82b10-dc60-4d7e-a7fc-1953e569472f
+s	java:S106"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ãöÉãÍ1J$32102f61-a824-4d90-9e3d-87c490dc79db
+p
+java:S1172Ú",Remove this unused method parameter "event".(™™È«8èöÉãÍ1J$52e0a384-1205-45c6-9895-2b99b0dad2f8
+w
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8 âô¡ò1J$b624690c-a834-4991-9a52-4d009d7b591b

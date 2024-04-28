@@ -1,66 +1,66 @@
 
-_
-java:S1192Æ"HDefine a constant instead of duplicating this literal "http://" 3 times.(™ıì’
-_
-java:S1192à"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷
-g	java:S117Æ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’
-s	java:S117Ç"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µÛ®İúÿÿÿÿ8¿™§ªë1
-l	java:S117ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ
-n	java:S117û"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8¿™§ªë1
-l	java:S117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ
-l
-java:S3655ü"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ÕˆÚ÷Í1
-t
-java:S3776>"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(•‘İŸüÿÿÿÿ8Ê„ÅŒò1
-E	java:S106Y"+Replace this use of System.out by a logger.(ğæ³ëüÿÿÿÿ
-E	java:S106Z"+Replace this use of System.out by a logger.(Û­Æıÿÿÿÿ
-o
-java:S6204`"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ã¤£’8ìøÅŒò1
-X	java:S125d"<This block of commented-out lines of code should be removed.(ƒ“ô‡8Ö®ÌŒò1
-L	java:S106u"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8‰‰Ú÷Í1
-L	java:S106~"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8‰‰Ú÷Í1
-]
-java:S1874•"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(Ó½ÕÙûÿÿÿÿ
-M	java:S106ë"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8¢‰Ú÷Í1
-M	java:S106î"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8£‰Ú÷Í1
-M	java:S106¦"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8¥‰Ú÷Í1
-M	java:S106©"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8‹…ÅŒò1
+Œ
+java:S1192Ç"HDefine a constant instead of duplicating this literal "http://" 3 times.(™ıì’8ôÊò1J$de44b9b1-d11a-4a98-8e27-769e3b222a21
+Œ
+java:S1192á"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷8ôÊò1J$7f611b14-8f64-41ed-a62a-0b2dda4be3d7
+”	java:S117Ç"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™ıì’8õÊò1J$eca4c443-28e3-438d-a581-bbe976459ff9
+™	java:S117È"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µÛ®İúÿÿÿÿ8õÊò1J$b5d80d5e-859d-42db-8309-1866a103d52b
+™	java:S117û"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8õÊò1J$b27298d0-eb7f-4c22-8c9b-78b8f1aec310
+”	java:S117ü"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8õÊò1J$fe0da304-2a33-41bd-a948-8cc568b85bae
+™	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8–°é‘ò1J$ab32c987-ec20-42c5-a27e-5eba9a72b1de
+’
+java:S3655ı"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8¸Êò1J$89b7ce28-3dce-4c0d-b381-f7b529e32eee
+š
+java:S3776?"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(•‘İŸüÿÿÿÿ8½Êò1J$ed1525e8-8d30-4c3d-b2a9-132a21e1edff
+r	java:S106Z"+Replace this use of System.out by a logger.(ğæ³ëüÿÿÿÿ8ÀÊò1J$815a55fc-342c-4b27-b385-0bdb68dd9f34
+r	java:S106["+Replace this use of System.out by a logger.(Û­Æıÿÿÿÿ8ÀÊò1J$cc851456-21e1-44e4-adab-1468656f7b3b
+½
+java:S6204a"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(ã¤£’8ÀÊò1J$97bceb57-9101-42e3-9f31-540c1dc34979
+~	java:S125e"<This block of commented-out lines of code should be removed.(ƒ“ô‡8ÁÊò1J$1e5c1acb-1151-41db-8eac-d00463d243e8
+r	java:S106v"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8ÂÊò1J$9ac8b18a-e24e-452b-8ffc-efbc5c607dce
+r	java:S106"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8ÃÊò1J$f73167dd-ae6c-441b-a487-963f786fac4f
+Š
+java:S1874–"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(Ó½ÕÙûÿÿÿÿ8ÄÊò1J$aa6038ca-07db-4bb9-a08d-e64423643e85
+s	java:S106ì"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8âÊò1J$0df3db07-87b5-4c7a-8498-513abb5c0277
+s	java:S106ï"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8âÊò1J$82d7a1cb-d158-4a1c-8611-c87a0fc5d4f0
+s	java:S106§"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8óÊò1J$772c4f8c-7c5e-4230-9ea8-d19223e362bb
+s	java:S106ª"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8ôÊò1J$df255d8c-7dfc-4ea9-9c18-de73cfe2bf12
+›
+java:S3776´"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(°Ö×ıÿÿÿÿ8òûè‘ò1J$b354b853-6586-4512-88c8-7f6a12e7b271
+„
+java:S1854Ä";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8çÊò1J$ad25af3f-e416-450f-877f-07893de9fb52
+„
+java:S1854ú";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8ğÊò1J$51288af4-eabe-48f1-a6b2-617c87661dbb
 u
-java:S3776³"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(°Ö×ıÿÿÿÿ8Š‰Ú÷Í1
-^
-java:S1854Ã";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8‹‰Ú÷Í1
-^
-java:S1854ù";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8‹‰Ú÷Í1
-O
-java:S1481Ã",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‰Ú÷Í1
-O
-java:S1481ù",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‘‰Ú÷Í1
-U
-java:S1172ı"2Remove this unused method parameter "actionEvent".(­—íİúÿÿÿÿ8’‰Ú÷Í1
-P
-java:S1172™"2Remove this unused method parameter "actionEvent".(ğ‚Á³8•‰Ú÷Í1
-^
-java:S1854½";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8—‰Ú÷Í1
-^
-java:S1854Ã";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8˜‰Ú÷Í1
-U
-java:S1172±"2Remove this unused method parameter "actionEvent".(—Éïûÿÿÿÿ8™‰Ú÷Í1
-O
-java:S1481½",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‰Ú÷Í1
-O
-java:S1481Ã",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‰Ú÷Í1
-H	java:S106á"+Replace this use of System.out by a logger.(ÕºÅã8Œ…ÅŒò1
-G	java:S106ë"+Replace this use of System.out by a logger.(ÁØÕx8î§ÅŒò1
-M	java:S106ö"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ï§ÅŒò1
-b
-java:S1172‘"?Remove these unused method parameters "observable", "oldValue".(€£¨úÿÿÿÿ8ß°ÌŒò1
-b
-java:S4968‘"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8¨‰Ú÷Í1
-_
-java:S6353³"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8¬‰Ú÷Í1
-_
-java:S6353³"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8¬‰Ú÷Í1
-J
-java:S1172€",Remove this unused method parameter "event".(™™È«8±‰Ú÷Í1
-O
-java:S1144‘",Remove this unused private "changed" method.(€£¨úÿÿÿÿ8š±ÌŒò1
+java:S1481Ä",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8ìÊò1J$e7da90f7-2310-4199-a1a0-424af6d9c4aa
+u
+java:S1481ú",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8ñÊò1J$9fa9a2f9-3a35-4175-8ea2-5faaa47f4ab0
+{
+java:S1172ş"2Remove this unused method parameter "actionEvent".(­—íİúÿÿÿÿ8íÊò1J$f63d4875-c2eb-4a09-860c-989563661d43
+v
+java:S1172š"2Remove this unused method parameter "actionEvent".(ğ‚Á³8ïÊò1J$005757be-8cca-4ebf-a07a-a7b1fb615b83
+„
+java:S1854¾";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8ğÊò1J$8f328669-e885-46dc-9976-299d6f27b79b
+„
+java:S1854Ä";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8üûè‘ò1J$a419a580-d9b3-4ca4-905b-7ec0ebd2c954
+{
+java:S1172²"2Remove this unused method parameter "actionEvent".(—Éïûÿÿÿÿ8ğÊò1J$87558521-cf84-4b40-b04f-6fcba9cafc0d
+u
+java:S1481¾",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8òÊò1J$7f3cc998-109d-49a7-86d9-5a61213d90ad
+u
+java:S1481Ä",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8şûè‘ò1J$43ec9bac-568b-44d2-9a41-2f5f9c3b279c
+n	java:S106â"+Replace this use of System.out by a logger.(ÕºÅã8õÊò1J$eefa8238-e9cd-4041-a08b-de5ca1d9f112
+m	java:S106ì"+Replace this use of System.out by a logger.(ÁØÕx8€üè‘ò1J$c9e8019a-6d17-4331-9502-22cd534a6845
+s	java:S106÷"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8üè‘ò1J$5f458e91-a490-4dcc-8192-0b9c979cf8ea
+ˆ
+java:S1172’"?Remove these unused method parameters "observable", "oldValue".(€£¨úÿÿÿÿ8÷Êò1J$ececa451-ef98-4265-a74c-0fb482567e7a
+ˆ
+java:S4968’"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8÷Êò1J$8d2d5c3d-700d-42ec-93cc-3a62ce1be734
+…
+java:S6353´"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8ùÊò1J$30126ee2-553e-4db4-b931-05de7851f528
+…
+java:S6353´"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8ùÊò1J$06cb479f-fae2-4799-bddc-8640e52ccd25
+p
+java:S1172",Remove this unused method parameter "event".(™™È«8ÿÊò1J$e99d6624-599f-4f03-8de0-d29e1a3289d5
+u
+java:S1144’",Remove this unused private "changed" method.(€£¨úÿÿÿÿ8…ŸÊò1J$c3676bf4-4e94-444a-a0f3-864d38f613df

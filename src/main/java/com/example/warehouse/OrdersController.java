@@ -46,7 +46,7 @@ public class OrdersController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
         // Πρώτη μέρα του τρέχοντος μήνα
         LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
         dateFrom.setValue(firstDayOfMonth);

@@ -1,35 +1,35 @@
 
-g	java:S112R"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8»ë†ªë1
-h	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8»ë†ªë1
-r	java:S117j"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÜö‰øÿÿÿÿ8¼ë†ªë1
-c
-java:S1874C"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ğ’‰©ùÿÿÿÿ8òë†ªë1
-G	java:S106Q"+Replace this use of System.out by a logger.(ìÍ¦‡8óë†ªë1
-N
-java:S1602X",Remove useless curly braces around statement(£ÖÂîùÿÿÿÿ8óë†ªë1
-I
-java:S1602\",Remove useless curly braces around statement(³ŒÔæ8ôë†ªë1
-M	java:S106”"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8šì†ªë1
-M	java:S106—"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8šì†ªë1
-J
-java:S1172£",Remove this unused method parameter "event".(ÈÂ‰Ó8›ì†ªë1
-]
-java:S1854³":Remove this useless assignment to local variable "result".(Ãë¿²şÿÿÿÿ8£ì†ªë1
-J
-java:S1172¬",Remove this unused method parameter "event".(¦ç–†8£ì†ªë1
-N
-java:S1481³"+Remove this unused "result" local variable.(Ãë¿²şÿÿÿÿ8¤ì†ªë1
-J
-java:S1172Â",Remove this unused method parameter "event".(™™È«8¦ì†ªë1
-K
-java:S1128".Remove this unused import 'javafx.scene.Node'.(ÑÖ¬ï8õ­¤ªë1
-L
-java:S1128"/Remove this unused import 'javafx.scene.Scene'.(Õü²8õ­¤ªë1
-]
-java:S1128";Remove this unused import 'javafx.scene.layout.BorderPane'.(Îî¥üÿÿÿÿ8õ­¤ªë1
-Q
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8ö­¤ªë1
-h
-java:S1128"FRemove this unused import 'java.util.concurrent.atomic.AtomicInteger'.(¿êäœøÿÿÿÿ8ö­¤ªë1
-Z
-java:S1128"8Remove this unused import 'java.util.stream.Collectors'.(Óóº´úÿÿÿÿ8ö­¤ªë1
+	java:S112R"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8»ë†ªë1J$73252fa8-72b9-444e-bf12-cc0894484b04
+	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8»ë†ªë1J$c8705c40-524e-431c-99c2-2c7425cc3acb
+˜	java:S117j"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÜö‰øÿÿÿÿ8¼ë†ªë1J$77f010d7-13e4-4012-acc9-0a606e0bceb9
+‰
+java:S1874C"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(ğ’‰©ùÿÿÿÿ8òë†ªë1J$b1923bae-6f74-4459-8d9c-cb691dabfc1f
+m	java:S106Q"+Replace this use of System.out by a logger.(ìÍ¦‡8óë†ªë1J$0fab8ba6-10f6-45d2-bf52-72efd419ed78
+t
+java:S1602X",Remove useless curly braces around statement(£ÖÂîùÿÿÿÿ8óë†ªë1J$46949264-bedf-4efd-848d-e1d474a51e60
+o
+java:S1602\",Remove useless curly braces around statement(³ŒÔæ8ôë†ªë1J$47fa7dab-648f-4a09-bb9d-d1a3f8cade90
+s	java:S106”"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8šì†ªë1J$fd2869be-0313-4027-a699-e915f0f4f51b
+s	java:S106—"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8šì†ªë1J$d3c1f8c4-50de-4367-8923-63f3603dafd7
+p
+java:S1172£",Remove this unused method parameter "event".(ÈÂ‰Ó8›ì†ªë1J$50f8e317-ac34-47f8-9e65-b2bbef85f5f8
+ƒ
+java:S1854³":Remove this useless assignment to local variable "result".(Ãë¿²şÿÿÿÿ8£ì†ªë1J$692fc3ae-05e0-4a9e-9b8c-47c435b92c98
+p
+java:S1172¬",Remove this unused method parameter "event".(¦ç–†8£ì†ªë1J$a64b2ae5-7130-4637-b96f-f2918634d2bd
+t
+java:S1481³"+Remove this unused "result" local variable.(Ãë¿²şÿÿÿÿ8¤ì†ªë1J$c5e71455-bace-4405-b2ba-01dc0015f41c
+p
+java:S1172Â",Remove this unused method parameter "event".(™™È«8¦ì†ªë1J$44fa955d-b1f4-40ea-8c80-ecacbdda63b6
+q
+java:S1128".Remove this unused import 'javafx.scene.Node'.(ÑÖ¬ï8õ­¤ªë1J$dea358fb-1189-4ae7-a4e4-b4e617032511
+r
+java:S1128"/Remove this unused import 'javafx.scene.Scene'.(Õü²8õ­¤ªë1J$c01799eb-6669-4d33-8fff-ec1a07677799
+ƒ
+java:S1128";Remove this unused import 'javafx.scene.layout.BorderPane'.(Îî¥üÿÿÿÿ8õ­¤ªë1J$5a6747bc-c3c0-4387-baec-367bb38615fa
+w
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8ö­¤ªë1J$6cd3b812-a315-4b34-b60f-dbab66f30c0a
+
+java:S1128"FRemove this unused import 'java.util.concurrent.atomic.AtomicInteger'.(¿êäœøÿÿÿÿ8ö­¤ªë1J$84f5e9c3-7532-4c18-9bbb-0abcd6d94102
+€
+java:S1128"8Remove this unused import 'java.util.stream.Collectors'.(Óóº´úÿÿÿÿ8ö­¤ªë1J$12b0974a-81a1-45e0-bfa6-3d86146eebe8

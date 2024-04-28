@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -60,7 +61,7 @@ public class NewDistributionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
 
         departmentInit();
 
@@ -278,11 +279,11 @@ public class NewDistributionController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        BigDecimal quantity = BigDecimal.valueOf(Long.parseLong(itemNode.get("quantity").asText()));
+                        BigDecimal quantity = new BigDecimal(itemNode.get("quantity").asText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
-                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
+                        BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         int category_code = itemNode.get("category_code").asInt();
-                        BigDecimal sum = BigDecimal.ZERO;
+                        BigDecimal sum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1){
                             Item item = new Item(code, name, quantity, unit, price,category_code,sum);
@@ -311,7 +312,7 @@ public class NewDistributionController implements Initializable {
             ObservableList<Item> items = distributionTable.getItems();
 
             if (selectedItem != null) {
-                BigDecimal addedQuantity = BigDecimal.valueOf(Long.parseLong(tfQuantity.getText()));
+                BigDecimal addedQuantity = new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
 
                 // Ελέγξτε αν το είδος υπάρχει στη λίστα του autocomplete
                 if (selectedItem.getQuantity().compareTo(addedQuantity)>0) {
@@ -332,7 +333,7 @@ public class NewDistributionController implements Initializable {
 
                 if (existingItem != null) {
                     // Το είδος υπάρχει, ενημερώστε το quantity
-                    BigDecimal newQuantity = existingItem.getQuantity().add(addedQuantity);
+                    BigDecimal newQuantity = existingItem.getQuantity().add(addedQuantity).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                     existingItem.setQuantity(newQuantity);
 
                     // Αφαιρέστε το υπάρχον αντικείμενο από τον πίνακα

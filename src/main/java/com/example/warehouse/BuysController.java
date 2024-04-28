@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
@@ -45,7 +47,7 @@ public class BuysController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
 
         LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
         dateFrom.setValue(firstDayOfMonth);
@@ -143,7 +145,7 @@ public class BuysController implements Initializable {
                         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                         String date2 = new SimpleDateFormat("dd/MM/yyyy").format(date1);
                         String invoice = itemNode.get("invoice").asText();
-                        Float total = Float.parseFloat(itemNode.get("total").asText());
+                        BigDecimal total = new BigDecimal(itemNode.get("total").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int suppliercode = itemNode.get("suppliercode").asInt();
 
                         Buys buy = new Buys (code, name,date2, invoice, total,suppliercode);

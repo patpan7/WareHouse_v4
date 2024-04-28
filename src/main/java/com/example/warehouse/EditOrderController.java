@@ -26,6 +26,7 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -69,7 +70,8 @@ public class EditOrderController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
+
         editedList = new ArrayList<>();
         newList = new ArrayList<>();
         deletedList = new ArrayList<>();
@@ -211,9 +213,9 @@ public class EditOrderController implements Initializable {
                         int code = itemNode.get("code").asInt();
                         int item_code = itemNode.get("item_code").asInt();
                         String name = itemNode.get("name").asText();
-                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
+                        BigDecimal quantity = new BigDecimal(itemNode.get("quantity").asText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
-                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
+                        BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
 
                         Item item = new Item(code, item_code, name, unit, quantity, price);
                         items.add(item);
@@ -277,9 +279,9 @@ public class EditOrderController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
+                        BigDecimal quantity = new BigDecimal(itemNode.get("quantity").asText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
-                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
+                        BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         int category_code = itemNode.get("category_code").asInt();
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1) {
@@ -309,7 +311,7 @@ public class EditOrderController implements Initializable {
             autocomplete();
 
             String itemName = tfName.getText();
-            BigDecimal quantity = new BigDecimal(tfQuantity.getText());
+            BigDecimal quantity = new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
 
             if (observableListItem.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
                 System.out.println("to eidos einai ston pinaka");

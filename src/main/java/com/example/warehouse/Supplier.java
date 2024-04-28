@@ -6,7 +6,7 @@ public class Supplier {
     int code;
     String name;
     String phone;
-    float turnover;
+    BigDecimal turnover;
     int enable;
 
     int item_code;
@@ -18,7 +18,7 @@ public class Supplier {
     public Supplier() {
     }
 
-    public Supplier(int code, String name, String phone, float turnover) {
+    public Supplier(int code, String name, String phone, BigDecimal turnover) {
         this.code = code;
         this.name = name;
         this.phone = phone;
@@ -31,7 +31,7 @@ public class Supplier {
         this.phone = phone;
     }
 
-    public Supplier(int code, String name, String phone, float turnover, int enable) {
+    public Supplier(int code, String name, String phone, BigDecimal turnover, int enable) {
         this.code = code;
         this.name = name;
         this.phone = phone;
@@ -71,7 +71,7 @@ public class Supplier {
         return phone;
     }
 
-    public float getTurnover() {
+    public BigDecimal getTurnover() {
         return turnover;
     }
 
@@ -87,7 +87,7 @@ public class Supplier {
         this.phone = phone;
     }
 
-    public void setTurnover(float turnover) {
+    public void setTurnover(BigDecimal turnover) {
         this.turnover = turnover;
     }
 

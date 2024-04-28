@@ -1,15 +1,17 @@
 package com.example.warehouse;
 
+import java.math.BigDecimal;
+
 public class Buys {
     int code;
     String name;
     String date;
     String invoice;
-    Float total;
+    BigDecimal total;
     int suppliercode;
     int totalinvoices;
 
-    public Buys(int code, String name, String date, String invoice, Float total, int suppliercode) {
+    public Buys(int code, String name, String date, String invoice, BigDecimal total, int suppliercode) {
         this.code = code;
         this.name = name;
         this.date = date;
@@ -18,7 +20,7 @@ public class Buys {
         this.suppliercode = suppliercode;
     }
 
-    public Buys(int code, String name, int totalInvoices, Float total) {
+    public Buys(int code, String name, int totalInvoices, BigDecimal total) {
         this.suppliercode = code;
         this.name = name;
         this.totalinvoices = totalInvoices;
@@ -53,11 +55,11 @@ public class Buys {
         this.invoice = invoice;
     }
 
-    public Float getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(Float total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
 

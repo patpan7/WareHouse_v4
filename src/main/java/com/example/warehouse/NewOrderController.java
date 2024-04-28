@@ -24,6 +24,7 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -54,7 +55,8 @@ public class NewOrderController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        server = AppSettings.loadSetting("server");
+        server = AppSettings.getInstance().server;
+
         itemsAutoComplete = fetchDataFromMySQL();
 
         // Ενεργοποίηση αυτόματης συμπλήρωσης στο TextField με βάση το όνομα του είδους
@@ -191,9 +193,9 @@ public class NewOrderController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        BigDecimal quantity = BigDecimal.valueOf(itemNode.get("quantity").asDouble());
+                        BigDecimal quantity = new BigDecimal(itemNode.get("quantity").asText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
-                        BigDecimal price = BigDecimal.valueOf(itemNode.get("price").asDouble());
+                        BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         int category_code = itemNode.get("category_code").asInt();
                         int enable = itemNode.get("enable").asInt();
                         if (enable == 1){
@@ -222,7 +224,7 @@ public class NewOrderController implements Initializable {
             autocomplete();
             ObservableList<Item> items = orderTable.getItems();
             if (!items.contains(selectedItem)) {
-                selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()));
+                selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP));
 
                 // Προσθέστε το νέο αντικείμενο στη λίσταitem
                 items.add(selectedItem);
@@ -242,7 +244,7 @@ public class NewOrderController implements Initializable {
                 if (existingItem != null) {
                     // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
                     items.remove(existingItem);
-                    existingItem.setQuantity(existingItem.getQuantity().add(new BigDecimal(tfQuantity.getText())));
+                    existingItem.setQuantity(existingItem.getQuantity().add(new BigDecimal(tfQuantity.getText())).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP));
                     items.add(existingItem);
                     tfName.setText("");
                     tfName.requestFocus();

@@ -1,3 +1,13 @@
 
-W
-java:S1118":Add a private constructor to hide the implicit public one.(ñÜİå8¿ÖïÄÉ1
+š
+java:S1104	"RMake server a static final constant or non-public and provide accessors if needed.(‘¸îüúÿÿÿÿ8ŸŒÇ£ò1J$a3900491-b0b2-409e-b3d7-b8af48d06230
+¤
+java:S1104
+"\Make quantityDecimals a static final constant or non-public and provide accessors if needed.(ıÍ¼üÿÿÿÿ8©ÇÆ£ò1J$e66610a0-6536-4209-9b35-b21d150175fe
+¡
+java:S1104"YMake priceDecimals a static final constant or non-public and provide accessors if needed.(£½ğüÿÿÿÿ8ó÷Æ£ò1J$671f726a-8fab-4a98-b77b-1d26c89e34bb
+œ
+java:S1104"YMake totalDecimals a static final constant or non-public and provide accessors if needed.(±‘©ı8ô÷Æ£ò1J$04e99f65-a19f-4b2e-b1f4-967fcd683de0
+p	java:S108")Either remove or fill this block of code.(õ÷£ğúÿÿÿÿ8…’¾£ò1J$8dbe01bc-d85f-4ed7-9e6f-68a23d8faf97
+t
+java:S1068",Remove this unused "instance" private field.(ê³©Âúÿÿÿÿ8ˆÎŞ£ò1J$b9c5b30d-17c0-443f-96da-33595c86db80
