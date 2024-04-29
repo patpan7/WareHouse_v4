@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -59,13 +61,14 @@ public class NewBuyController implements Initializable {
     TextField tfSum;
     @FXML
     TableView<Item> buyTable;
+    ObservableList<Item> items;
 
     List<Supplier> suppliers;
     ObservableList<Supplier> observableListSup;
     List<Item> itemsAutoComplete;
     Item selectedItem;
 
-    BigDecimal totalSum = null;
+    BigDecimal totalSum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
     String server;
 
     @Override
@@ -99,17 +102,10 @@ public class NewBuyController implements Initializable {
             String newValToSearch2 = new String(chars2);
             System.out.println(newValToSearch1);
             System.out.println(newValToSearch2);
-            List<Item> filteredList = itemsAutoComplete.stream()
-                    .filter(item -> item.getName().toUpperCase().contains(newValToSearch1))
-                    .collect(Collectors.toList());
-            filteredList.addAll(itemsAutoComplete.stream()
-                    .filter(item -> item.getName().toUpperCase().contains(newValToSearch2))
-                    .collect(Collectors.toList()));
+            List<Item> filteredList = itemsAutoComplete.stream().filter(item -> item.getName().toUpperCase().contains(newValToSearch1)).collect(Collectors.toList());
+            filteredList.addAll(itemsAutoComplete.stream().filter(item -> item.getName().toUpperCase().contains(newValToSearch2)).collect(Collectors.toList()));
             return filteredList;
         }).setPrefWidth(300);
-
-
-        //tfName.textProperty().addListener(this::changed);
 
         // Προσθήκη ακροατή κειμένου
         tfName.addEventHandler(KeyEvent.KEY_TYPED, this::handle);
@@ -118,59 +114,69 @@ public class NewBuyController implements Initializable {
             if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
                 // Αναζήτηση στη λίστα ειδών
                 autocomplete();
-            }
-        });
+                tfQuantity.requestFocus();
 
-
-        tfUnit.setOnMouseClicked(event -> {
-            if (tfQuantity.isFocused()) {
-                autocomplete();
-            } else {
-                System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
-            }
-        });
-
-        applyNumericDecimalFormatter(tfQuantity);
-        tfQuantity.setOnMouseClicked(event -> {
-            if (tfQuantity.getText().isEmpty()) {
-                autocomplete();
-            } else {
-                System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
+                event.consume();
             }
         });
 
         tfQuantity.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                // Αναζήτηση στη λίστα ειδών
-                autocomplete();
+            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
+                if (tfQuantity.getText().contains(",")) {
+                    tfQuantity.setText(tfQuantity.getText().replace(",", "."));
+                }
+                // Υπολογισμός του total price
+                BigDecimal quantity = new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
+                BigDecimal price = new BigDecimal(tfPrice.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
+                BigDecimal totalPrice = quantity.multiply(price).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                tfTotalPrice.setText(totalPrice.toString());
+
+                tfPrice.requestFocus();
+                tfPrice.selectAll();
+
+                selectedItem.setQuantity(quantity);
+                selectedItem.setSum(totalPrice);
+                event.consume();
             }
         });
 
-        applyNumericDecimalFormatter(tfPrice);
+
         tfPrice.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
-                // Αναζήτηση στη λίστα ειδών
-                addRow();
-            }
-        });
-
-        tfPrice.setOnMouseClicked(event -> {
-            if (tfPrice.getText().isEmpty()) {
-                autocomplete();
-            } else {
-                System.out.println("Το TextField δεν είναι ενεργοποιημένο με κλικ.");
-            }
-        });
-
-        tfTotalPrice.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
-                BigDecimal totalPrice = new BigDecimal(newValue).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                if (tfPrice.getText().contains(",")) {
+                    tfPrice.setText(tfPrice.getText().replace(",", "."));
+                }
+                // Υπολογισμός του total price
                 BigDecimal quantity = new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
-                BigDecimal price = totalPrice.divide(quantity).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
-                tfPrice.setText(price.toString());
+                BigDecimal price = new BigDecimal(tfPrice.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
+                BigDecimal totalPrice = quantity.multiply(price).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                tfTotalPrice.setText(totalPrice.toString());
+
+                tfTotalPrice.requestFocus();
+                tfTotalPrice.selectAll();
+
+                selectedItem.setPrice(price);
+                selectedItem.setSum(totalPrice);
+                event.consume();
             }
         });
 
+        tfTotalPrice.setOnKeyPressed(event ->{
+            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
+                if (tfTotalPrice.getText().contains(",")) {
+                    tfTotalPrice.setText(tfTotalPrice.getText().replace(",", "."));
+                }
+                BigDecimal quantity = new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
+                BigDecimal totalPrice = new BigDecimal(tfTotalPrice.getText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                BigDecimal price = totalPrice.divide(quantity, AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
+                tfPrice.setText(price.toString());
+
+                selectedItem.setPrice(price);
+                selectedItem.setSum(totalPrice);
+                addRow();
+                event.consume();
+            }
+        });
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -191,23 +197,17 @@ public class NewBuyController implements Initializable {
         // Προσθήκη των κολόνων στο TableView
         buyTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn, totalColumn);
         buyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
     }
 
     void autocomplete() {
         for (Item item : itemsAutoComplete) {
             if (item.getName().equalsIgnoreCase(tfName.getText())) {
                 tfUnit.setText(item.getUnit());
-                if (tfPrice.getText().isEmpty())
-                    tfPrice.setText(String.valueOf(item.getPrice()));
+                tfPrice.setText(item.getPrice().toString());
+
                 selectedItem = item;
-                selectedItem.print();
             }
         }
-        if (tfQuantity.getText().isEmpty())
-            tfQuantity.requestFocus();
-        else
-            tfPrice.requestFocus();
     }
 
     private void supplierInit() {
@@ -330,7 +330,7 @@ public class NewBuyController implements Initializable {
                     for (JsonNode itemNode : messageNode) {
                         int code = itemNode.get("code").asInt();
                         String name = itemNode.get("name").asText();
-                        BigDecimal quantity = new BigDecimal("").setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
+                        BigDecimal quantity = new BigDecimal("0").setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
                         String unit = itemNode.get("unit").asText();
                         BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         int category_code = itemNode.get("category_code").asInt();
@@ -357,58 +357,89 @@ public class NewBuyController implements Initializable {
     }
 
     public void addRow() {
+        Item insertItem = new Item(selectedItem);
+
+        selectedItem.print();
         if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && new BigDecimal(tfPrice.getText()).compareTo(BigDecimal.ZERO) > 0) {
-            // Πάρτε τη λίστα των αντικειμένων από τον πίνακα
-            autocomplete();
-            ObservableList<Item> items = buyTable.getItems();
-            if (!items.contains(selectedItem)) {
-                selectedItem.setQuantity(new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP));
-                selectedItem.setPrice(new BigDecimal(tfPrice.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP));
-                selectedItem.setSum(selectedItem.getQuantity().multiply(selectedItem.getPrice()));
-                System.out.println(selectedItem.getSum()+"");
-                // Προσθέστε το νέο αντικείμενο στη λίστα
-                items.add(selectedItem);
+            items = buyTable.getItems();
 
-                tfName.setText("");
-                tfName.requestFocus();
-                tfQuantity.setText("");
-                tfUnit.setText("");
-                tfPrice.setText("");
-                if (!tfSum.getText().isEmpty()) {
-                    totalSum.equals(totalSum.add(selectedItem.getSum()));
-                } else {
-                    totalSum = selectedItem.getSum();
-                }
+            Item existingItem = items.stream()
+                    .filter(item -> item.getName().equals(insertItem.getName()) && item.getPrice().equals(insertItem.getPrice()))
+                    .findFirst()
+                    .orElse(null);
 
-                tfSum.setText(String.valueOf(totalSum));
-
+            if (existingItem == null) {
+                // New item, add to list
+                items.add(insertItem);
+                updateTotals(insertItem.getSum());
             } else {
-                // Το selectedItem υπάρχει ήδη στη λίστα
-                // Βρείτε το υπάρχον αντικείμενο στη λίστα
-                Item existingItem = items.stream()
-                        .filter(item -> item.equals(selectedItem))
-                        .findFirst()
-                        .orElse(null);
+                // Update existing item
+                BigDecimal newQuantity = existingItem.getQuantity().add(insertItem.getQuantity());
+                existingItem.setQuantity(newQuantity);
 
-                if (existingItem != null) {
-                    // Προσθέστε το quantity του υπάρχοντος αντικειμένου στο selectedItem
-                    items.remove(existingItem);
-                    totalSum.equals(totalSum.subtract(selectedItem.getSum()));
-                    existingItem.setQuantity(existingItem.getQuantity().add(new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP)));
+                BigDecimal newSum = existingItem.getPrice().multiply(newQuantity);
+                existingItem.setSum(newSum);
 
-                    existingItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
-                    items.add(existingItem);
-                    tfName.setText("");
-                    tfName.requestFocus();
-                    tfQuantity.setText("");
-                    tfUnit.setText("");
-                    tfPrice.setText("");
-                    totalSum.equals(totalSum.add(selectedItem.getSum()));
-                    tfSum.setText(String.valueOf(totalSum));
-                }
+                buyTable.refresh();
+                updateTotals(insertItem.getSum());
             }
+
+            tfName.setText("");
+            tfName.requestFocus();
+            tfQuantity.setText("");
+            tfUnit.setText("");
+            tfPrice.setText("");
+            tfTotalPrice.setText("");
         }
+
+
+//            Item existingItem = items.stream()
+//                    .filter(item ->
+//                            item.getName().equals(selectedItem.getName()) &&
+//                                    item.getPrice().equals(selectedItem.getPrice()))
+//                    .findFirst()
+//                    .orElse(null);
+//
+//            if (existingItem == null) {
+//                // Δεν υπάρχει ήδη στοιχείο με το ίδιο όνομα και τιμή, οπότε προσθέτουμε νέα γραμμή
+//                items.add(selectedItem);
+//
+//                BigDecimal total = selectedItem.getQuantity().multiply(selectedItem.getPrice());
+//                totalSum = totalSum.add(total);
+//                tfSum.setText(totalSum.toString());
+//
+//                tfName.setText("");
+//                tfName.requestFocus();
+//                tfQuantity.setText("");
+//                tfUnit.setText("");
+//                tfPrice.setText("");
+//                tfTotalPrice.setText("");
+//            } else {
+//                // Υπάρχει ήδη στοιχείο με το ίδιο όνομα και τιμή
+//                BigDecimal existingQuantity = existingItem.getQuantity();
+//                BigDecimal newQuantity = existingQuantity.add(selectedItem.getQuantity());
+//                existingItem.setQuantity(newQuantity);
+//
+//                BigDecimal newSum = existingItem.getPrice().multiply(newQuantity);
+//                existingItem.setSum(newSum);
+//
+//                buyTable.refresh();
+//                tfName.setText("");
+//                tfName.requestFocus();
+//                tfQuantity.setText("");
+//                tfUnit.setText("");
+//                tfPrice.setText("");
+//                tfTotalPrice.setText("");
+//                totalSum = totalSum.add(selectedItem.getSum());
+//                tfSum.setText(totalSum.toString());
+//            }
+
     }
+    private void updateTotals(BigDecimal itemSum) {
+        totalSum = totalSum.add(itemSum);
+        tfSum.setText(totalSum.toString());
+    }
+
 
     public void deleteRow(ActionEvent event) {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
@@ -420,7 +451,7 @@ public class NewBuyController implements Initializable {
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
-            totalSum.equals(totalSum.subtract(selectedItem.getSum()));
+            totalSum = totalSum.subtract(selectedItem.getSum());
             tfSum.setText(String.valueOf(totalSum));
         }
     }
@@ -431,16 +462,16 @@ public class NewBuyController implements Initializable {
         // Αν έχει επιλεγεί γραμμή
         if (selectedProduct != null) {
             tfName.setText(selectedProduct.getName());
-            tfQuantity.setText(String.valueOf(selectedProduct.getQuantity()));
+            tfQuantity.setText(selectedProduct.getQuantity().toString());
             tfUnit.setText(selectedProduct.getUnit());
-            tfPrice.setText(String.valueOf(selectedProduct.getPrice()));
+            tfPrice.setText(selectedProduct.getPrice().toString());
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
             ObservableList<Item> items = buyTable.getItems();
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(selectedProduct);
-            totalSum.equals(totalSum.subtract(selectedItem.getSum()));
-            tfSum.setText(String.valueOf(totalSum));
+            totalSum = totalSum.subtract(selectedItem.getSum());
+            tfSum.setText(totalSum.toString());
         }
     }
 
@@ -550,7 +581,7 @@ public class NewBuyController implements Initializable {
     public void clean() {
         buyTable.getItems().clear();
         buyTable.refresh();
-        totalSum = new BigDecimal("0");
+        totalSum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
         tfSum.setText("");
         tfSupplier.setValue(null);
         tfInvoice.setText("");

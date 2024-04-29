@@ -1,80 +1,77 @@
 
 ‘
-java:S1192ö"HDefine a constant instead of duplicating this literal "http://" 3 times.(£ÙóÏÿÿÿÿÿ8ÖË¤¦ò1J$4cd419c7-90c3-45cb-acf9-ece94f5d8869
-×
-java:S1192"Define a constant instead of duplicating this literal "Î¤Î¿ TextField Î´ÎµÎ½ ÎµÎ¯Î½Î±Î¹ ÎµÎ½ÎµÏÎ³Î¿Ï€Î¿Î¹Î·Î¼Î­Î½Î¿ Î¼Îµ ÎºÎ»Î¹Îº." 3 times.(ö—å¶øÿÿÿÿ8ÖË¤¦ò1J$17724dfe-cb54-433c-9142-b9588dd0fd68
+java:S1192ö"HDefine a constant instead of duplicating this literal "http://" 3 times.(£ÙóÏÿÿÿÿÿ8Ò—´¹ò1J$ab56bfec-62e6-4752-971d-94d6f9cf3c62
 Œ
-java:S1192"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷8ÖË¤¦ò1J$1a2b0795-3f0c-4973-b7e1-417f9f873d6e
-™	java:S117ö"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ÙóÏÿÿÿÿÿ8ØË¤¦ò1J$e1424220-130c-4362-b3f3-be19c7e11f40
-”	java:S117÷"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áá‡¨8ØË¤¦ò1J$bff53ac4-2ef7-4c24-a67f-ab05b15084fb
-™	java:S117®"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8ØË¤¦ò1J$95cddf89-cbba-47fe-a684-9d0103c76fe4
-”	java:S117¯"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8ØË¤¦ò1J$54e5633e-1868-4bcd-8229-c1d83d34a57a
-™	java:S117Ğ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8ØË¤¦ò1J$78b5259e-3b11-4e58-b07d-1307e024f859
+java:S1192"HDefine a constant instead of duplicating this literal "message" 4 times.(Ï˜¯÷8Ò—´¹ò1J$acb6c1a6-fc21-474c-a80c-23375bec77af
+™	java:S117ö"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ÙóÏÿÿÿÿÿ8Ô—´¹ò1J$b9dd0d94-5c9f-4a27-96dc-8025de0543ef
+”	java:S117÷"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áá‡¨8Ô—´¹ò1J$3aec8f5e-761e-4d78-a08b-fa641c81e669
+™	java:S117®"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è¤Á‹øÿÿÿÿ8Ô—´¹ò1J$b116c3de-c9c5-4703-b92f-3efaebd3cb4b
+”	java:S117¯"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üûÛ8Ô—´¹ò1J$e63c9c80-356a-483d-ab6c-e2be252cea09
+™	java:S117Ğ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îø™½ÿÿÿÿÿ8Ô—´¹ò1J$456b07ec-554a-4ad2-9e64-164cbe73502c
 ’
-java:S3655˜"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8ÍÌ¤¦ò1J$1854e561-a15c-4a3a-97d0-1dc67af8227b
+java:S3655·"NCall "result2.isPresent()" or "!result2.isEmpty()" before accessing the value.( ÷‚î8«˜´¹ò1J$ffdc8f8e-9764-4197-92c9-13992f8f65e8
 š
-java:S3776H"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(•‘İŸüÿÿÿÿ8ÕÌ¤¦ò1J$329dd472-836c-41f8-97d1-fb4c40dd4584
+java:S3776K"RRefactor this method to reduce its Cognitive Complexity from 29 to the 15 allowed.(•‘İŸüÿÿÿÿ8±˜´¹ò1J$e70d0d99-9213-4638-995d-91cd4d52e0aa
 
-java:S1854L"7Remove this useless assignment to local variable "dtf".(ı«†×ÿÿÿÿÿ8ÕÌ¤¦ò1J$d43d337e-7e97-444c-951a-40c46b932619
+java:S1854O"7Remove this useless assignment to local variable "dtf".(ı«†×ÿÿÿÿÿ8²˜´¹ò1J$65aa2428-aeaf-4634-8b77-0b1933122b53
 p
-java:S1481L"(Remove this unused "dtf" local variable.(ı«†×ÿÿÿÿÿ8ØÌ¤¦ò1J$f830c630-71ab-4927-bf4f-ae6791cbdf0e
-r	java:S106d"+Replace this use of System.out by a logger.(ğæ³ëüÿÿÿÿ8ÛÌ¤¦ò1J$e1cf23bd-8123-4b3e-b4e8-df6b02a84c8b
-r	java:S106e"+Replace this use of System.out by a logger.(Û­Æıÿÿÿÿ8ÛÌ¤¦ò1J$7d99dbd6-c57a-409b-b9f4-c9b6e17413f7
-½
-java:S6204k"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(ã¤£’8İÌ¤¦ò1J$c2e821df-2f0e-472f-9b2e-82a265006f7e
-~	java:S125p"<This block of commented-out lines of code should be removed.(ƒ“ô‡8ßÌ¤¦ò1J$79c15328-b29c-4670-9cae-3aa9242973be
-s	java:S106"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8àÌ¤¦ò1J$496ce56c-4a28-4f7a-a83e-8a36ad79b035
-s	java:S106Š"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8áÌ¤¦ò1J$dcf98dc5-b157-4267-9d2b-c11695fe8f32
-s	java:S106¡"+Replace this use of System.out by a logger.(ö—å¶øÿÿÿÿ8ãÌ¤¦ò1J$bbec5c75-9f6f-4215-9ca6-dbaa85c2e343
+java:S1481O"(Remove this unused "dtf" local variable.(ı«†×ÿÿÿÿÿ8³˜´¹ò1J$280ea8ac-2f08-4360-ae53-1705050e38a7
+r	java:S106g"+Replace this use of System.out by a logger.(ğæ³ëüÿÿÿÿ8¶˜´¹ò1J$3756540d-f0a7-4e77-bd6b-64d32f012c2e
+r	java:S106h"+Replace this use of System.out by a logger.(Û­Æıÿÿÿÿ8¶˜´¹ò1J$a2f3908f-157f-47a0-84b5-47d80ce5c9eb
+Â
+java:S6204j"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(Êƒå¥ùÿÿÿÿ8¸˜´¹ò1J$dea5dc75-96ea-492f-af2c-18c76690ce2b
 Š
-java:S1874Á"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(¡§Õ‘úÿÿÿÿ8èÌ¤¦ò1J$207ac375-abe1-4dcd-8f95-58cb53c028fd
-s	java:S106Ÿ"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8üÌ¤¦ò1J$eeb24b68-5ccc-44a9-ad2e-25a9aea27302
-s	java:S106¢"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8üÌ¤¦ò1J$38854433-4262-41ec-8495-9f7ca9c7b6e7
-s	java:S106Ú"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8Í¤¦ò1J$f651953a-134f-4d6d-866d-1f43a5671304
-s	java:S106İ"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8Í¤¦ò1J$79d3e173-87d6-4406-9d51-a02d3599c83c
-m	java:S106ğ"+Replace this use of System.out by a logger.(ªîî8„Í¤¦ò1J$49309730-e5bc-494f-93b8-4ed0254d9963
-n
-java:S2201ú"*The return value of "equals" must be used.(ûÍ”8†Í¤¦ò1J$186e10ae-526b-4447-9d34-b9904f79cfa0
-s
-java:S2201Œ"*The return value of "equals" must be used.(öıÕ˜üÿÿÿÿ8‡Í¤¦ò1J$ef149b8e-6d9c-4f59-ac0c-922d73025ca5
-n
-java:S2201–"*The return value of "equals" must be used.(ûÍ”8ˆÍ¤¦ò1J$ecd13784-01b2-4bc4-8d79-6684ff7e51a3
+java:S1874Ç"ARemove this use of "CONSTRAINED_RESIZE_POLICY"; it is deprecated.(¡§Õ‘úÿÿÿÿ8Á˜´¹ò1J$656f7c3a-8fbb-4271-891f-00889d52472a
+s	java:S106Ÿ"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8Ó˜´¹ò1J$5aee20cb-419c-4f9c-863b-a48456fb878e
+s	java:S106¢"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8Ô˜´¹ò1J$f413e270-bc71-4333-8821-11ff7b0fcd7d
+s	java:S106Ú"+Replace this use of System.out by a logger.(êäöÿÿÿÿÿ8Ø˜´¹ò1J$dae58c08-11f8-4b27-b23b-8228e6de6174
+s	java:S106İ"+Replace this use of System.out by a logger.(Ù£ˆùÿÿÿÿ8Ø˜´¹ò1J$a6154e73-2069-49ea-bf90-7b99017b1628
+„	java:S125‘"<This block of commented-out lines of code should be removed.(ÒÄôÅøÿÿÿÿ8İ˜´¹ò1J$9a5276d7-ceac-4d70-942f-b68f35613c58
 u
-java:S1172",Remove this unused method parameter "event".(”İö›ÿÿÿÿÿ8‰Í¤¦ò1J$3cd89058-bfe2-4dfc-92cc-cf613dfa855c
-s
-java:S2201§"*The return value of "equals" must be used.(öıÕ˜üÿÿÿÿ8ŠÍ¤¦ò1J$8650bfdb-7162-451d-b9ab-418517faa92f
+java:S1172¼",Remove this unused method parameter "event".(”İö›ÿÿÿÿÿ8Ş˜´¹ò1J$fa0c1318-c62b-440c-befd-a7210967dfb6
+}
+java:S1117Â"9Rename "items" which hides the field declared at line 64.(å¼°8ß˜´¹ò1J$1a45be4b-178d-4f60-b01e-7cb3a85bcbd4
 u
-java:S1172¬",Remove this unused method parameter "event".(õëóÿÿÿÿÿ8‹Í¤¦ò1J$188f6c28-81bf-4c90-a1dc-63c6184d87e9
-s
-java:S2201º"*The return value of "equals" must be used.(öıÕ˜üÿÿÿÿ8Í¤¦ò1J$206b7ef7-c947-44c3-92fa-6ab7260f00fa
+java:S1172Ë",Remove this unused method parameter "event".(õëóÿÿÿÿÿ8à˜´¹ò1J$aa10258b-1148-4962-bd69-3bfc71f5df6f
+}
+java:S1117Õ"9Rename "items" which hides the field declared at line 64.(å¼°8à˜´¹ò1J$56211542-1a6f-4419-9cfc-43b0bbd4e3f6
 „
-java:S1854Ğ";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8Í¤¦ò1J$087cc8db-293e-4da6-93ff-ca1e4ac9e024
+java:S1854ï";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8á˜´¹ò1J$fb19ed51-7f0b-4683-9850-0a4f20c8269a
 „
-java:S1854Ö";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8Í¤¦ò1J$89f51006-c7f4-4de7-bd96-eacd6af96e25
+java:S1854õ";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8á˜´¹ò1J$4d477556-7790-4305-80de-fd7a20924a25
 „
-java:S1854Ü";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8Í¤¦ò1J$03cd32a1-b61c-42d8-9bbe-ce0734ca5dc7
+java:S1854û";Remove this useless assignment to local variable "result2".(ª‚¡Ÿúÿÿÿÿ8á˜´¹ò1J$578bf73b-5aba-4d91-931b-161b8fbade6f
 p
-java:S1172À",Remove this unused method parameter "event".(¬»¤é8Í¤¦ò1J$749d28a4-6b3b-4153-94cd-e36ee02e8b23
+java:S1172ß",Remove this unused method parameter "event".(¬»¤é8á˜´¹ò1J$333749ce-abd7-4fee-b10c-cca3d9a6ca75
+}
+java:S1117å"9Rename "items" which hides the field declared at line 64.(å¼°8â˜´¹ò1J$12aca8c3-d3ab-4c26-9eab-b4d3c2ce7c97
 u
-java:S1481Ğ",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8Í¤¦ò1J$9bc61d42-8763-4ed6-8d97-2137640dcffd
+java:S1481ï",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8ã˜´¹ò1J$72085ef0-93f5-46e2-870f-ac266ceea38d
 u
-java:S1481Ö",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8‘Í¤¦ò1J$e582ea8e-c611-49de-956b-f7fe60e9f364
+java:S1481õ",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8ã˜´¹ò1J$61b6df4e-2c14-46f5-990a-ef571cbeebc8
 u
-java:S1481Ü",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8’Í¤¦ò1J$a8b9f239-2b7e-4714-9ba9-4936b08583e3
-n	java:S106ı"+Replace this use of System.out by a logger.(ÕºÅã8”Í¤¦ò1J$f62bf239-94db-4e96-ae59-c5ef0e3123fe
-m	java:S106‡"+Replace this use of System.out by a logger.(ÁØÕx8”Í¤¦ò1J$1a56dcda-837f-4d28-ae9c-7bd88e01dd0b
-s	java:S106’"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8•Í¤¦ò1J$34ee585e-9576-4e8f-b73e-889f262841e5
+java:S1481û",Remove this unused "result2" local variable.(ª‚¡Ÿúÿÿÿÿ8ä˜´¹ò1J$acc985e4-4d4d-4b28-a963-348ee132f8c3
+n	java:S106œ"+Replace this use of System.out by a logger.(ÕºÅã8æ˜´¹ò1J$262df4fb-626f-4f12-9028-6103d9dd3cba
+m	java:S106¦"+Replace this use of System.out by a logger.(ÁØÕx8æ˜´¹ò1J$bdad58dc-0806-4ef2-8d31-491b4ce8e507
+s	java:S106±"+Replace this use of System.out by a logger.(ÍĞŒÙüÿÿÿÿ8ç˜´¹ò1J$1b9046a5-7083-49b4-8c9a-6dfe2440a804
 ”
-java:S1172ò"KRemove these unused method parameters "observable", "oldValue", "newValue".(€£¨úÿÿÿÿ8œÍ¤¦ò1J$a4e09e92-4239-448e-9d8e-20884d05ee89
+java:S1172‘"KRemove these unused method parameters "observable", "oldValue", "newValue".(€£¨úÿÿÿÿ8î˜´¹ò1J$747d1a52-34d2-4f65-b2da-706fb8f46476
 ˆ
-java:S4968ò"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8Í¤¦ò1J$bfe36e01-7246-44b6-bea0-6240a7533d73
+java:S4968‘"?Replace this type parametrization by the 'final' type `String`.(€£¨úÿÿÿÿ8ï˜´¹ò1J$2d4550cd-8627-44c7-984e-223a85991106
 …
-java:S6353"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8 Í¤¦ò1J$2ff5d362-0e59-4c97-92d2-4562ae20fd42
+java:S6353­"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8ñ˜´¹ò1J$e61c96ea-4c46-4769-8167-36c7fe120d45
 …
-java:S6353"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8 Í¤¦ò1J$34ab4da9-3300-48c1-9182-309936353380
+java:S6353­"<Use concise character class syntax '\\d' instead of '[0-9]'.(ã¤ÈÍüÿÿÿÿ8ñ˜´¹ò1J$eb4610ff-f7d2-4b68-97bf-2d36f74beb39
 p
-java:S1172™",Remove this unused method parameter "event".(™™È«8¡Í¤¦ò1J$3888d837-cf9f-418b-9b1f-210ae89ede03
+java:S1172¸",Remove this unused method parameter "event".(™™È«8ò˜´¹ò1J$1f375915-9a06-4124-aee5-6b2ee4b3e530
+r
+java:S1128
+"/Remove this unused import 'javafx.event.Event'.(ô”áñ8ã‹Ã¹ò1J$826df190-b42b-450a-a359-be04b42d1a1a
 w
-java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8¥Í¤¦ò1J$73261e56-a718-40c3-b224-700e2e1f9d5d
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8ã‹Ã¹ò1J$f29fcec9-8e33-4d97-b37a-ebfbad469d05
+{
+java:S1128#"8Remove this unused import 'java.util.function.Function'.(»³Í8ã‹Ã¹ò1J$657b9138-621e-45d2-aaf5-63d579a66d0b
 u
-java:S1144ò",Remove this unused private "changed" method.(€£¨úÿÿÿÿ8¥Í¤¦ò1J$eb9de451-6f78-47fd-befd-5ed735ecd0c0
+java:S1144‘",Remove this unused private "changed" method.(€£¨úÿÿÿÿ8õ˜´¹ò1J$021ec799-715f-435f-9dbf-6fc55f02edfd
+…
+java:S1144¥"ARemove this unused private "applyNumericDecimalFormatter" method.(œùúÌ8ö˜´¹ò1J$e4dba493-10d8-49a6-b9e2-75e01834b277

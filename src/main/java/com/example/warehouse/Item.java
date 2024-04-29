@@ -18,6 +18,20 @@ public class Item {
     public Item() {
     }
 
+    public Item(Item item) {
+        this.code = item.code;
+        this.item_code = item.item_code;
+        this.name = item.name;
+        this.quantity = item.quantity;
+        this.unit = item.unit;
+        this.price = item.price;
+        this.category_code = item.category_code;
+        this.sum = item.sum;
+        this.enable = item.enable;
+        this.department = item.department;
+        this.supplier = item.supplier;
+    }
+
     public Item(int item_code, String name, BigDecimal quantity, String unit, BigDecimal price, int category_code) {
         this.item_code = item_code;
         this.name = name;
