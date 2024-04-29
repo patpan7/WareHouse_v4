@@ -57,6 +57,8 @@ public class NewBuyController implements Initializable {
     TextField tfSum;
     @FXML
     TableView<Item> buyTable;
+    @FXML
+    MenuItem editMenu;
     ObservableList<Item> items;
 
     List<Supplier> suppliers;
@@ -356,6 +358,7 @@ public class NewBuyController implements Initializable {
     }
 
     public void addRow() {
+        editMenu.setDisable(false);
         Item insertItem = new Item(selectedItem);
 
         selectedItem.print();
@@ -390,49 +393,6 @@ public class NewBuyController implements Initializable {
             tfPrice.setText("");
             tfTotalPrice.setText("");
         }
-
-
-//            Item existingItem = items.stream()
-//                    .filter(item ->
-//                            item.getName().equals(selectedItem.getName()) &&
-//                                    item.getPrice().equals(selectedItem.getPrice()))
-//                    .findFirst()
-//                    .orElse(null);
-//
-//            if (existingItem == null) {
-//                // Δεν υπάρχει ήδη στοιχείο με το ίδιο όνομα και τιμή, οπότε προσθέτουμε νέα γραμμή
-//                items.add(selectedItem);
-//
-//                BigDecimal total = selectedItem.getQuantity().multiply(selectedItem.getPrice());
-//                totalSum = totalSum.add(total);
-//                tfSum.setText(totalSum.toString());
-//
-//                tfName.setText("");
-//                tfName.requestFocus();
-//                tfQuantity.setText("");
-//                tfUnit.setText("");
-//                tfPrice.setText("");
-//                tfTotalPrice.setText("");
-//            } else {
-//                // Υπάρχει ήδη στοιχείο με το ίδιο όνομα και τιμή
-//                BigDecimal existingQuantity = existingItem.getQuantity();
-//                BigDecimal newQuantity = existingQuantity.add(selectedItem.getQuantity());
-//                existingItem.setQuantity(newQuantity);
-//
-//                BigDecimal newSum = existingItem.getPrice().multiply(newQuantity);
-//                existingItem.setSum(newSum);
-//
-//                buyTable.refresh();
-//                tfName.setText("");
-//                tfName.requestFocus();
-//                tfQuantity.setText("");
-//                tfUnit.setText("");
-//                tfPrice.setText("");
-//                tfTotalPrice.setText("");
-//                totalSum = totalSum.add(selectedItem.getSum());
-//                tfSum.setText(totalSum.toString());
-//            }
-
     }
     private void updateTotals(BigDecimal itemSum) {
         totalSum = totalSum.add(itemSum);
@@ -442,33 +402,34 @@ public class NewBuyController implements Initializable {
 
     public void deleteRow(ActionEvent event) {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
-        Item selectedProduct = buyTable.getSelectionModel().getSelectedItem();
+        Item deletedProduct = buyTable.getSelectionModel().getSelectedItem();
         // Αν έχει επιλεγεί γραμμή
-        if (selectedProduct != null) {
+        if (deletedProduct != null) {
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
-            ObservableList<Item> items = buyTable.getItems();
+            items = buyTable.getItems();
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
-            items.remove(selectedProduct);
+            items.remove(deletedProduct);
             totalSum = totalSum.subtract(selectedItem.getSum());
-            tfSum.setText(String.valueOf(totalSum));
+            tfSum.setText(totalSum.toString());
         }
     }
 
     public void editRow(ActionEvent event) {
         // Λάβετε την επιλεγμένη γραμμή από τον πίνακα
-        Item selectedProduct = buyTable.getSelectionModel().getSelectedItem();
+        Item editItem = buyTable.getSelectionModel().getSelectedItem();
         // Αν έχει επιλεγεί γραμμή
-        if (selectedProduct != null) {
-            tfName.setText(selectedProduct.getName());
-            tfQuantity.setText(selectedProduct.getQuantity().toString());
-            tfUnit.setText(selectedProduct.getUnit());
-            tfPrice.setText(selectedProduct.getPrice().toString());
+        if (editItem != null) {
+            tfName.setText(editItem.getName());
+            tfQuantity.setText(editItem.getQuantity().toString());
+            tfUnit.setText(editItem.getUnit());
+            tfPrice.setText(editItem.getPrice().toString());
+            tfTotalPrice.setText(editItem.getSum().toString());
             // Λάβετε τη λίστα των αντικειμένων από τον πίνακα
-            ObservableList<Item> items = buyTable.getItems();
+            items = buyTable.getItems();
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
-            items.remove(selectedProduct);
+            items.remove(editItem);
             totalSum = totalSum.subtract(selectedItem.getSum());
             tfSum.setText(totalSum.toString());
         }
@@ -481,7 +442,7 @@ public class NewBuyController implements Initializable {
                 if (!buyTable.getItems().isEmpty()) {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     String date = dtf.format(tfDate.getValue());
-                    ObservableList<Item> items = buyTable.getItems();
+                    items = buyTable.getItems();
                     int suppliercode = tfSupplier.getValue().getCode();
                     String invoice = tfInvoice.getText();
                     for (Item item : items)
