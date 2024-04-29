@@ -3,11 +3,9 @@ package com.example.warehouse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.BufferedReader;
@@ -32,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -119,7 +115,7 @@ public class NewBuyController implements Initializable {
                 event.consume();
             }
         });
-
+        applyNumericDecimalFormatter(tfQuantity);
         tfQuantity.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
                 if (tfQuantity.getText().contains(",")) {
@@ -140,7 +136,7 @@ public class NewBuyController implements Initializable {
             }
         });
 
-
+        applyNumericDecimalFormatter(tfPrice);
         tfPrice.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
                 if (tfPrice.getText().contains(",")) {
@@ -161,6 +157,7 @@ public class NewBuyController implements Initializable {
             }
         });
 
+        applyNumericDecimalFormatter(tfTotalPrice);
         tfTotalPrice.setOnKeyPressed(event ->{
             if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
                 if (tfTotalPrice.getText().contains(",")) {
@@ -177,6 +174,8 @@ public class NewBuyController implements Initializable {
                 event.consume();
             }
         });
+
+        tfSum.setEditable(false);
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -654,17 +653,6 @@ public class NewBuyController implements Initializable {
         // ...
     }
 
-    private void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        // Έλεγχος αν το μήκος του κειμένου είναι μεγαλύτερο από το μήκος του TextField
-        if (tfName.getText().length() > tfName.getPrefColumnCount()) {
-            // Προσαρμογή του μεγέθους της γραμματοσειράς
-            tfName.setStyle("-fx-font-size: 14;"); // Ορίστε το επιθυμητό μέγεθος της γραμματοσειράς
-            tfName.positionCaret(0);
-        } else {
-            // Επαναφορά του μεγέθους της γραμματοσειράς στην προκαθορισμένη τιμή
-            tfName.setStyle(""); // Επαναφορά στο default μέγεθος της γραμματοσειράς
-        }
-    }
 
     private void handle(KeyEvent event) {
         // Έλεγχος της θέσης του κέρσορα
