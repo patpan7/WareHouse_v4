@@ -12,7 +12,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 <junit.version>5.9.2</junit.version>
-      <itext.version>8.0.2</itext.version>
+      <itext.version>8.0.4</itext.version>
   </properties>
 
   <dependencies>
