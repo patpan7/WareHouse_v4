@@ -10,14 +10,18 @@ public class Buys {
     BigDecimal total;
     int suppliercode;
     int totalinvoices;
+    BigDecimal fpa;
+    BigDecimal totalValue;
 
-    public Buys(int code, String name, String date, String invoice, BigDecimal total, int suppliercode) {
+    public Buys(int code, String name, String date, String invoice, BigDecimal total, int suppliercode, BigDecimal fpa, BigDecimal totalValue) {
         this.code = code;
         this.name = name;
         this.date = date;
         this.invoice = invoice;
         this.total = total;
         this.suppliercode = suppliercode;
+        this.fpa = fpa;
+        this.totalValue = totalValue;
     }
 
     public Buys(int code, String name, int totalInvoices, BigDecimal total) {
@@ -77,6 +81,22 @@ public class Buys {
 
     public void setTotalinvoices(int totalinvoices) {
         this.totalinvoices = totalinvoices;
+    }
+
+    public BigDecimal getFpa() {
+        return fpa;
+    }
+
+    public void setFpa(BigDecimal fpa) {
+        this.fpa = fpa;
+    }
+
+    public BigDecimal getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(BigDecimal totalValue) {
+        this.totalValue = totalValue;
     }
 }
 

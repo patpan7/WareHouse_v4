@@ -12,6 +12,9 @@ public class Item {
     int category_code;
     BigDecimal sum = new BigDecimal("0");
     int enable;
+    int fpa;
+    BigDecimal fpaValue;
+    BigDecimal totalValue;
     String department;
     String supplier;
 
@@ -24,6 +27,7 @@ public class Item {
         this.name = item.name;
         this.quantity = item.quantity;
         this.unit = item.unit;
+        this.fpa = item.fpa;
         this.price = item.price;
         this.category_code = item.category_code;
         this.sum = item.sum;
@@ -157,6 +161,61 @@ public class Item {
         this.unit = unit;
     }
 
+    public Item(int code, String name, BigDecimal quantity, String unit, BigDecimal price, int categoryCode, int enable, int fpa) {
+        this.item_code = code;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = categoryCode;
+        this.enable = enable;
+        this.fpa = fpa;
+    }
+
+    public Item(int code, String name, String unit, BigDecimal price, int categoryCode, int enable, int fpa) {
+        this.item_code = code;
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = categoryCode;
+        this.enable = enable;
+        this.fpa = fpa;
+    }
+
+    public Item(String name, String unit, BigDecimal price, int categoryCode, int enable, int fpa) {
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = categoryCode;
+        this.enable = enable;
+        this.fpa = fpa;
+    }
+
+
+    public Item(int code, String name, BigDecimal quantity, String unit, BigDecimal price, int categoryCode, BigDecimal sum, int fpa) {
+        this.item_code = code;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.price = price;
+        this.category_code = categoryCode;
+        this.sum = sum;
+        this.fpa = fpa;
+    }
+
+    public Item(int code, int itemCode, String name, BigDecimal quantity, String unit, BigDecimal price, BigDecimal sum, int fpa, BigDecimal totalFpa, BigDecimal totalValue) {
+        this.code = code;
+        this.item_code = itemCode;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.price = price;
+        this.sum = sum;
+        this.fpa = fpa;
+        this.fpaValue = totalFpa;
+        this.totalValue = totalValue;
+    }
+
     public int getEnable() {
         return enable;
     }
@@ -185,11 +244,14 @@ public class Item {
         return price;
     }
 
-    public int getCategory_code() {return category_code;}
+    public int getCategory_code() {
+        return category_code;
+    }
 
     public BigDecimal getSum() {
         return sum;
     }
+
     public void setItem_code(int item_code) {
         this.item_code = item_code;
     }
@@ -214,9 +276,18 @@ public class Item {
         this.category_code = category_code;
     }
 
-    public void setSum (BigDecimal sum){
+    public int getFpa() {
+        return fpa;
+    }
+
+    public void setFpa(int fpa) {
+        this.fpa = fpa;
+    }
+
+    public void setSum(BigDecimal sum) {
         this.sum = sum;
     }
+
     @Override
     public String toString() {
         return name;
@@ -246,6 +317,22 @@ public class Item {
         this.supplier = supplier;
     }
 
+    public BigDecimal getFpaValue() {
+        return fpaValue;
+    }
+
+    public void setFpaValue(BigDecimal fpaValue) {
+        this.fpaValue = fpaValue;
+    }
+
+    public BigDecimal getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(BigDecimal totalValue) {
+        this.totalValue = totalValue;
+    }
+
     public void print() {
         System.out.println("Code: " + item_code);
         System.out.println("Name: " + name);
@@ -255,5 +342,8 @@ public class Item {
         System.out.println("Category Code: " + category_code);
         System.out.println("Sum: " + sum);
         System.out.println("Department: " + department);
+        System.out.println("FPA: " + fpa);
+        System.out.println("FPA Value: " + fpaValue);
+        System.out.println("Total Value: " + totalValue);
     }
 }

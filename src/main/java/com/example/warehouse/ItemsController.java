@@ -44,6 +44,7 @@ public class ItemsController implements Initializable {
     List<Category> categories;
     ObservableList<Item> observableListItem;
     FilteredList<Item> filteredData;
+    private String[] fpaList = {"6","13","24"};
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,8 +65,11 @@ public class ItemsController implements Initializable {
         TableColumn<Item, BigDecimal> priceColumn = new TableColumn<>("Τιμή");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+        TableColumn<Item, String> fpaColumn = new TableColumn<>("ΦΠΑ");
+        fpaColumn.setCellValueFactory(new PropertyValueFactory<>("fpa"));
+
         // Προσθήκη των κολόνων στο TableView
-        itemsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
+        itemsTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn,fpaColumn);
         tableInit();
 
         itemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -255,7 +259,8 @@ public class ItemsController implements Initializable {
                         BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         int category_code = itemNode.get("category_code").asInt();
                         int enable = itemNode.get("enable").asInt();
-                        Item item = new Item(code, name, quantity, unit, price, category_code, enable);
+                        int fpa = itemNode.get("fpa").asInt();
+                        Item item = new Item(code, name, quantity, unit, price, category_code, enable,fpa);
                         Items.add(item);
                     }
                 } else {
@@ -393,6 +398,7 @@ public class ItemsController implements Initializable {
         TextField priceField = (TextField) dialog.getDialogPane().lookup("#tfPrice");
         ComboBox unitField = (ComboBox) dialog.getDialogPane().lookup("#tfUnit");
         ComboBox<Category> tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
+        ComboBox tfFpa = (ComboBox) dialog.getDialogPane().lookup("#tfFpa");
         CheckBox tfEnable = (CheckBox) dialog.getDialogPane().lookup("#tfEnable");
 
         // Ορίζετε τιμές στα πεδία με βάση τα δεδομένα του επιλεγμένου προϊόντος
@@ -431,6 +437,9 @@ public class ItemsController implements Initializable {
         });
         //tfCategory.setValue(selectedProduct.getCategory_code());
 
+        tfFpa.getItems().addAll(fpaList);
+        tfFpa.setValue(String.valueOf(selectedProduct.getFpa()));
+
         tfEnable.setSelected(selectedProduct.getEnable() == 1);
 
         // Προσθήκη κουμπιών στον διάλογο
@@ -444,13 +453,15 @@ public class ItemsController implements Initializable {
             if (tfEnable.isSelected())
                 enable = 1;
 
+            priceField.setText(priceField.getText().replace(",", "."));
             BigDecimal price = new BigDecimal(priceField.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
-            updateRequest(selectedProduct.getItem_code(), nameField.getText(), price, unitField.getValue().toString(), categoryCode.get(), enable);
+            updateRequest(selectedProduct.getItem_code(), nameField.getText(), price, unitField.getValue().toString(), categoryCode.get(), enable, Integer.parseInt(tfFpa.getValue().toString()));
             // Ενημέρωση του επιλεγμένου αντικειμένου στη λίστα
             selectedProduct.setName(nameField.getText());
             selectedProduct.setPrice(price);
             selectedProduct.setUnit(unitField.getValue().toString());
             selectedProduct.setCategory_code(categoryCode.get());
+            selectedProduct.setFpa(Integer.parseInt(tfFpa.getValue().toString()));
             if (tfEnable.isSelected())
                 selectedProduct.setEnable(1);
             else
@@ -479,6 +490,9 @@ public class ItemsController implements Initializable {
             unitComboBox.getSelectionModel().selectFirst();
 
             ComboBox<Category> tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
+            ComboBox tfFpa = (ComboBox) dialog.getDialogPane().lookup("#tfFpa");
+            CheckBox tfEnable = (CheckBox) dialog.getDialogPane().lookup("#tfEnable");
+
 
             AtomicInteger categotyCode = new AtomicInteger(1);
             tfCategory.getItems().addAll(observableListCat);
@@ -515,6 +529,11 @@ public class ItemsController implements Initializable {
                 }
             });
 
+            tfFpa.getItems().addAll(fpaList);
+            tfFpa.setValue("13");
+
+            tfEnable.setSelected(true);
+
 
             // Ορίζετε τα κουμπιά "OK" και "Cancel"
             dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -527,6 +546,7 @@ public class ItemsController implements Initializable {
                 System.out.println("Πατήθηκε το ΟΚ");
                 TextField tfName = (TextField) loader.getNamespace().get("tfName");
                 TextField tfPrice = (TextField) loader.getNamespace().get("tfPrice");
+                tfPrice.setText(tfPrice.getText().replace(",", "."));
                 String name = tfName.getText();
                 BigDecimal price;
                 if (tfPrice.getText().isEmpty())
@@ -534,7 +554,9 @@ public class ItemsController implements Initializable {
                 else
                     price = new BigDecimal(tfPrice.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                 String unit = unitComboBox.getValue().toString();
-                CheckBox tfEnable = (CheckBox) loader.getNamespace().get("tfEnable");
+
+                int fpa = Integer.parseInt(tfFpa.getValue().toString());
+
                 int enable = 0;
                 if (tfEnable.isSelected())
                     enable = 1;
@@ -545,7 +567,7 @@ public class ItemsController implements Initializable {
                 if (result2.isEmpty())
                     return;
                 else if (result2.get() == ButtonType.OK) {
-                    addNewRequest(name, price, unit, categotyCode.get(), enable);
+                    addNewRequest(name, price, unit, categotyCode.get(), enable, fpa);
                     // Επιλογή της κατηγορίας
                     Category selectedCategory = tfCategory.getValue();
                     int categoryCode = (selectedCategory != null) ? selectedCategory.getCode() : 0;
@@ -567,7 +589,7 @@ public class ItemsController implements Initializable {
 
     }
 
-    private void addNewRequest(String name, BigDecimal price, String unit, int category_code, int enable) {
+    private void addNewRequest(String name, BigDecimal price, String unit, int category_code, int enable, int fpa) {
         String apiUrl = "http://" + server + "/warehouse/itemAdd.php";
 
         try {
@@ -583,7 +605,7 @@ public class ItemsController implements Initializable {
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            Item itemData = new Item(name, unit, price, category_code, enable);
+            Item itemData = new Item(name, unit, price, category_code, enable,fpa);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);
@@ -730,7 +752,7 @@ public class ItemsController implements Initializable {
 
     }
 
-    private void updateRequest(int code, String name, BigDecimal price, String unit, int category_code, int enable) {
+    private void updateRequest(int code, String name, BigDecimal price, String unit, int category_code, int enable, int fpa) {
         String apiUrl = "http://" + server + "/warehouse/itemUpdate.php";
 
         try {
@@ -746,7 +768,7 @@ public class ItemsController implements Initializable {
 
             // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
             ObjectMapper objectMapper = new ObjectMapper();
-            Item itemData = new Item(code, name, unit, price, category_code, enable);
+            Item itemData = new Item(code, name, unit, price, category_code, enable, fpa);
             itemData.print();
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(itemData);

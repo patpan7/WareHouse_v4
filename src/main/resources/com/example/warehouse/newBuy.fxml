@@ -160,8 +160,29 @@
                         <padding>
                             <Insets right="20.0" />
                         </padding>
+                  <HBox.margin>
+                     <Insets left="20.0" />
+                  </HBox.margin>
                     </Label>
-                    <TextField fx:id="tfSum" alignment="CENTER" />
+                    <TextField fx:id="tfSum" alignment="CENTER" editable="false" prefHeight="51.0" prefWidth="200.0" />
+                    <Label styleClass="normal-label" text="ΦΠΑ">
+                        <padding>
+                            <Insets right="20.0" />
+                        </padding>
+                  <HBox.margin>
+                     <Insets left="20.0" />
+                  </HBox.margin>
+                    </Label>
+                    <TextField fx:id="tfFpa" alignment="CENTER" editable="false" prefHeight="51.0" prefWidth="120.0" />
+                    <Label styleClass="normal-label" text="Τελική αξία">
+                        <padding>
+                            <Insets right="20.0" />
+                        </padding>
+                  <HBox.margin>
+                     <Insets left="20.0" />
+                  </HBox.margin>
+                    </Label>
+                    <TextField fx:id="tfTotalValue" alignment="CENTER" editable="false" prefHeight="51.0" prefWidth="200.0" />
                 </HBox>
                 <Button mnemonicParsing="false" onAction="#saveAction" styleClass="click-button" text="Αποθήκευση">
                     <font>

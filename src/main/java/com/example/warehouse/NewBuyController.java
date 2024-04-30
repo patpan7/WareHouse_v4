@@ -56,6 +56,11 @@ public class NewBuyController implements Initializable {
     @FXML
     TextField tfSum;
     @FXML
+    TextField tfFpa;
+    @FXML
+    TextField tfTotalValue;
+
+    @FXML
     TableView<Item> buyTable;
     @FXML
     MenuItem editMenu;
@@ -67,6 +72,8 @@ public class NewBuyController implements Initializable {
     Item selectedItem;
 
     BigDecimal totalSum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+    BigDecimal totalFpa = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+    BigDecimal totalValue = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
     String server;
 
     @Override
@@ -194,9 +201,12 @@ public class NewBuyController implements Initializable {
         TableColumn<Item, BigDecimal> totalColumn = new TableColumn<>("Σύνολο");
         totalColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
 
+        TableColumn<Item, String> fpaColumn = new TableColumn<>("ΦΠΑ");
+        fpaColumn.setCellValueFactory(new PropertyValueFactory<>("fpa"));
+
 
         // Προσθήκη των κολόνων στο TableView
-        buyTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn, totalColumn);
+        buyTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn, totalColumn, fpaColumn);
         buyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
@@ -337,8 +347,9 @@ public class NewBuyController implements Initializable {
                         int category_code = itemNode.get("category_code").asInt();
                         BigDecimal sum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int enable = itemNode.get("enable").asInt();
+                        int fpa = itemNode.get("fpa").asInt();
                         if (enable == 1) {
-                            Item item = new Item(code, name, quantity, unit, price, category_code, sum);
+                            Item item = new Item(code, name, quantity, unit, price, category_code, sum,fpa);
                             Items.add(item);
                         }
                     }
@@ -361,7 +372,6 @@ public class NewBuyController implements Initializable {
         editMenu.setDisable(false);
         Item insertItem = new Item(selectedItem);
 
-        selectedItem.print();
         if (!tfName.getText().isEmpty() && !tfQuantity.getText().isEmpty() && !tfUnit.getText().isEmpty() && !tfPrice.getText().isEmpty() && new BigDecimal(tfPrice.getText()).compareTo(BigDecimal.ZERO) > 0) {
             items = buyTable.getItems();
 
@@ -371,9 +381,10 @@ public class NewBuyController implements Initializable {
                     .orElse(null);
 
             if (existingItem == null) {
+                updateTotals(insertItem);
+                updateFPA(insertItem);
                 // New item, add to list
                 items.add(insertItem);
-                updateTotals(insertItem.getSum());
             } else {
                 // Update existing item
                 BigDecimal newQuantity = existingItem.getQuantity().add(insertItem.getQuantity());
@@ -383,7 +394,7 @@ public class NewBuyController implements Initializable {
                 existingItem.setSum(newSum);
 
                 buyTable.refresh();
-                updateTotals(insertItem.getSum());
+                updateTotals(insertItem);
             }
 
             tfName.setText("");
@@ -392,11 +403,26 @@ public class NewBuyController implements Initializable {
             tfUnit.setText("");
             tfPrice.setText("");
             tfTotalPrice.setText("");
+            selectedItem.print();
         }
     }
-    private void updateTotals(BigDecimal itemSum) {
-        totalSum = totalSum.add(itemSum);
+    private void updateTotals(Item item) {
+        totalSum = totalSum.add(item.getSum());
         tfSum.setText(totalSum.toString());
+    }
+
+    private void updateFPA(Item item) {
+        // Υπολογισμός του ποσού του ΦΠΑ
+        BigDecimal vatAmount = item.getSum().multiply(BigDecimal.valueOf(item.getFpa()).divide(BigDecimal.valueOf(100))).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+
+        // Υπολογισμός της τελικής αξίας
+        BigDecimal finalValue = item.getSum().add(vatAmount).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+        item.setFpaValue(vatAmount);
+        totalFpa = totalFpa.add(vatAmount);
+        tfFpa.setText(totalFpa.toString());
+        item.setTotalValue(finalValue);
+        totalValue = totalValue.add(finalValue);
+        tfTotalValue.setText(totalValue.toString());
     }
 
 
@@ -411,7 +437,11 @@ public class NewBuyController implements Initializable {
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(deletedProduct);
             totalSum = totalSum.subtract(selectedItem.getSum());
+            totalFpa = totalFpa.subtract(selectedItem.getFpaValue());
+            totalValue = totalValue.subtract(selectedItem.getTotalValue());
             tfSum.setText(totalSum.toString());
+            tfFpa.setText(totalFpa.toString());
+            tfTotalValue.setText(totalValue.toString());
         }
     }
 
@@ -431,7 +461,11 @@ public class NewBuyController implements Initializable {
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(editItem);
             totalSum = totalSum.subtract(selectedItem.getSum());
+            totalFpa = totalFpa.subtract(selectedItem.getFpaValue());
+            totalValue = totalValue.subtract(selectedItem.getTotalValue());
             tfSum.setText(totalSum.toString());
+            tfFpa.setText(totalFpa.toString());
+            tfTotalValue.setText(totalValue.toString());
         }
     }
 
@@ -447,7 +481,7 @@ public class NewBuyController implements Initializable {
                     String invoice = tfInvoice.getText();
                     for (Item item : items)
                         item.print();
-                    addNewRequest(items, suppliercode, date, invoice, totalSum);
+                    addNewRequest(items, suppliercode, date, invoice, totalSum,totalFpa,totalValue);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("");
@@ -469,7 +503,7 @@ public class NewBuyController implements Initializable {
 
     }
 
-    private void addNewRequest(ObservableList<Item> items, int supplierCode, String date, String invoice, BigDecimal totalSum) {
+    private void addNewRequest(ObservableList<Item> items, int supplierCode, String date, String invoice, BigDecimal totalSum, BigDecimal totalFpa, BigDecimal totalValue) {
         String apiUrl = "http://" + server + "/warehouse/buyAdd.php";
 
         try {
@@ -494,6 +528,8 @@ public class NewBuyController implements Initializable {
             jsonRequest.put("supplierCode", supplierCode);
             jsonRequest.put("invoice", invoice);
             jsonRequest.put("totalSum", totalSum);
+            jsonRequest.put("totalFpa", totalFpa);
+            jsonRequest.put("totalValue", totalValue);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(jsonRequest);
@@ -542,7 +578,11 @@ public class NewBuyController implements Initializable {
         buyTable.getItems().clear();
         buyTable.refresh();
         totalSum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+        totalFpa = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+        totalValue = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
         tfSum.setText("");
+        tfFpa.setText("");
+        tfTotalValue.setText("");
         tfSupplier.setValue(null);
         tfInvoice.setText("");
         tfDate.setValue(LocalDate.now());

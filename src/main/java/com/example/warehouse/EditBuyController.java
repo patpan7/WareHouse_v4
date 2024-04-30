@@ -57,6 +57,10 @@ public class EditBuyController implements Initializable {
     @FXML
     TextField tfSum;
     @FXML
+    TextField tfFpa;
+    @FXML
+    TextField tfTotalValue;
+    @FXML
     TableView<Item> buyTable;
     @FXML
     MenuItem editMenu;
@@ -68,10 +72,11 @@ public class EditBuyController implements Initializable {
     List<Item> deletedList;
     List<Item> dbList;
     Buys selectedBuy;
-    Buys editedBuy;
     List<Item> itemsAutoComplete;
     Item selectedItem;
-    BigDecimal totalSum = new BigDecimal("0");
+    BigDecimal totalSum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+    BigDecimal totalFpa = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+    BigDecimal totalValue = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
     String server;
 
     public EditBuyController(Buys selectedBuy) {
@@ -218,17 +223,27 @@ public class EditBuyController implements Initializable {
         TableColumn<Item, BigDecimal> sumColumn = new TableColumn<>("Σύνολο");
         sumColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
 
+        TableColumn<Item, String> fpaColumn = new TableColumn<>("ΦΠΑ");
+        fpaColumn.setCellValueFactory(new PropertyValueFactory<>("fpa"));
+
 
         // Προσθήκη των κολόνων στο TableView
-        buyTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn, sumColumn);
+        buyTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn, sumColumn,fpaColumn);
         tableInit();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate localDate = LocalDate.parse(selectedBuy.getDate(), formatter);
 
         tfDate.setValue(localDate);
+
         tfSum.setText(selectedBuy.getTotal().toString());
         totalSum = selectedBuy.getTotal();
+
+        tfFpa.setText(selectedBuy.getFpa().toString());
+        totalFpa = selectedBuy.getFpa();
+
+        tfTotalValue.setText(selectedBuy.getTotalValue().toString());
+        totalValue = selectedBuy.getTotalValue();
     }
 
     void autocomplete() {
@@ -375,7 +390,11 @@ public class EditBuyController implements Initializable {
                         String unit = itemNode.get("unit").asText();
                         BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         BigDecimal sum = new BigDecimal(itemNode.get("sum").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
-                        Item item = new Item(code, item_code, name, quantity, unit, price, sum);
+                        int fpa = itemNode.get("fpa").asInt();
+                        BigDecimal totalFpa = new BigDecimal(itemNode.get("totalFpa").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                        BigDecimal totalValue = new BigDecimal(itemNode.get("totalvalue").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+
+                        Item item = new Item(code, item_code, name, quantity, unit, price, sum,fpa, totalFpa, totalValue);
                         items.add(item);
                     }
                 } else {
@@ -429,9 +448,11 @@ public class EditBuyController implements Initializable {
                         String unit = itemNode.get("unit").asText();
                         BigDecimal price = new BigDecimal(itemNode.get("price").asText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
                         int category_code = itemNode.get("category_code").asInt();
+                        BigDecimal sum = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int enable = itemNode.get("enable").asInt();
+                        int fpa = itemNode.get("fpa").asInt();
                         if (enable == 1) {
-                            Item item = new Item(code, name, quantity, unit, price, category_code);
+                            Item item = new Item(code, name, quantity, unit, price, category_code, sum,fpa);
                             Items.add(item);
                         }
                     }
@@ -459,6 +480,7 @@ public class EditBuyController implements Initializable {
             String itemName = tfName.getText();
             BigDecimal quantity = new BigDecimal(tfQuantity.getText()).setScale(AppSettings.getInstance().quantityDecimals, RoundingMode.HALF_UP);
             BigDecimal price = new BigDecimal(tfPrice.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
+            BigDecimal sum = new BigDecimal(tfTotalPrice.getText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
 
             if (observableListItem.stream().anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
                 System.out.println("to eidos einai ston pinaka");
@@ -475,12 +497,19 @@ public class EditBuyController implements Initializable {
                             insertItem = item;
                     observableListItem.remove(insertItem);
                     totalSum = totalSum.subtract(existingItem.getSum());
+                    totalFpa = totalFpa.subtract(existingItem.getFpaValue());
+                    totalValue = totalValue.subtract(existingItem.getTotalValue());
+
                     insertItem.setQuantity(existingItem.getQuantity().add(quantity));
-                    insertItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
+                    insertItem.setSum(sum);
+                    insertItem.setFpaValue(sum.multiply(BigDecimal.valueOf(insertItem.getFpa()).divide(BigDecimal.valueOf(100))).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP));
+                    insertItem.setTotalValue(sum.add(insertItem.getFpaValue()));
                     observableListItem.add(insertItem);
                     editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
                     editedList.add(insertItem);
                     totalSum = totalSum.add(insertItem.getSum());
+                    totalFpa = totalFpa.add(insertItem.getFpaValue());
+                    totalValue = totalValue.add(insertItem.getTotalValue());
                 } else {
                     System.out.println("to eidos einai ston pinaka kai einai kainourio");
                     Item insertItem = null;
@@ -489,13 +518,20 @@ public class EditBuyController implements Initializable {
                             insertItem = item;
                     observableListItem.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
                     totalSum = totalSum.subtract(existingItem.getSum());
+                    totalFpa = totalFpa.subtract(existingItem.getFpaValue());
+                    totalValue = totalValue.subtract(existingItem.getTotalValue());
+
                     insertItem.setQuantity(existingItem.getQuantity().add(quantity));
-                    insertItem.setSum(existingItem.getQuantity().multiply(existingItem.getPrice()));
+                    insertItem.setSum(sum);
+                    insertItem.setFpaValue(sum.multiply(BigDecimal.valueOf(insertItem.getFpa()).divide(BigDecimal.valueOf(100))).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP));
+                    insertItem.setTotalValue(sum.add(insertItem.getFpaValue()));
                     observableListItem.add(insertItem);
                     buyTable.refresh();
                     newList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
                     newList.add(insertItem);
                     totalSum = totalSum.add(insertItem.getSum());
+                    totalFpa = totalFpa.add(insertItem.getFpaValue());
+                    totalValue = totalValue.add(insertItem.getTotalValue());
                 }
             } else {
                 System.out.println("to eidos den einai ston pinaka");
@@ -506,20 +542,29 @@ public class EditBuyController implements Initializable {
                         if (item.getName().equals(itemName))
                             insertItem = item;
                     insertItem.setQuantity(quantity);
-                    insertItem.setSum(quantity.multiply(price));
+                    insertItem.setSum(sum);
+                    insertItem.setFpaValue(insertItem.getSum().multiply(BigDecimal.valueOf(insertItem.getFpa()).divide(BigDecimal.valueOf(100))).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP));
+                    insertItem.setTotalValue(sum.add(insertItem.getFpaValue()));
                     observableListItem.add(insertItem);
                     editedList.removeIf(item -> item.getName().equalsIgnoreCase(itemName));
                     editedList.add(insertItem);
                     totalSum = totalSum.add(insertItem.getSum());
+                    totalFpa = totalFpa.add(insertItem.getFpaValue());
+                    totalValue = totalValue.add(insertItem.getTotalValue());
                 } else {
                     System.out.println("to eidos den einai ston pinaka kai einai kainourio");
                     selectedItem.setQuantity(quantity);
                     selectedItem.setPrice(price);
-                    selectedItem.setSum(new BigDecimal(tfTotalPrice.getText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP));
+                    selectedItem.setSum(sum);
+                    selectedItem.setFpaValue(sum.multiply(BigDecimal.valueOf(selectedItem.getFpa()).divide(BigDecimal.valueOf(100))).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP));
+                    selectedItem.setTotalValue(sum.add(selectedItem.getFpaValue()));
+
                     observableListItem.add(selectedItem);
                     newList.add(selectedItem);
                     selectedItem.print();
                     totalSum = totalSum.add(selectedItem.getSum());
+                    totalFpa = totalFpa.add(selectedItem.getFpaValue());
+                    totalValue = totalValue.add(selectedItem.getTotalValue());
                 }
             }
             buyTable.refresh();
@@ -530,6 +575,8 @@ public class EditBuyController implements Initializable {
             tfPrice.setText("");
             tfTotalPrice.setText("");
             tfSum.setText(totalSum.toString());
+            tfFpa.setText(totalFpa.toString());
+            tfTotalValue.setText(totalValue.toString());
         }
     }
 
@@ -543,7 +590,11 @@ public class EditBuyController implements Initializable {
             deletedList.add(selectedItem);
             editedList.remove(selectedItem);
             totalSum = totalSum.subtract(selectedItem.getSum());
+            totalFpa = totalFpa.subtract(selectedItem.getFpaValue());
+            totalValue = totalValue.subtract(selectedItem.getTotalValue());
             tfSum.setText(totalSum.toString());
+            tfFpa.setText(totalFpa.toString());
+            tfTotalValue.setText(totalValue.toString());
         }
     }
 
@@ -560,7 +611,11 @@ public class EditBuyController implements Initializable {
             tfTotalPrice.setText(selectedItem.getSum().toString());
             buyTable.getItems().remove(selectedItem);
             totalSum = totalSum.subtract(selectedItem.getSum());
+            totalFpa = totalFpa.subtract(selectedItem.getFpaValue());
+            totalValue = totalValue.subtract(selectedItem.getTotalValue());
             tfSum.setText(totalSum.toString());
+            tfFpa.setText(totalFpa.toString());
+            tfTotalValue.setText(totalValue.toString());;
         }
     }
 
@@ -575,9 +630,9 @@ public class EditBuyController implements Initializable {
                     String newInvoice = tfInvoice.getText();
                     //addNewRequest(items, suppliercode, date, invoice, totalSum);
                     if (!newInvoice.equals(selectedBuy.getInvoice()) || newSupplierCode != selectedBuy.getSuppliercode() || !newDate.equals(selectedBuy.getDate()))
-                        updateInvoice(newInvoice, newSupplierCode, newDate, selectedBuy.getCode(), selectedBuy.getSuppliercode(), selectedBuy.getTotal());
+                        updateInvoice(newInvoice, newSupplierCode, newDate, selectedBuy);
                     else
-                        updateInvoceSum(selectedBuy, totalSum);
+                        updateInvoceSum(selectedBuy, totalSum,totalFpa,totalValue);
                     if (editedList.isEmpty() && newList.isEmpty() && deletedList.isEmpty()) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("");
@@ -617,7 +672,7 @@ public class EditBuyController implements Initializable {
         }
     }
 
-    private void updateInvoceSum(Buys selectedBuy, BigDecimal totalSum) {
+    private void updateInvoceSum(Buys selectedBuy, BigDecimal totalSum, BigDecimal totalFpa, BigDecimal totalValue) {
         String apiUrl = "http://" + server + "/warehouse/invoiceUpdateSum.php";
 
         try {
@@ -638,6 +693,8 @@ public class EditBuyController implements Initializable {
             jsonRequest.put("code", selectedBuy.getCode());
             jsonRequest.put("supplierCode", selectedBuy.getSuppliercode());
             jsonRequest.put("totalSum", totalSum);
+            jsonRequest.put("totalFpa", totalFpa);
+            jsonRequest.put("totalValue", totalValue);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(jsonRequest);
@@ -684,7 +741,7 @@ public class EditBuyController implements Initializable {
         }
     }
 
-    private void updateInvoice(String newInvoice, int newSupplierCode, String newDate, int code, int oldSupplierCode, BigDecimal oldTotal) {
+    private void updateInvoice(String newInvoice, int newSupplierCode, String newDate, Buys selectedBuy) {
         String apiUrl = "http://" + server + "/warehouse/invoiceUpdate.php";
 
         try {
@@ -706,9 +763,14 @@ public class EditBuyController implements Initializable {
             jsonRequest.put("supplierCode", newSupplierCode);
             jsonRequest.put("date", newDate);
             jsonRequest.put("totalSum", totalSum.setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP));
-            jsonRequest.put("code", code);
-            jsonRequest.put("oldSupplierCode", oldSupplierCode);
-            jsonRequest.put("oldTotal", oldTotal);
+            jsonRequest.put("totalFpa", totalFpa.setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP));
+            jsonRequest.put("totalValue", totalValue.setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP));
+            jsonRequest.put("code", selectedBuy.getCode());
+            jsonRequest.put("oldSupplierCode", selectedBuy.getSuppliercode());
+            jsonRequest.put("oldTotal", selectedBuy.getTotal());
+            jsonRequest.put("oldFpa", selectedBuy.getFpa());
+            jsonRequest.put("oldTotalValue", selectedBuy.getTotalValue());
+
             jsonRequest.putPOJO("dbList", dbList);
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
@@ -780,6 +842,7 @@ public class EditBuyController implements Initializable {
             jsonRequest.put("date", date); // Προσαρμόστε την ημερομηνία όπως χρειάζεται
             jsonRequest.put("supplierCode", supplierCode);
             jsonRequest.put("invoice", invoice);
+
 
             // Μετατροπή του JSON αντικειμένου σε JSON string
             String parameters = objectMapper.writeValueAsString(jsonRequest);

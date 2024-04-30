@@ -65,7 +65,7 @@ public class BuysController implements Initializable {
         invColumn.setCellValueFactory(new PropertyValueFactory<>("invoice"));
 
         TableColumn<Buys, Float> totalColumn = new TableColumn<>("Σύνολο");
-        totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("totalValue"));
 
         buysTable.getColumns().addAll(supplierColumn,dateColumn, invColumn, totalColumn);
         tableInit();
@@ -147,8 +147,9 @@ public class BuysController implements Initializable {
                         String invoice = itemNode.get("invoice").asText();
                         BigDecimal total = new BigDecimal(itemNode.get("total").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int suppliercode = itemNode.get("suppliercode").asInt();
-
-                        Buys buy = new Buys (code, name,date2, invoice, total,suppliercode);
+                        BigDecimal fpa = new BigDecimal(itemNode.get("fpa").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                        BigDecimal totalValue = new BigDecimal(itemNode.get("totalvalue").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                        Buys buy = new Buys (code, name,date2, invoice, total,suppliercode,fpa, totalValue);
                         buys.add(buy);
                     }
                 } else {
