@@ -408,7 +408,7 @@ public class ItemsController implements Initializable {
         unitField.getItems().addAll(fetchUnitsFromMySQL());
         unitField.setValue(selectedProduct.getUnit());
 
-        AtomicInteger categoryCode = new AtomicInteger(1);
+        AtomicInteger categoryCode = new AtomicInteger(selectedProduct.getCategory_code());
         tfCategory.getItems().addAll(observableListCat);
 
         StringConverter<Category> converter = new StringConverter<Category>() {
@@ -432,7 +432,7 @@ public class ItemsController implements Initializable {
             if (newValue != null) {
                 categoryCode.set(newValue.getCode()); // Υποθέτοντας ότι η κλάση Category έχει μια μέθοδο getCode() που επιστρέφει τον κωδικό
             } else {
-                categoryCode.set(0); // Καθαρισμός του catCode αν επιλεχθεί η κενή επιλογή
+                categoryCode.set(selectedIndex); // Καθαρισμός του catCode αν επιλεχθεί η κενή επιλογή
             }
         });
         //tfCategory.setValue(selectedProduct.getCategory_code());
@@ -467,7 +467,7 @@ public class ItemsController implements Initializable {
             else
                 selectedProduct.setEnable(0);
             // Ανανέωση του TableView
-            itemsTable.refresh();
+            //itemsTable.refresh();
             //tableInit();
 
             // Ενημέρωση του φίλτρου με βάση την επιλεγμένη κατηγορία
