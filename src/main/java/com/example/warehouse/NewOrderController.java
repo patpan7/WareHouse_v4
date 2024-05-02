@@ -3,8 +3,8 @@ package com.example.warehouse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.itextpdf.html2pdf.ConverterProperties;
-import com.itextpdf.html2pdf.HtmlConverter;
+//import com.itextpdf.html2pdf.ConverterProperties;
+//import com.itextpdf.html2pdf.HtmlConverter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -304,8 +304,8 @@ public class NewOrderController implements Initializable {
                     // Χρησιμοποιήστε τον HTMLConverter για να δημιουργήσετε το PDF από τον HTML
                     File outputFile = file;
                     FileOutputStream outputStream = new FileOutputStream(outputFile);
-                    ConverterProperties converterProperties = new ConverterProperties();
-                    HtmlConverter.convertToPdf(generateHtmlFromTableView(orderTable), outputStream, converterProperties);
+//                    ConverterProperties converterProperties = new ConverterProperties();
+//                    HtmlConverter.convertToPdf(generateHtmlFromTableView(orderTable), outputStream, converterProperties);
 
                     System.out.println("PDF created successfully: " + outputFile.getAbsolutePath());
                 }

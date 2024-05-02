@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -169,7 +170,7 @@ public class BuysController implements Initializable {
         return buys;
     }
 
-    public void buyAddNew(ActionEvent event) throws IOException {
+    public void buyAddNew() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("newBuy.fxml"));
         loader.setController(new NewBuyController());
         root = loader.load();

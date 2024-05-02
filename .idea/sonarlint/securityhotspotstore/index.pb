@@ -108,3 +108,5 @@ l
 <src/main/java/com/example/warehouse/SuppliersStatistics.java,7\d\7d5afeaca96b9a6788cd86880b01880ca87d2b91
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
+a
+1src/main/java/com/example/warehouse/Launcher.java,9\a\9a638d916b6ed1221634873dac1e81c18e9fff9b

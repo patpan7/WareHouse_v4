@@ -7,15 +7,18 @@
       <option name="ignoredModules">
         <list>
           <option value="WareHouse" />
+          <option value="WareHouse" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="commons-beanutils:commons-beanutils:1.7.0" />
+          <option value="com.itextpdf:itextpdf:5.5.13.3" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
         </list>
       </option>
