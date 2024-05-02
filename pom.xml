@@ -43,7 +43,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.16.0</version> <!-- Ενημερώστε τον αριθμό έκδοσης ανάλογα με την τρέχουσα έκδοση -->
+      <version>2.16.1</version> <!-- Ενημερώστε τον αριθμό έκδοσης ανάλογα με την τρέχουσα έκδοση -->
     </dependency>
 
     <dependency>
