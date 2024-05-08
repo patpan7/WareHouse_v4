@@ -1,58 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane fx:id="stackPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/21"
-           xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stackPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <BorderPane minHeight="800.0" minWidth="1200.0">
         <top>
             <HBox alignment="CENTER" BorderPane.alignment="CENTER">
                 <BorderPane.margin>
-                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
+                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                 </BorderPane.margin>
                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                     <Label styleClass="header-label" text="Warehouse v4 - Νέα Παραγγελία" HBox.hgrow="ALWAYS">
                         <font>
-                            <Font size="38.0"/>
+                            <Font size="38.0" />
                         </font>
                         <HBox.margin>
-                            <Insets/>
+                            <Insets />
                         </HBox.margin>
                     </Label>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT">
                     <opaqueInsets>
-                        <Insets right="20.0"/>
+                        <Insets right="20.0" />
                     </opaqueInsets>
                     <HBox.margin>
-                        <Insets/>
+                        <Insets />
                     </HBox.margin>
-                    <Button mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button"
-                            text="Επιστροφή">
+                    <Button mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή">
                         <graphic>
                             <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@icons/menu.png"/>
+                                <Image url="@icons/menu.png" />
                             </ImageView>
                         </graphic>
                         <HBox.margin>
-                            <Insets/>
+                            <Insets />
                         </HBox.margin>
                     </Button>
                 </HBox>
@@ -61,82 +46,96 @@
         <center>
             <VBox alignment="CENTER" BorderPane.alignment="CENTER">
                 <opaqueInsets>
-                    <Insets/>
+                    <Insets />
                 </opaqueInsets>
                 <BorderPane.margin>
-                    <Insets/>
+                    <Insets />
                 </BorderPane.margin>
                 <GridPane alignment="CENTER" VBox.vgrow="NEVER">
                     <columnConstraints>
-                        <ColumnConstraints halignment="LEFT" hgrow="NEVER"/>
-                        <ColumnConstraints halignment="LEFT" hgrow="NEVER"/>
-                        <ColumnConstraints halignment="LEFT" hgrow="NEVER"/>
-                        <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS"/>
+                        <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+                        <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+                        <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints vgrow="SOMETIMES"/>
-                        <RowConstraints vgrow="SOMETIMES"/>
+                        <RowConstraints vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
                     </rowConstraints>
                     <VBox.margin>
-                        <Insets bottom="10.0" left="20.0" right="20.0"/>
+                        <Insets bottom="10.0" left="20.0" right="20.0" />
                     </VBox.margin>
-                    <Button mnemonicParsing="false" onAction="#addRow" styleClass="click-button" text="Προσθήκη"
-                            GridPane.columnIndex="3" GridPane.rowIndex="1">
+                    <Button mnemonicParsing="false" onAction="#addRow" styleClass="click-button" text="Προσθήκη" GridPane.columnIndex="3" GridPane.rowIndex="1">
                         <font>
-                            <Font size="24.0"/>
+                            <Font size="24.0" />
                         </font>
                         <GridPane.margin>
-                            <Insets/>
+                            <Insets />
                         </GridPane.margin>
                     </Button>
-                    <TextField fx:id="tfUnit" alignment="CENTER" editable="false" prefWidth="200.0"
-                               promptText="Μον. Μέτρησης" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <TextField fx:id="tfUnit" alignment="CENTER" editable="false" prefWidth="200.0" promptText="Μον. Μέτρησης" GridPane.columnIndex="1" GridPane.rowIndex="1">
                         <font>
-                            <Font size="24.0"/>
+                            <Font size="24.0" />
                         </font>
                         <GridPane.margin>
-                            <Insets left="10.0" right="10.0"/>
+                            <Insets left="10.0" right="10.0" />
                         </GridPane.margin>
                     </TextField>
-                    <TextField fx:id="tfQuantity" prefWidth="200.0" promptText="Ποσότητα" GridPane.columnIndex="2"
-                               GridPane.rowIndex="1">
+                    <TextField fx:id="tfQuantity" prefWidth="200.0" promptText="Ποσότητα" GridPane.columnIndex="2" GridPane.rowIndex="1">
                         <font>
-                            <Font size="24.0"/>
+                            <Font size="24.0" />
                         </font>
                         <GridPane.margin>
-                            <Insets left="10.0" right="10.0"/>
+                            <Insets left="10.0" right="10.0" />
                         </GridPane.margin>
                     </TextField>
-                    <TextField fx:id="tfName" maxWidth="305.0" promptText="Είδος" stylesheets="@external.css"
-                               GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <TextField fx:id="tfName" maxWidth="305.0" promptText="Είδος" stylesheets="@external.css" GridPane.columnIndex="0" GridPane.rowIndex="1">
                         <GridPane.margin>
-                            <Insets left="10.0" right="10.0"/>
+                            <Insets left="10.0" right="10.0" />
                         </GridPane.margin>
                         <font>
-                            <Font size="24.0"/>
+                            <Font size="24.0" />
                         </font>
                     </TextField>
                 </GridPane>
                 <TableView fx:id="orderTable" VBox.vgrow="ALWAYS">
                     <VBox.margin>
-                        <Insets bottom="10.0"/>
+                        <Insets bottom="10.0" />
                     </VBox.margin>
                     <contextMenu>
                         <ContextMenu>
                             <items>
-                                <MenuItem fx:id="editMenu" mnemonicParsing="false" onAction="#editRow" text="Επεξεργασία"/>
-                                <MenuItem fx:id="deleteMenu" mnemonicParsing="false" onAction="#deleteRow" text="Διαγραφή"/>
+                                <MenuItem fx:id="editMenu" mnemonicParsing="false" onAction="#editRow" text="Επεξεργασία" />
+                                <MenuItem fx:id="deleteMenu" mnemonicParsing="false" onAction="#deleteRow" text="Διαγραφή" />
                             </items>
                         </ContextMenu>
                     </contextMenu>
                 </TableView>
-                <DatePicker fx:id="orderDate"/>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label prefHeight="100.0" prefWidth="180.0" text="Σχόλιο παραγγελίας" textOverrun="CLIP" wrapText="true" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="taComment" prefHeight="100.0" prefWidth="400.0" wrapText="true">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextArea>
+                  <Separator prefWidth="200.0" visible="false" />
+                      <DatePicker fx:id="orderDate" />
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </HBox>
                 <Button mnemonicParsing="false" onAction="#saveAction" styleClass="click-button" text="Αποθήκευση">
                     <font>
-                        <Font size="24.0"/>
+                        <Font size="24.0" />
                     </font>
                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0"/>
+                        <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </Button>
             </VBox>

@@ -2,17 +2,22 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.stage.FileChooser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
@@ -20,6 +25,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 
 public class ItemsStatistics implements Initializable {
 
@@ -202,13 +208,25 @@ public class ItemsStatistics implements Initializable {
                 root.getChildren().add(itemNode);
             }
         }
-
+        BigDecimal sumColumn = BigDecimal.ZERO;
         statisticsTable.setRoot(root);
         statisticsTable.setShowRoot(false);
         for (TreeItem<Item> item : root.getChildren()) {
             // Ανοίγει τα παιδιά του κάθε τμήματος
             item.setExpanded(true);
+            sumColumn = calculateTotalSumForColumn(item, sumColumn);
         }
+        TreeItem<Item> totalRow = new TreeItem<>(new Item("           Γενικό σύνολο:", sumColumn));
+        root.getChildren().add(totalRow);
+    }
+
+    // Υπολογισμός του συνόλου για τη στήλη "Συνολικό Κόστος"
+    private BigDecimal calculateTotalSumForColumn(TreeItem<Item> parentItem, BigDecimal totalSum) {
+        for (TreeItem<Item> childItem : parentItem.getChildren()) {
+            BigDecimal childValue = new BigDecimal(childItem.getValue().getSum().toString());
+            totalSum = totalSum.add(childValue);
+        }
+        return totalSum;
     }
 
 
@@ -516,13 +534,154 @@ public class ItemsStatistics implements Initializable {
                 root.getChildren().add(itemNode);
             }
         }
-
+        BigDecimal sumColumn = BigDecimal.ZERO;
         statisticsTable.setRoot(root);
         statisticsTable.setShowRoot(false);
         for (TreeItem<Item> item : root.getChildren()) {
             // Ανοίγει τα παιδιά του κάθε τμήματος
             item.setExpanded(true);
+            sumColumn = calculateTotalSumForColumn(item, sumColumn);
         }
+        TreeItem<Item> totalRow = new TreeItem<>(new Item("           Γενικό σύνολο:", sumColumn));
+        root.getChildren().add(totalRow);
+    }
+
+    public void saveAction(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("");
+        alert.setContentText("Αποθήκευση αναφοράς?");
+        Optional<ButtonType> result2 = alert.showAndWait();
+
+        if (result2.get() == ButtonType.OK) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            fileChooser.setInitialFileName("Αγορές από  "+ dtf.format(dateFrom.getValue())+" εώς "+ dtf.format(dateTo.getValue()));
+            // Επιλέξτε τον τύπο αρχείου που θέλετε να αποθηκεύσετε (π.χ., PDF)
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            // Πάρτε το επιλεγμένο αρχείο
+            File file = fileChooser.showSaveDialog(null);
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+            alert1.setTitle("");
+            if (file != null) {
+                createPDF(file.getAbsolutePath());
+                alert1.setContentText("PDF created successfully: " + file.getAbsolutePath());
+                System.out.println("PDF created successfully: " + file.getAbsolutePath());
+            }
+            else {
+                alert1.setContentText("PDF creation cancelled: " + file.getAbsolutePath());
+                System.out.println("PDF creation cancelled");
+            }
+            alert1.show();
+        }
+    }
+
+    private PdfPTable convertTreeTableViewToPdfTable(TreeItem<Item> rootItem) throws DocumentException, IOException {
+
+        BaseFont bf = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        bf.setSubset(true);
+        Font bfBold12 = new Font(bf, 14, Font.BOLD, BaseColor.BLACK);
+        Font bfBold = new Font(bf, 12);
+
+        float[] columnWidths = {3.3f,2.0f,2.8f,1.5f,2.8f};
+        PdfPTable pdfPTable = new PdfPTable(columnWidths);
+        pdfPTable.setWidthPercentage(100);
+
+        // Περπατώντας αναδρομικά μέσω των TreeItem
+        addItemsToPdfPTable(pdfPTable, rootItem, bfBold12, bfBold);
+
+        return pdfPTable;
+    }
+
+    private void addItemsToPdfPTable(PdfPTable pdfPTable, TreeItem<Item> item, Font titleFont, Font bodyFont) {
+        // Ελέγχουμε αν το TreeItem έχει παιδιά
+        if (!item.getChildren().isEmpty()) {
+            for (TreeItem<Item> childItem : item.getChildren()) {
+                childItem.getValue().print();
+                // Προσθέτουμε τα δεδομένα του παιδιού στον πίνακα
+                if (childItem.getValue().getQuantity() == null)
+                    pdfPTable.addCell(new PdfPCell(new Phrase(childItem.getValue().getName(),titleFont)));
+                else
+                    pdfPTable.addCell(new PdfPCell(new Phrase(childItem.getValue().getName(),bodyFont)));
+                String quantity = childItem.getValue().getQuantity() != null ? childItem.getValue().getQuantity().toString() : "";
+                pdfPTable.addCell(new PdfPCell(new Phrase(quantity,bodyFont)));
+                String sum = childItem.getValue().getSum() != null ? childItem.getValue().getSum().toString() : "";
+                pdfPTable.addCell(new PdfPCell(new Phrase(sum,bodyFont)));
+                pdfPTable.addCell(new PdfPCell(new Phrase(childItem.getValue().getUnit(),bodyFont)));
+                String price = childItem.getValue().getPrice() != null ? childItem.getValue().getPrice().toString() : "";
+                pdfPTable.addCell(new PdfPCell(new Phrase(price,bodyFont)));
+
+                // Καλούμε την ίδια μέθοδο αναδρομικά για τα παιδιά του παιδιού
+                addItemsToPdfPTable(pdfPTable, childItem, titleFont, bodyFont);
+            }
+        }
+    }
+
+    public void createPDF(String filename) throws RuntimeException {
+
+        // create a pdf
+        Document document = new Document(PageSize.A4, 30, 30, 30, 30);
+
+        try {
+            // fonts nature to be used in the pdf document
+            BaseFont bf = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            bf.setSubset(true);
+            Font bfBold12 = new Font(bf, 14, Font.BOLD, BaseColor.BLACK);
+            Font bfBold = new Font(bf, 12);
+
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+
+            document.open();
+
+            //Add Title on top of the page
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            Paragraph intro = new Paragraph("Αγορές από:  "+ dtf.format(dateFrom.getValue())+" εώς: "+ dtf.format(dateTo.getValue())+ "\n\n",bfBold12);
+            intro.setAlignment(Element.ALIGN_CENTER);
+            if (categoryFiled.getSelectionModel().getSelectedItem() != null)
+                intro.add(new Paragraph("Κατηγορία:  " + categoryFiled.getSelectionModel().getSelectedItem()+"\n\n", bfBold12));
+            document.add(intro);
+
+            // Add a table with six columns each with a specified width
+            float[] columnWidths = {3.3f,2.0f,2.8f,1.5f,2.8f};
+            PdfPTable orderPdf = new PdfPTable(columnWidths);
+            orderPdf.setWidthPercentage(100);
+
+            //add column titles to each
+            insertCell(orderPdf, "Όνομα", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Συνολική Ποσότητα", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Συνολικό Κόστος", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Μονάδα", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Μέση Τιμή", Element.ALIGN_LEFT, 1, bfBold12);
+
+            TreeItem<Item> rootItem = statisticsTable.getRoot();
+            PdfPTable pdfPTable = convertTreeTableViewToPdfTable(rootItem);
+            document.add(orderPdf);
+            document.add(pdfPTable);
+//            Paragraph outro = new Paragraph("\n\n\nΣχόλιο παραγγελίας: \n"+ taComment.getText(),bfBold12);
+//            outro.setAlignment(Element.ALIGN_LEFT);
+//            outro.setSpacingBefore(20f);
+//            document.add(outro);
+
+            document.close();
+
+        } catch (DocumentException | IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+    // method to format table cell with data
+    private void insertCell(PdfPTable table,String text,int align,int colspan,Font font){
+
+        PdfPCell cell = new PdfPCell(new Phrase(text.trim(),font));
+        cell.setHorizontalAlignment(align);
+        cell.setColspan(colspan);
+        cell.setMinimumHeight(20f);
+        if (text.trim().equalsIgnoreCase("")) {
+            cell.setMinimumHeight(10f);
+        }
+        table.addCell(cell);
     }
 
     private static final Map<Character, Character> ENGLISH_TO_GREEK = new HashMap<>();

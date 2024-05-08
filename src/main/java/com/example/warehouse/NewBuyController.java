@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -75,6 +76,9 @@ public class NewBuyController implements Initializable {
     BigDecimal totalFpa = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
     BigDecimal totalValue = new BigDecimal("0").setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
     String server;
+
+    private String[] fpaList = {"6","13","24"};
+    ObservableList<Category> observableListCat;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -436,9 +440,9 @@ public class NewBuyController implements Initializable {
 
             // Διαγράψτε την επιλεγμένη γραμμή από τη λίστα
             items.remove(deletedProduct);
-            totalSum = totalSum.subtract(selectedItem.getSum());
-            totalFpa = totalFpa.subtract(selectedItem.getFpaValue());
-            totalValue = totalValue.subtract(selectedItem.getTotalValue());
+            totalSum = totalSum.subtract(deletedProduct.getSum());
+            totalFpa = totalFpa.subtract(deletedProduct.getFpaValue());
+            totalValue = totalValue.subtract(deletedProduct.getTotalValue());
             tfSum.setText(totalSum.toString());
             tfFpa.setText(totalFpa.toString());
             tfTotalValue.setText(totalValue.toString());
@@ -566,6 +570,271 @@ public class NewBuyController implements Initializable {
 
                 }
             }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void itemAddNew(ActionEvent actionEvent) throws IOException {
+        categoryInit();
+        try {
+            // Φόρτωση του FXML αρχείου για το dialog
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("newItem.fxml"));
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.getDialogPane().setContent(loader.load());
+
+            dialog.setTitle("Εισαγωγή Προϊόντος");
+
+            ComboBox unitComboBox = (ComboBox) loader.getNamespace().get("tfUnit");
+            unitComboBox.getItems().addAll(fetchUnitsFromMySQL());
+            unitComboBox.getSelectionModel().selectFirst();
+
+            ComboBox<Category> tfCategory = (ComboBox) dialog.getDialogPane().lookup("#tfCategory");
+            ComboBox tfFpa = (ComboBox) dialog.getDialogPane().lookup("#tfFpa");
+            CheckBox tfEnable = (CheckBox) dialog.getDialogPane().lookup("#tfEnable");
+
+
+            AtomicInteger categotyCode = new AtomicInteger(1);
+            tfCategory.getItems().addAll(observableListCat);
+            tfCategory.setCellFactory(param -> new ListCell<Category>() {
+                @Override
+                protected void updateItem(Category item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item.getName());
+                    }
+                }
+            });
+
+            tfCategory.setButtonCell(new ListCell<Category>() {
+                @Override
+                protected void updateItem(Category item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item.getName());
+                    }
+                }
+            });
+            tfCategory.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    categotyCode.set(newValue.getCode()); // Υποθέτοντας ότι η κλάση Category έχει μια μέθοδο getCode() που επιστρέφει τον κωδικό
+                } else {
+                    categotyCode.set(0); // Καθαρισμός του catCode αν επιλεχθεί η κενή επιλογή
+                }
+            });
+
+            tfFpa.getItems().addAll(fpaList);
+            tfFpa.setValue("13");
+
+            tfEnable.setSelected(true);
+
+
+            // Ορίζετε τα κουμπιά "OK" και "Cancel"
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+            // Εμφάνιση του διαλόγου
+            Optional<ButtonType> result = dialog.showAndWait();
+
+            // Εδώ μπορείτε να ελέγξετε το αποτέλεσμα του διαλόγου (OK ή CANCEL)
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Επιλέγετε να κάνετε κάτι εάν πατηθεί το OK
+                System.out.println("Πατήθηκε το ΟΚ");
+                TextField tfName = (TextField) loader.getNamespace().get("tfName");
+                TextField tfPrice = (TextField) loader.getNamespace().get("tfPrice");
+                tfPrice.setText(tfPrice.getText().replace(",", "."));
+                String name = tfName.getText();
+                BigDecimal price;
+                if (tfPrice.getText().isEmpty())
+                    price = new BigDecimal("0");
+                else
+                    price = new BigDecimal(tfPrice.getText()).setScale(AppSettings.getInstance().priceDecimals, RoundingMode.HALF_UP);
+                String unit = unitComboBox.getValue().toString();
+
+                int fpa = Integer.parseInt(tfFpa.getValue().toString());
+
+                int enable = 0;
+                if (tfEnable.isSelected())
+                    enable = 1;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Επιβεβαίωση εισαγωγής:");
+                alert.setContentText("Όνομα: " + name + ", Τιμή: " + price + ", Μον.Μέτρησης: " + unit);
+                Optional<ButtonType> result2 = alert.showAndWait();
+                if (result2.isEmpty())
+                    return;
+                else if (result2.get() == ButtonType.OK) {
+                    addNewItemRequest(name, price, unit, categotyCode.get(), enable, fpa);
+                    itemsAutoComplete = fetchDataFromMySQL();
+                }
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private List<Category> fetchCatFromMySQL() {
+        String API_URL = "http://" + server + "/warehouse/categoryGetAll.php";
+        List<Category> categories = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
+                        String name = itemNode.get("name").asText();
+
+                        Category category = new Category(code, name);
+                        categories.add(category);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
+    }
+
+    private List<Unit> fetchUnitsFromMySQL() {
+        String API_URL = "http://" + server + "/warehouse/unitsGetAll.php";
+        List<Unit> Units = new ArrayList<>();
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                reader.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.toString());
+
+                String status = jsonNode.get("status").asText();
+
+                if ("success".equals(status)) {
+                    JsonNode messageNode = jsonNode.get("message");
+
+                    for (JsonNode itemNode : messageNode) {
+                        int code = itemNode.get("code").asInt();
+                        String unit = itemNode.get("unit").asText();
+
+                        Unit units = new Unit(code, unit);
+                        Units.add(units);
+                    }
+                } else {
+                    String failMessage = jsonNode.get("message").asText();
+                    System.out.println("Failed: " + failMessage);
+                }
+            } else {
+                System.out.println("HTTP request failed with response code: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Units;
+
+    }
+
+    private void categoryInit() {
+        List<Category> categories = fetchCatFromMySQL();
+        observableListCat = FXCollections.observableArrayList(categories);
+    }
+
+    private void addNewItemRequest(String name, BigDecimal price, String unit, int category_code, int enable, int fpa) {
+        String apiUrl = "http://" + server + "/warehouse/itemAdd.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            Item itemData = new Item(name, unit, price, category_code, enable,fpa);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(itemData);
+            System.out.println(parameters);
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+            }
+
             // Κλείσιμο της σύνδεσης
             connection.disconnect();
 

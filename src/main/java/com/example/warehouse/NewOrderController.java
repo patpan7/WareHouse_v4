@@ -3,15 +3,17 @@ package com.example.warehouse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-//import com.itextpdf.html2pdf.ConverterProperties;
-//import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,7 +21,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.*;
@@ -31,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -45,6 +47,8 @@ public class NewOrderController implements Initializable {
     TextField tfQuantity;
     @FXML
     TableView <Item> orderTable;
+    @FXML
+    TextArea taComment;
     @FXML
     DatePicker orderDate;
     List<Item> itemsAutoComplete;
@@ -126,11 +130,6 @@ public class NewOrderController implements Initializable {
             }
         });
 
-/*
-        TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");
-        codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
-*/
-
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
@@ -144,7 +143,6 @@ public class NewOrderController implements Initializable {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Προσθήκη των κολόνων στο TableView
-        //orderTable.getColumns().addAll(codeColumn, nameColumn, quantityColumn, unitColumn, priceColumn);
         orderTable.getColumns().addAll(nameColumn, quantityColumn, unitColumn, priceColumn);
         orderTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -287,78 +285,36 @@ public class NewOrderController implements Initializable {
     }
 
     public void saveAction () {
-        try {
-            if (!orderTable.getItems().isEmpty()) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                fileChooser.setInitialFileName("Παραγγελία "+ dtf.format(orderDate.getValue()));
-                // Επιλέξτε τον τύπο αρχείου που θέλετε να αποθηκεύσετε (π.χ., PDF)
-                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
-                fileChooser.getExtensionFilters().add(extFilter);
+        if (!orderTable.getItems().isEmpty()) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            fileChooser.setInitialFileName("Παραγγελία "+ dtf.format(orderDate.getValue()));
+            // Επιλέξτε τον τύπο αρχείου που θέλετε να αποθηκεύσετε (π.χ., PDF)
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+            fileChooser.getExtensionFilters().add(extFilter);
 
-                // Πάρτε το επιλεγμένο αρχείο
-                File file = fileChooser.showSaveDialog(null);
+            // Πάρτε το επιλεγμένο αρχείο
+            File file = fileChooser.showSaveDialog(null);
 
-                if (file != null) {
-                    // Χρησιμοποιήστε τον HTMLConverter για να δημιουργήσετε το PDF από τον HTML
-                    File outputFile = file;
-                    FileOutputStream outputStream = new FileOutputStream(outputFile);
-//                    ConverterProperties converterProperties = new ConverterProperties();
-//                    HtmlConverter.convertToPdf(generateHtmlFromTableView(orderTable), outputStream, converterProperties);
+            if (file != null) {
+                createPDF(file.getAbsolutePath());
+                System.out.println("PDF created successfully: " + file.getAbsolutePath());
 
-                    System.out.println("PDF created successfully: " + outputFile.getAbsolutePath());
-                }
-                dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String date = dtf.format(orderDate.getValue());
-                System.out.println(date);
-                ObservableList<Item> items = orderTable.getItems();
-                addNewRequest(items, date);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("");
-                alert.setContentText("Η παραγγελία είναι άδεια!");
-                Optional<ButtonType> result2 = alert.showAndWait();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String date = dtf.format(orderDate.getValue());
+            System.out.println(date);
+            ObservableList<Item> items = orderTable.getItems();
+            addNewRequest(items, date);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("");
+            alert.setContentText("Η παραγγελία είναι άδεια!");
+            Optional<ButtonType> result2 = alert.showAndWait();
         }
     }
 
-    private String generateHtmlFromTableView(TableView<?> tableView) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        // Δημιουργία HTML από το TableView
-        StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<html><body>");
-        htmlBuilder.append("<h1><center>Παραγγελία "+dtf.format(orderDate.getValue())+"<P>");
-        htmlBuilder.append("<table style=\"border: 1px solid black;\n" +
-                "border-collapse: collapse;" +
-                "font-size: 16pt;\">");
-
-        // Προσθήκη των επικεφαλίδων
-        htmlBuilder.append("<tr style=\"border:1px solid black;\">");
-        for (TableColumn<?, ?> column : tableView.getColumns()) {
-            htmlBuilder.append("<th style=\"border:1px solid black;\">").append(column.getText()).append("</th>");
-        }
-        htmlBuilder.append("<th style=\"border:1px solid black;\">").append("Ληφθείσα Ποσότητα</th>");
-        htmlBuilder.append("</tr>");
-        int i = 0;
-        // Προσθήκη των δεδομένων
-        for (Object ignored : tableView.getItems()) {
-
-            htmlBuilder.append("<tr style=\"border:1px solid black;\">");
-            for (TableColumn<?, ?> column : tableView.getColumns()) {
-                Object cellValue = column.getCellData(i);
-                htmlBuilder.append("<td style=\"border:1px solid black;\">").append(cellValue != null ? cellValue.toString() : "").append("</td>");
-            }
-            htmlBuilder.append("<td style=\"border:1px solid black;\"></td>");
-            i++;
-            htmlBuilder.append("</tr>");
-        }
-
-        htmlBuilder.append("</table></body></html>");
-        return htmlBuilder.toString();
-    }
 
     private void addNewRequest(ObservableList<Item> tableView, String date) {
         String apiUrl = "http://"+server+"/warehouse/orderAdd.php";
@@ -428,6 +384,74 @@ public class NewOrderController implements Initializable {
         }
     }
 
+    public void createPDF(String filename) throws RuntimeException {
+
+        // create a pdf
+        Document document = new Document(PageSize.A4, 30, 30, 30, 30);
+
+        try {
+
+            // fonts nature to be used in the pdf document
+            BaseFont bf = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            bf.setSubset(true);
+            Font bfBold12 = new Font(bf, 14, Font.BOLD, BaseColor.BLACK);
+            Font bfBold = new Font(bf, 12);
+
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+
+            document.open();
+
+            //Add Title on top of the page
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            Paragraph intro = new Paragraph("Παραγγελία "+ dtf.format(orderDate.getValue())+"\n\n",bfBold12);
+            intro.setAlignment(Element.ALIGN_CENTER);
+            document.add(intro);
+
+            // Add a table with six columns each with a specified width
+            float[] columnWidths = {3.3f,2.0f,1.5f,2.8f};
+            PdfPTable orderPdf = new PdfPTable(columnWidths);
+            orderPdf.setWidthPercentage(90f);
+
+            //add column titles to each
+            insertCell(orderPdf, "Όνομα", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Ποσότητα", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Μονάδα", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Τιμή", Element.ALIGN_LEFT, 1, bfBold12);
+
+            for (Item item : orderTable.getItems()) {
+                insertCell(orderPdf, item.getName(), Element.ALIGN_LEFT, 1, bfBold);
+                insertCell(orderPdf, item.getQuantity().toString(), Element.ALIGN_LEFT, 1, bfBold);
+                insertCell(orderPdf, item.getUnit(), Element.ALIGN_LEFT, 1, bfBold);
+                insertCell(orderPdf, item.getPrice().toString(), Element.ALIGN_LEFT, 1, bfBold);
+            }
+
+            document.add(orderPdf);
+
+            Paragraph outro = new Paragraph("\n\n\nΣχόλιο παραγγελίας: \n"+ taComment.getText(),bfBold12);
+            outro.setAlignment(Element.ALIGN_LEFT);
+            outro.setSpacingBefore(20f);
+            document.add(outro);
+
+            document.close();
+
+        } catch (DocumentException | IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+    // method to format table cell with data
+    private void insertCell(PdfPTable table,String text,int align,int colspan,Font font){
+
+        PdfPCell cell = new PdfPCell(new Phrase(text.trim(),font));
+        cell.setHorizontalAlignment(align);
+        cell.setColspan(colspan);
+        cell.setMinimumHeight(20f);
+        if (text.trim().equalsIgnoreCase("")) {
+            cell.setMinimumHeight(10f);
+        }
+        table.addCell(cell);
+    }
+
     private static final Map<Character, Character> ENGLISH_TO_GREEK = new HashMap<>();
 
     static {
@@ -492,18 +516,6 @@ public class NewOrderController implements Initializable {
         GREEK_TO_ENGLISH.put('\u0396', '\u005A');  // uppercase Ζ
 
         // ...
-    }
-
-    private void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        // Έλεγχος αν το μήκος του κειμένου είναι μεγαλύτερο από το μήκος του TextField
-        if (tfName.getText().length() > tfName.getPrefColumnCount()) {
-            // Προσαρμογή του μεγέθους της γραμματοσειράς
-            tfName.setStyle("-fx-font-size: 14;"); // Ορίστε το επιθυμητό μέγεθος της γραμματοσειράς
-            tfName.positionCaret(0);
-        } else {
-            // Επαναφορά του μεγέθους της γραμματοσειράς στην προκαθορισμένη τιμή
-            tfName.setStyle(""); // Επαναφορά στο default μέγεθος της γραμματοσειράς
-        }
     }
 
     private void handle(KeyEvent event) {

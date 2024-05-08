@@ -27,3 +27,5 @@ l
 <src/main/java/com/example/warehouse/SuppliersStatistics.java,7\d\7d5afeaca96b9a6788cd86880b01880ca87d2b91
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
+h
+8src/main/java/com/example/warehouse/ItemsStatistics.java,6\d\6de2c98730a523dab2265d57a8ed30408ace869f

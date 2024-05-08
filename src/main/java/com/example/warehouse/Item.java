@@ -216,6 +216,12 @@ public class Item {
         this.totalValue = totalValue;
     }
 
+    public Item(String name, BigDecimal totalSum) {
+        this.name = name;
+        this.sum = totalSum;
+
+    }
+
     public int getEnable() {
         return enable;
     }
