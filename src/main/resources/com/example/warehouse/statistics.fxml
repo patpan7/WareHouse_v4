@@ -52,17 +52,25 @@
         <!-- Κουμπιά για την εμφάνιση των πανελ -->
         <HBox alignment="CENTER">
             <children>
-                <Button fx:id="btnItems" cache="true" mnemonicParsing="false" onAction="#itemStatisticsClick" styleClass="click-button" text="Αποθήκη" HBox.hgrow="ALWAYS">
+            <Button fx:id="btnItems2" alignment="TOP_CENTER" cache="true" layoutX="290.0" layoutY="10.0" mnemonicParsing="false" onAction="#itemStatistics2Click" prefWidth="160.0" styleClass="click-button" text="Αποθήκης Συνοπτικά" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="20.0" right="20.0" />
+               </HBox.margin></Button>
+                <Button fx:id="btnItems" alignment="TOP_CENTER" cache="true" mnemonicParsing="false" onAction="#itemStatisticsClick" prefWidth="160.0" styleClass="click-button" text="Αποθήκης Αναλυτικά" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" HBox.hgrow="ALWAYS">
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="btnSuppliers" mnemonicParsing="false" onAction="#suppliersStatisticsClick" styleClass="click-button" text="Προμηθευτές">
+                <Button fx:id="btnSuppliers2" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#suppliersStatistics2Click" prefWidth="200.0" styleClass="click-button" text="Προμηθευτές Συνοπτικα" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="btnDepartments" mnemonicParsing="false" onAction="#departmentStatisticsClick" styleClass="click-button" text="Τμήματα">
+            <Button fx:id="btnSuppliers" alignment="TOP_CENTER" layoutX="570.0" layoutY="10.0" mnemonicParsing="false" onAction="#suppliersStatisticsClick" prefWidth="200.0" styleClass="click-button" text="Προμηθευτές Αναλυτικα" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="20.0" right="20.0" />
+               </HBox.margin></Button>
+                <Button fx:id="btnDepartments" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#departmentStatisticsClick" prefWidth="160.0" styleClass="click-button" text="Τμήματων Αναλυτικα" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                     </HBox.margin>

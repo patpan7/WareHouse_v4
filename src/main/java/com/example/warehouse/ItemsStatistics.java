@@ -111,52 +111,6 @@ public class ItemsStatistics implements Initializable {
 
         tableInit();
 
-//        // Wrap the ObservableList in a FilteredList (initially display all data).
-//        filteredData = new FilteredList<>(observableListItem, b -> true);
-//
-//        // 2. Set the filter Predicate whenever the filter changes.
-//        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-//            filteredData.setPredicate(Item -> {
-//                // If filter text is empty, display all persons.
-//
-//                if (newValue == null || newValue.isEmpty()) {
-//                    return true;
-//                }
-//
-//                String ValToSearch = newValue.toUpperCase();
-//                char[] chars = ValToSearch.toCharArray();
-//                for (int i = 0; i < chars.length; i++) {
-//                    Character repl = ENGLISH_TO_GREEK.get(chars[i]);
-//                    if (repl != null) {
-//                        chars[i] = repl;
-//                    }
-//                }
-//                String newValToSearch = new String(chars);
-//
-//                // Compare first name and last name of every person with filter text.
-//                String lowerCaseFilter = newValToSearch.toLowerCase();
-//
-//                if (Item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-//                    return true; // Filter matches first name.
-//                } else if (String.valueOf(Item.getItem_code()).indexOf(lowerCaseFilter) != -1) {
-//                    return true; // Filter matches last name.
-//                } else if (Item.getUnit().toLowerCase().indexOf(lowerCaseFilter) != -1)
-//                    return true;
-//                else
-//                    return false; // Does not match.
-//            });
-//        });
-//
-//        // 3. Wrap the FilteredList in a SortedList.
-//        SortedList<Item> sortedData = new SortedList<>(filteredData);
-//
-//        // 4. Bind the SortedList comparator to the TableView comparator.
-//        // 	  Otherwise, sorting the TableView would have no effect.
-//        sortedData.comparatorProperty().bind((ObservableValue<? extends Comparator<? super Item>>) statisticsTable.comparatorProperty());
-//
-//        // 5. Add sorted (and filtered) data to the table.
-//        statisticsTable.setItems(sortedData);
-
         categoryInit();
         categoryFiled.valueProperty().addListener((observable, oldValue, newValue) -> {
             updateFilteredItems(newValue);
@@ -637,7 +591,7 @@ public class ItemsStatistics implements Initializable {
 
             //Add Title on top of the page
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            Paragraph intro = new Paragraph("Αγορές από:  "+ dtf.format(dateFrom.getValue())+" εώς: "+ dtf.format(dateTo.getValue())+ "\n\n",bfBold12);
+            Paragraph intro = new Paragraph("Αναλυτικές Αγορές από:  "+ dtf.format(dateFrom.getValue())+" εώς: "+ dtf.format(dateTo.getValue())+ "\n\n",bfBold12);
             intro.setAlignment(Element.ALIGN_CENTER);
             if (categoryFiled.getSelectionModel().getSelectedItem() != null)
                 intro.add(new Paragraph("Κατηγορία:  " + categoryFiled.getSelectionModel().getSelectedItem()+"\n\n", bfBold12));

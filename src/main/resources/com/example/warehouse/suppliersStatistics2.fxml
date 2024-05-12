@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="borderPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.SuppliersStatistics2">
+    <center>
+        <VBox minHeight="600.0" minWidth="1200.0">
+            <VBox>
+                <HBox alignment="CENTER_LEFT">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" />
+                    </VBox.margin>
+                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Από">
+                        <font>
+                            <Font name="System Bold" size="30.0" />
+                        </font>
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <padding>
+                            <Insets right="20.0" />
+                        </padding>
+                    </Label>
+                    <DatePicker fx:id="dateFrom" prefWidth="200.0" />
+                    <Separator prefWidth="20.0" visible="false" />
+                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Έως">
+                        <font>
+                            <Font name="System Bold" size="30.0" />
+                        </font>
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <padding>
+                            <Insets right="20.0" />
+                        </padding>
+                    </Label>
+                    <DatePicker fx:id="dateTo" prefWidth="200.0" />
+                </HBox>
+                <HBox>
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" />
+                    </VBox.margin>
+                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Προμηθευτής">
+                        <font>
+                            <Font name="System Bold" size="30.0" />
+                        </font>
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <padding>
+                            <Insets right="20.0" />
+                        </padding>
+                  <HBox.margin>
+                     <Insets top="10.0" />
+                  </HBox.margin>
+                    </Label>
+                    <ComboBox fx:id="supplierField" prefHeight="51.0" prefWidth="300.0" />
+                </HBox>
+            </VBox>
+            <TableView fx:id="statisticsTable" stylesheets="@external.css" VBox.vgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="borderPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.SuppliersStatistics">
+<BorderPane fx:id="borderPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.ItemsStatistics2">
     <center>
-        <VBox minHeight="600.0" minWidth="1200.0">
+        <VBox alignment="CENTER" minHeight="600.0" minWidth="1200.0">
             <VBox>
                 <HBox alignment="CENTER_LEFT">
                     <VBox.margin>
@@ -39,11 +39,28 @@
                     </Label>
                     <DatePicker fx:id="dateTo" prefWidth="200.0" />
                 </HBox>
-                <HBox>
+                <HBox alignment="CENTER">
                     <VBox.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                     </VBox.margin>
-                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Προμηθευτής">
+                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Αναζήτηση">
+                        <font>
+                            <Font name="System Bold" size="30.0" />
+                        </font>
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <padding>
+                            <Insets right="20.0" />
+                        </padding>
+                    </Label>
+                    <TextField fx:id="filterField" disable="true" prefHeight="45.0" prefWidth="300.0">
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                    </TextField>
+                    <Separator visible="false" HBox.hgrow="ALWAYS" />
+                    <Label alignment="CENTER" contentDisplay="CENTER" styleClass="normal-label" text="Κατηγορία">
                         <font>
                             <Font name="System Bold" size="30.0" />
                         </font>
@@ -54,17 +71,22 @@
                             <Insets right="20.0" />
                         </padding>
                   <HBox.margin>
-                     <Insets top="10.0" />
+                     <Insets />
                   </HBox.margin>
                     </Label>
-                    <ComboBox fx:id="supplierField" prefHeight="51.0" prefWidth="300.0" />
+                    <ComboBox fx:id="categoryFiled" prefHeight="51.0" prefWidth="300.0" />
                 </HBox>
             </VBox>
-            <TableView fx:id="statisticsTable" stylesheets="@external.css" VBox.vgrow="ALWAYS">
-                <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                </columnResizePolicy>
-            </TableView>
+         <TableView fx:id="statisticsTable" stylesheets="@external.css" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+         </TableView>
+         <Button mnemonicParsing="false" onAction="#saveAction" styleClass="click-button" text="Αποθήκευση">
+            <VBox.margin>
+               <Insets bottom="10.0" top="10.0" />
+            </VBox.margin>
+         </Button>
         </VBox>
     </center>
 </BorderPane>
