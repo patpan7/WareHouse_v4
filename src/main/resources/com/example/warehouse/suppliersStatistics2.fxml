@@ -7,7 +7,7 @@
 
 <BorderPane fx:id="borderPane" stylesheets="@external.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.warehouse.SuppliersStatistics2">
     <center>
-        <VBox minHeight="600.0" minWidth="1200.0">
+        <VBox alignment="CENTER" minHeight="600.0" minWidth="1200.0" BorderPane.alignment="CENTER">
             <VBox>
                 <HBox alignment="CENTER_LEFT">
                     <VBox.margin>
@@ -65,6 +65,11 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
             </TableView>
+            <Button mnemonicParsing="false" onAction="#saveAction" styleClass="click-button" text="Αποθήκευση">
+                <VBox.margin>
+                    <Insets bottom="10.0" top="10.0" />
+                </VBox.margin>
+            </Button>
         </VBox>
     </center>
 </BorderPane>

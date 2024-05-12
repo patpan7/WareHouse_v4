@@ -510,7 +510,7 @@ public class ItemsStatistics implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            fileChooser.setInitialFileName("Αγορές από  "+ dtf.format(dateFrom.getValue())+" εώς "+ dtf.format(dateTo.getValue()));
+            fileChooser.setInitialFileName("Αναλυτικές Αγορές Ειδών από  "+ dtf.format(dateFrom.getValue())+" εώς "+ dtf.format(dateTo.getValue()));
             // Επιλέξτε τον τύπο αρχείου που θέλετε να αποθηκεύσετε (π.χ., PDF)
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
             fileChooser.getExtensionFilters().add(extFilter);
@@ -562,6 +562,8 @@ public class ItemsStatistics implements Initializable {
                 String quantity = childItem.getValue().getQuantity() != null ? childItem.getValue().getQuantity().toString() : "";
                 pdfPTable.addCell(new PdfPCell(new Phrase(quantity,bodyFont)));
                 String sum = childItem.getValue().getSum() != null ? childItem.getValue().getSum().toString() : "";
+                if (sum.equals("0"))
+                    sum = "";
                 pdfPTable.addCell(new PdfPCell(new Phrase(sum,bodyFont)));
                 pdfPTable.addCell(new PdfPCell(new Phrase(childItem.getValue().getUnit(),bodyFont)));
                 String price = childItem.getValue().getPrice() != null ? childItem.getValue().getPrice().toString() : "";
@@ -591,7 +593,7 @@ public class ItemsStatistics implements Initializable {
 
             //Add Title on top of the page
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            Paragraph intro = new Paragraph("Αναλυτικές Αγορές από:  "+ dtf.format(dateFrom.getValue())+" εώς: "+ dtf.format(dateTo.getValue())+ "\n\n",bfBold12);
+            Paragraph intro = new Paragraph("Αναλυτικές Αγορές Ειδών από:  "+ dtf.format(dateFrom.getValue())+" εώς: "+ dtf.format(dateTo.getValue())+ "\n\n",bfBold12);
             intro.setAlignment(Element.ALIGN_CENTER);
             if (categoryFiled.getSelectionModel().getSelectedItem() != null)
                 intro.add(new Paragraph("Κατηγορία:  " + categoryFiled.getSelectionModel().getSelectedItem()+"\n\n", bfBold12));

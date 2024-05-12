@@ -2,17 +2,22 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
@@ -21,6 +26,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class SuppliersStatistics2 implements Initializable {
@@ -273,6 +279,101 @@ public class SuppliersStatistics2 implements Initializable {
                 return item.getSuppliercode() == selectedSupplier.getCode();
             });
         }
+    }
+
+    public void saveAction(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("");
+        alert.setContentText("Αποθήκευση αναφοράς?");
+        Optional<ButtonType> result2 = alert.showAndWait();
+
+        if (result2.get() == ButtonType.OK) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Επιλογή αρχείου για αποθήκευση");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            fileChooser.setInitialFileName("Προμηθευτές συγκεντρωτικά από  "+ dtf.format(dateFrom.getValue())+" εώς "+ dtf.format(dateTo.getValue()));
+            // Επιλέξτε τον τύπο αρχείου που θέλετε να αποθηκεύσετε (π.χ., PDF)
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            // Πάρτε το επιλεγμένο αρχείο
+            File file = fileChooser.showSaveDialog(null);
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+            alert1.setTitle("");
+            if (file != null) {
+                createPDF(file.getAbsolutePath());
+                alert1.setContentText("PDF created successfully: " + file.getAbsolutePath());
+                System.out.println("PDF created successfully: " + file.getAbsolutePath());
+            }
+            else {
+                alert1.setContentText("PDF creation cancelled: " + file.getAbsolutePath());
+                System.out.println("PDF creation cancelled");
+            }
+            alert1.show();
+        }
+    }
+
+    public void createPDF(String filename) throws RuntimeException {
+
+        // create a pdf
+        Document document = new Document(PageSize.A4, 30, 30, 30, 30);
+
+        try {
+            // fonts nature to be used in the pdf document
+            BaseFont bf = BaseFont.createFont("c:/windows/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            bf.setSubset(true);
+            Font bfBold12 = new Font(bf, 14, Font.BOLD, BaseColor.BLACK);
+            Font bfBold = new Font(bf, 12);
+
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+
+            document.open();
+
+            //Add Title on top of the page
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            Paragraph intro = new Paragraph("Συγκεντρωτικές Αγορές Προμηθευτών από:  "+ dtf.format(dateFrom.getValue())+" εώς: "+ dtf.format(dateTo.getValue())+ "\n\n",bfBold12);
+            intro.setAlignment(Element.ALIGN_CENTER);
+            if (supplierField.getSelectionModel().getSelectedItem() != null)
+                intro.add(new Paragraph("Προμηθευτής:  " + supplierField.getSelectionModel().getSelectedItem()+"\n\n", bfBold12));
+            document.add(intro);
+
+            // Add a table with six columns each with a specified width
+            float[] columnWidths = {3.3f,2.0f,2.8f};
+            PdfPTable orderPdf = new PdfPTable(columnWidths);
+            orderPdf.setWidthPercentage(100);
+
+            //add column titles to each
+            insertCell(orderPdf, "Προμηθευτής", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Πλήθος Τιμολογίων", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(orderPdf, "Σύνολο", Element.ALIGN_LEFT, 1, bfBold12);
+
+
+            List<Buys> buys1 = statisticsTable.getItems();
+            for (Buys buys : buys1) {
+                insertCell(orderPdf, buys.getName(), Element.ALIGN_LEFT, 1, bfBold);
+                insertCell(orderPdf, buys.getTotalinvoices() +"", Element.ALIGN_LEFT, 1, bfBold);
+                insertCell(orderPdf, buys.getTotal().toString(), Element.ALIGN_LEFT, 1, bfBold);
+            }
+
+            document.add(orderPdf);
+            document.close();
+
+        } catch (DocumentException | IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+    // method to format table cell with data
+    private void insertCell(PdfPTable table,String text,int align,int colspan,Font font){
+
+        PdfPCell cell = new PdfPCell(new Phrase(text.trim(),font));
+        cell.setHorizontalAlignment(align);
+        cell.setColspan(colspan);
+        cell.setMinimumHeight(20f);
+        if (text.trim().equalsIgnoreCase("")) {
+            cell.setMinimumHeight(10f);
+        }
+        table.addCell(cell);
     }
 
 }
