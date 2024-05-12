@@ -99,10 +99,6 @@
                            <font>
                                <Font size="20.0" />
                            </font>
-                           <styleClass>
-                               <String fx:value="auto-complete-popup" />
-                               <String fx:value="text-field" />
-                           </styleClass>
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -178,7 +174,7 @@
                      <Insets left="20.0" />
                   </HBox.margin>
                     </Label>
-                    <TextField fx:id="tfFpa" alignment="CENTER" editable="false" prefHeight="51.0" prefWidth="120.0" />
+                    <TextField fx:id="tfFpa" alignment="CENTER" prefHeight="51.0" prefWidth="120.0" />
                     <Label styleClass="normal-label" text="Τελική αξία">
                         <padding>
                             <Insets right="20.0" />

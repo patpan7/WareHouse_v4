@@ -206,7 +206,18 @@ public class EditBuyController implements Initializable {
         });
 
         tfSum.setEditable(false);
-
+        applyNumericDecimalFormatter(tfFpa);
+        tfFpa.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
+                if (tfFpa.getText().contains(",")) {
+                    tfFpa.setText(tfFpa.getText().replace(",", "."));
+                }
+                totalFpa = new BigDecimal(tfFpa.getText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                totalValue = totalSum.add(totalFpa);
+                tfTotalValue.setText(totalValue.toString());
+                event.consume();
+            }
+        });
         tfInvoice.setText(selectedBuy.getInvoice());
 
         TableColumn<Item, String> codeColumn = new TableColumn<>("Κωδικός");

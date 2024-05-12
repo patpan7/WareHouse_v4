@@ -40,7 +40,7 @@
                     </Label>
                     <DatePicker fx:id="dateTo" prefWidth="200.0" />
                     <Separator visible="false" HBox.hgrow="ALWAYS" />
-                    <Button mnemonicParsing="false" onAction="#buyAddNew" text="Νέα Αγορά">
+                    <Button mnemonicParsing="false" onAction="#buyAddNew" styleClass="click-button" text="Νέα Αγορά">
                         <graphic>
                             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@icons/add.png" />
@@ -84,7 +84,7 @@
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
-                    <Button mnemonicParsing="false" onAction="#mainMenuClick" text="Επιστροφή">
+                    <Button mnemonicParsing="false" onAction="#mainMenuClick" styleClass="click-button" text="Επιστροφή">
                         <graphic>
                             <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@icons/menu.png" />

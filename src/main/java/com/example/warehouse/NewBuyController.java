@@ -189,6 +189,18 @@ public class NewBuyController implements Initializable {
         });
 
         tfSum.setEditable(false);
+        applyNumericDecimalFormatter(tfFpa);
+        tfFpa.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.TAB) {
+                if (tfFpa.getText().contains(",")) {
+                    tfFpa.setText(tfFpa.getText().replace(",", "."));
+                }
+                totalFpa = new BigDecimal(tfFpa.getText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
+                totalValue = totalSum.add(totalFpa);
+                tfTotalValue.setText(totalValue.toString());
+                event.consume();
+            }
+        });
 
         TableColumn<Item, String> nameColumn = new TableColumn<>("Όνομα");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
