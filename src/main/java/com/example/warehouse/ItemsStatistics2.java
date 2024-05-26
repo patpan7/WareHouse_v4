@@ -108,7 +108,7 @@ public class ItemsStatistics2 implements Initializable {
 
         Item totalRow = new Item("           Γενικό σύνολο:", sumColumn);
         observableListItem.add(totalRow);
-
+        updateFilteredItems(categoryFiled.getValue());
         // Προσθήκη της συνολικής γραμμής και στο filteredData
 
         statisticsTable.setItems(filteredData);
@@ -269,24 +269,22 @@ public class ItemsStatistics2 implements Initializable {
     }
 
     private void updateFilteredItems(Category selectedCategory) {
-        List<Item> items;
+        List<Item> allItems = new ArrayList<>(observableListItem);
+        List<Item> filteredItems;
 
         if (selectedCategory == null) {
             // Αν δεν υπάρχει επιλεγμένη κατηγορία, εμφάνιση όλων των ειδών
-            items = new ArrayList<>(observableListItem);
-            filteredData = new FilteredList<>(FXCollections.observableList(items), b -> true);
+            // Χρησιμοποίησε την αρχική λίστα με το ήδη υπολογισμένο σύνολο
+            filteredItems = allItems;
         } else {
             // Φιλτράρισμα των ειδών με βάση την επιλεγμένη κατηγορία
-            items = statisticsTable.getItems().stream()
+            filteredItems = allItems.stream()
                     .filter(item -> item.getCategory_code() == selectedCategory.getCode())
                     .collect(Collectors.toList());
-            filteredData = new FilteredList<>(FXCollections.observableList(items));
-        }
 
-        if (selectedCategory != null) {
             // Υπολογισμός συνολικού άθροισματος μόνο για τα ορατά στοιχεία
             BigDecimal filteredSumColumn = BigDecimal.ZERO;
-            for (Item item : filteredData) {
+            for (Item item : filteredItems) {
                 filteredSumColumn = filteredSumColumn.add(item.getSum());
             }
 
@@ -294,14 +292,38 @@ public class ItemsStatistics2 implements Initializable {
             Item totalRow = new Item("           Γενικό σύνολο:", filteredSumColumn);
 
             // Προσθήκη της συνολικής γραμμής στο φιλτραρισμένο δεδομένο
-            items.add(totalRow);
+            filteredItems.add(totalRow);
         }
 
         // Ενημέρωση του φιλτραρισμένου δεδομένου με την νέα λίστα στοιχείων
-        filteredData = new FilteredList<>(FXCollections.observableList(items), filteredData.getPredicate());
+        filteredData = new FilteredList<>(FXCollections.observableList(filteredItems), filteredData.getPredicate());
 
         // Ορισμός του φιλτραρισμένου δεδομένου ως πηγή δεδομένων για τον πίνακα
         statisticsTable.setItems(filteredData);
+//        if (selectedCategory == null) {
+//            // Αν δεν υπάρχει επιλεγμένη κατηγορία, εμφάνιση όλων των ειδών
+//            filteredData.setPredicate(item -> true);
+//        } else {
+//            // Φιλτράρισμα των ειδών με βάση την επιλεγμένη κατηγορία
+//            filteredData.setPredicate(item -> {
+//                System.out.println("item: " + item.getCategory_code() + " category: " + selectedCategory.getCode());
+//                return item.getCategory_code() == selectedCategory.getCode();
+//            });
+//        }
+//
+//        if (selectedCategory != null) {
+//            // Υπολογισμός συνολικού άθροισματος μόνο για τα ορατά στοιχεία
+//            BigDecimal filteredSumColumn = BigDecimal.ZERO;
+//            for (Item item : filteredData) {
+//                filteredSumColumn = filteredSumColumn.add(item.getSum());
+//            }
+//
+//            // Δημιουργία της συνολικής γραμμής
+//            Item totalRow = new Item("           Γενικό σύνολο:", filteredSumColumn);
+//
+//            // Προσθήκη της συνολικής γραμμής στο φιλτραρισμένο δεδομένο
+//            filteredData.add(totalRow);
+//        }
     }
 
 

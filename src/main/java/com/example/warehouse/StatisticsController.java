@@ -54,10 +54,10 @@ public class StatisticsController {
 
     public void suppliersStatisticsClick(ActionEvent event) throws  IOException {
         //Στατιστικά προμηθευτών αναλυτικά
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("suppliersStatistics2.fxml"));
-//        Parent  root = fxmlLoader.load();
-//        contentPane.getChildren().clear();
-//        contentPane.getChildren().add(root);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("suppliersStatistics2.fxml"));
+        Parent  root = fxmlLoader.load();
+        contentPane.getChildren().clear();
+        contentPane.getChildren().add(root);
         btnItems.setDefaultButton(false);
         btnItems2.setDefaultButton(false);
         btnSuppliers.setDefaultButton(true);

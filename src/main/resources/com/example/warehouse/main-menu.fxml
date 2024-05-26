@@ -115,6 +115,17 @@
                     </Label>
                 </HBox>
             </top>
+         <bottom>
+            <VBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="vesrion" alignment="CENTER" text="v 4.0.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" right="20.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+         </bottom>
         </BorderPane>
     </ScrollPane>
 </StackPane>
