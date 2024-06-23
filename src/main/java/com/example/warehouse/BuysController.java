@@ -62,13 +62,16 @@ public class BuysController implements Initializable {
         TableColumn<Buys, String> dateColumn = new TableColumn<>("Ημερομηνία");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
+        TableColumn<Buys, String> typeColumn = new TableColumn<>("Τύπος Τιμολογίου");
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+
         TableColumn<Buys, String> invColumn = new TableColumn<>("Αρ. Τιμολογίου");
         invColumn.setCellValueFactory(new PropertyValueFactory<>("invoice"));
 
         TableColumn<Buys, Float> totalColumn = new TableColumn<>("Σύνολο");
         totalColumn.setCellValueFactory(new PropertyValueFactory<>("totalValue"));
 
-        buysTable.getColumns().addAll(supplierColumn,dateColumn, invColumn, totalColumn);
+        buysTable.getColumns().addAll(supplierColumn,dateColumn,typeColumn, invColumn, totalColumn);
         tableInit();
         buysTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -145,12 +148,13 @@ public class BuysController implements Initializable {
                         String date = itemNode.get("date").asText();
                         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                         String date2 = new SimpleDateFormat("dd/MM/yyyy").format(date1);
+                        String type = itemNode.get("type").asText();
                         String invoice = itemNode.get("invoice").asText();
                         BigDecimal total = new BigDecimal(itemNode.get("total").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         int suppliercode = itemNode.get("suppliercode").asInt();
                         BigDecimal fpa = new BigDecimal(itemNode.get("fpa").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
                         BigDecimal totalValue = new BigDecimal(itemNode.get("totalvalue").asText()).setScale(AppSettings.getInstance().totalDecimals, RoundingMode.HALF_UP);
-                        Buys buy = new Buys (code, name,date2, invoice, total,suppliercode,fpa, totalValue);
+                        Buys buy = new Buys (code, name,date2, invoice, total,suppliercode,fpa, totalValue,type);
                         buys.add(buy);
                     }
                 } else {

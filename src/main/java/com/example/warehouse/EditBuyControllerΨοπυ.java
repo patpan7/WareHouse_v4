@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class EditBuyController implements Initializable {
+public class EditBuyControllerΨοπυ implements Initializable {
     @FXML
     StackPane stackPane;
     public Parent root;
@@ -88,7 +88,7 @@ public class EditBuyController implements Initializable {
     private String[] invoTypeList = {"Τιμολόγιο", "Πιστωτικό"};
     ObservableList<Category> observableListCat;
 
-    public EditBuyController(Buys selectedBuy) {
+    public EditBuyControllerΨοπυ(Buys selectedBuy) {
         this.selectedBuy = selectedBuy;
     }
 

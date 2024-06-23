@@ -41,6 +41,8 @@ public class NewBuyController implements Initializable {
     @FXML
     ComboBox<Supplier> tfSupplier;
     @FXML
+    ComboBox<String> tfInvoType;
+    @FXML
     DatePicker tfDate;
     @FXML
     TextField tfInvoice;
@@ -69,6 +71,7 @@ public class NewBuyController implements Initializable {
 
     List<Supplier> suppliers;
     ObservableList<Supplier> observableListSup;
+    ObservableList<String> invoiceType;
     List<Item> itemsAutoComplete;
     Item selectedItem;
 
@@ -78,12 +81,14 @@ public class NewBuyController implements Initializable {
     String server;
 
     private String[] fpaList = {"6","13","24"};
+    private String[] invoTypeList = {"Τιμολόγιο", "Πιστωτικό"};
     ObservableList<Category> observableListCat;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         server = AppSettings.getInstance().server;
-
+        invoiceType = FXCollections.observableArrayList(invoTypeList);
+        tfInvoType.setItems(invoiceType);
         supplierInit();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         tfDate.setValue(LocalDate.now());
@@ -488,22 +493,34 @@ public class NewBuyController implements Initializable {
 
     public void saveAction(ActionEvent event) {
         if (tfSupplier.getValue() != null) {
-            if (!tfInvoice.getText().isEmpty()) {
-                if (!buyTable.getItems().isEmpty()) {
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    String date = dtf.format(tfDate.getValue());
-                    items = buyTable.getItems();
-                    int suppliercode = tfSupplier.getValue().getCode();
-                    String invoice = tfInvoice.getText();
-                    for (Item item : items)
-                        item.print();
-                    addNewRequest(items, suppliercode, date, invoice, totalSum,totalFpa,totalValue);
+            if (tfInvoType.getValue() != null) {
+                if (!tfInvoice.getText().isEmpty()) {
+                    if (!buyTable.getItems().isEmpty()) {
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        String date = dtf.format(tfDate.getValue());
+                        items = buyTable.getItems();
+                        int suppliercode = tfSupplier.getValue().getCode();
+                        String invoice = tfInvoice.getText();
+                        for (Item item : items)
+                            item.print();
+                        if (tfInvoType.getValue().equals("Τιμολόγιο")){
+                            addNewRequest(items, suppliercode, date, invoice, totalSum,totalFpa,totalValue);
+                        } else if (tfInvoType.getValue().equals("Πιστωτικό")) {
+                            addNewRequest2(items, suppliercode, date, invoice, totalSum,totalFpa,totalValue);
+                        }
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("");
+                        alert.setContentText("Το τιμολόγιο είναι κενό!");
+                        Optional<ButtonType> result2 = alert.showAndWait();
+                    }
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("");
-                    alert.setContentText("Το τιμολόγιο είναι κενό!");
-                    Optional<ButtonType> result2 = alert.showAndWait();
-                }
+                alert.setTitle("");
+                alert.setContentText("Ο τύπος του τιμολογίου είναι κενός!");
+                Optional<ButtonType> result2 = alert.showAndWait();
+            }
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("");
@@ -521,6 +538,77 @@ public class NewBuyController implements Initializable {
 
     private void addNewRequest(ObservableList<Item> items, int supplierCode, String date, String invoice, BigDecimal totalSum, BigDecimal totalFpa, BigDecimal totalValue) {
         String apiUrl = "http://" + server + "/warehouse/buyAdd.php";
+
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            // Ορισμός του content type ως JSON
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // Ενεργοποίηση εξόδου
+            connection.setDoOutput(true);
+
+            // Δημιουργία του JSON αντικειμένου με τις αντίστοιχες ιδιότητες
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode jsonRequest = objectMapper.createObjectNode();
+
+            // Προσθήκη της λίστας με τα είδη στο JSON
+            jsonRequest.putPOJO("orderTable", items);
+
+            jsonRequest.put("date", date); // Προσαρμόστε την ημερομηνία όπως χρειάζεται
+            jsonRequest.put("supplierCode", supplierCode);
+            jsonRequest.put("invoice", invoice);
+            jsonRequest.put("totalSum", totalSum);
+            jsonRequest.put("totalFpa", totalFpa);
+            jsonRequest.put("totalValue", totalValue);
+
+            // Μετατροπή του JSON αντικειμένου σε JSON string
+            String parameters = objectMapper.writeValueAsString(jsonRequest);
+            System.out.println(parameters);
+
+            // Αποστολή των παραμέτρων
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = parameters.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Λήψη του HTTP response code
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Διάβασμα της απάντησης
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+
+                System.out.println("Response: " + response.toString());
+                if (responseCode == 200) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setContentText(response.toString());
+                    Optional<ButtonType> result2 = alert.showAndWait();
+                    if (result2.get() == ButtonType.OK) {
+                        clean();
+                    }
+
+                }
+            }
+            // Κλείσιμο της σύνδεσης
+            connection.disconnect();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addNewRequest2(ObservableList<Item> items, int supplierCode, String date, String invoice, BigDecimal totalSum, BigDecimal totalFpa, BigDecimal totalValue) {
+        String apiUrl = "http://" + server + "/warehouse/buyAddCredit.php";
 
         try {
             URL url = new URL(apiUrl);

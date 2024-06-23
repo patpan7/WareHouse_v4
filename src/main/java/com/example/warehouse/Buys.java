@@ -10,10 +10,11 @@ public class Buys {
     BigDecimal total;
     int suppliercode;
     int totalinvoices;
+    String type;
     BigDecimal fpa;
     BigDecimal totalValue;
 
-    public Buys(int code, String name, String date, String invoice, BigDecimal total, int suppliercode, BigDecimal fpa, BigDecimal totalValue) {
+    public Buys(int code, String name, String date, String invoice, BigDecimal total, int suppliercode, BigDecimal fpa, BigDecimal totalValue, String type) {
         this.code = code;
         this.name = name;
         this.date = date;
@@ -22,6 +23,7 @@ public class Buys {
         this.suppliercode = suppliercode;
         this.fpa = fpa;
         this.totalValue = totalValue;
+        this.type = type;
     }
 
     public Buys(int code, String name, int totalInvoices, BigDecimal total) {
@@ -31,9 +33,13 @@ public class Buys {
         this.total = total;
     }
 
-    public int getCode() {return code;}
+    public int getCode() {
+        return code;
+    }
 
-    public void setCode(int code) {this.code = code;}
+    public void setCode(int code) {
+        this.code = code;
+    }
 
     public String getName() {
         return name;
@@ -98,6 +104,8 @@ public class Buys {
     public void setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
     }
+
+    public String getType() {return type;}
+
+    public void setType(String type) {this.type = type;}
 }
-
-

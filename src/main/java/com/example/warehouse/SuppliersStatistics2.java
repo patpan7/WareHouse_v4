@@ -334,7 +334,7 @@ public class SuppliersStatistics2 implements Initializable {
             Paragraph intro = new Paragraph("Συγκεντρωτικές Αγορές Προμηθευτών από:  "+ dtf.format(dateFrom.getValue())+" εώς: "+ dtf.format(dateTo.getValue())+ "\n\n",bfBold12);
             intro.setAlignment(Element.ALIGN_CENTER);
             if (supplierField.getSelectionModel().getSelectedItem() != null)
-                intro.add(new Paragraph("Προμηθευτής:  " + supplierField.getSelectionModel().getSelectedItem()+"\n\n", bfBold12));
+                intro.add(new Paragraph("Προμηθευτής:  " + supplierField.getSelectionModel().getSelectedItem().getName()+"\n\n", bfBold12));
             document.add(intro);
 
             // Add a table with six columns each with a specified width

@@ -59,13 +59,14 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                        </ComboBox>
-                       <DatePicker fx:id="tfDate" prefWidth="320.0">
+                       <DatePicker fx:id="tfDate" prefHeight="51.0" prefWidth="200.0">
                      <HBox.margin>
                         <Insets left="10.0" right="10.0" />
                      </HBox.margin>
                        </DatePicker>
+                  <ComboBox fx:id="tfInvoType" prefHeight="51.0" prefWidth="200.0" promptText="Τύπος" />
                   <Separator prefWidth="50.0" visible="false" />
-                       <TextField fx:id="tfInvoice" prefWidth="250.0" promptText="Παραστατικό" stylesheets="@external.css">
+                       <TextField fx:id="tfInvoice" prefWidth="200.0" promptText="Παραστατικό" stylesheets="@external.css">
                            <font>
                                <Font size="24.0" />
                            </font>

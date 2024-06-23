@@ -2,20 +2,23 @@ package com.example.warehouse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -37,6 +40,9 @@ public class SettingsController implements Initializable {
     TextField tfTotal;
     @FXML
     ListView <Unit> listUnits;
+    @FXML
+    Button btnUpdate;
+
     ObservableList<Unit> observableList;
     String server;
 
@@ -54,6 +60,8 @@ public class SettingsController implements Initializable {
         tfPrice.setText(String.valueOf(price));
         tfTotal.setText(String.valueOf(total));
         listInit();
+
+        btnUpdate.setOnAction(event -> showUpdateWindow());
     }
 
     private void listInit() {
@@ -220,5 +228,104 @@ public class SettingsController implements Initializable {
     public void mainMenuClick(ActionEvent event) throws IOException {
         MainMenuController mainMenuController = new MainMenuController();
         mainMenuController.mainMenuClick(stackPane);
+    }
+    private void showUpdateWindow() {
+        Stage updateStage = new Stage();
+        updateStage.initModality(Modality.APPLICATION_MODAL);
+        updateStage.setTitle("Updating Application");
+
+        Label updateLabel = new Label("Updating...");
+        ProgressBar progressBar = new ProgressBar();
+        Button restartButton = new Button("Restart");
+        restartButton.setDisable(true);
+        restartButton.setOnAction(e -> {
+            updateStage.close();
+            restartApplication();
+        });
+
+        VBox vbox = new VBox(10, updateLabel, progressBar, restartButton);
+        vbox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(vbox, 300, 150);
+        updateStage.setScene(scene);
+        updateStage.show();
+
+        Task<Void> updateTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                runUpdateScript(progressBar);
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                updateLabel.setText("Update completed");
+                progressBar.setProgress(1.0);
+                restartButton.setDisable(false);
+            }
+
+            @Override
+            protected void failed() {
+                updateLabel.setText("Update failed");
+            }
+        };
+
+        new Thread(updateTask).start();
+    }
+
+    private void runUpdateScript(ProgressBar progressBar) throws IOException {
+        // Create a temporary batch file to replace the executable and restart the application
+        String tempBatchFile = "C:\\Warehouse\\tempUpdate.bat";
+        try (FileWriter writer = new FileWriter(tempBatchFile)) {
+            writer.write("@echo off\n");
+            writer.write("timeout /t 5 /nobreak\n"); // Wait for 5 seconds to ensure the application is closed
+            writer.write("del \"C:\\Warehouse\\Warehouse.exe\"\n"); // Wait for 5 seconds to ensure the application is closed
+            writer.write("ren \"C:\\Warehouse\\new_Warehouse.exe\" \"C:\\Warehouse\\Warehouse.exe\"\n");
+            writer.write("start \"C:\\Warehouse\\Warehouse.exe\"\n");
+            writer.write("del \"%~f0\"\n"); // Delete this temporary batch file after execution
+        }
+
+        ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", "C:\\Warehouse\\updateApplication.bat");
+        processBuilder.redirectErrorStream(true);
+
+        Process process = processBuilder.start();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                // Update progress bar based on the output of the script
+                // For simplicity, we can increment progress here
+                Platform.runLater(() -> progressBar.setProgress(progressBar.getProgress() + 0.1));
+            }
+        }
+
+        try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+            String line;
+            while ((line = errorReader.readLine()) != null) {
+                System.err.println(line);
+            }
+        }
+
+        int exitCode = 0;
+        try {
+            exitCode = process.waitFor();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Script exited with code: " + exitCode);
+    }
+
+    private void restartApplication() {
+        // Close the application
+        Platform.exit();
+
+        // Start the temporary batch file to replace the executable and restart the application
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000); // Wait for the JavaFX application to exit
+                new ProcessBuilder("cmd.exe", "/c", "C:\\Warehouse\\tempUpdate.bat").start();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
